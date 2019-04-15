@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="MySQL,">
 
 
 
@@ -79,22 +79,23 @@
 
 
 
-<meta name="description" content="数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql 使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据） 备份数据，MySQL的备份数据方法，这个地方我使用的是备份所有的数据库，mysq">
+<meta name="description" content="数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql">
+<meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="database">
-<meta property="og:url" content="http://forcebing.top/2019/04/15/database/index.html">
+<meta property="og:url" content="https://liliangbin.github.io/2019/04/15/database/index.html">
 <meta property="og:site_name" content="小鲸鱼的小木屋">
-<meta property="og:description" content="数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql 使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据） 备份数据，MySQL的备份数据方法，这个地方我使用的是备份所有的数据库，mysq">
+<meta property="og:description" content="数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://forcebing.top/2019/04/15/database/database/mysqldump.png">
-<meta property="og:image" content="http://forcebing.top/2019/04/15/database/database/backuoed.png">
-<meta property="og:image" content="http://forcebing.top/2019/04/15/database/database/back_up.png">
-<meta property="og:image" content="http://forcebing.top/2019/04/15/database/database/skip_password.png">
-<meta property="og:updated_time" content="2019-04-15T12:24:25.944Z">
+<meta property="og:image" content="https://liliangbin.github.io/2019/04/15/database/mysqldump.png">
+<meta property="og:image" content="https://liliangbin.github.io/2019/04/15/database/backuoed.png">
+<meta property="og:image" content="https://liliangbin.github.io/2019/04/15/database/back_up.png">
+<meta property="og:image" content="https://liliangbin.github.io/2019/04/15/database/skip_password.png">
+<meta property="og:updated_time" content="2019-04-15T13:38:31.265Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="database">
-<meta name="twitter:description" content="数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql 使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据） 备份数据，MySQL的备份数据方法，这个地方我使用的是备份所有的数据库，mysq">
-<meta name="twitter:image" content="http://forcebing.top/2019/04/15/database/database/mysqldump.png">
+<meta name="twitter:description" content="数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql">
+<meta name="twitter:image" content="https://liliangbin.github.io/2019/04/15/database/mysqldump.png">
 
 
 
@@ -124,7 +125,7 @@
 
 
 
-  <link rel="canonical" href="http://forcebing.top/2019/04/15/database/">
+  <link rel="canonical" href="https://liliangbin.github.io/2019/04/15/database/">
 
 
 
@@ -215,16 +216,6 @@
         </li>
       
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
-            
-            分类
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -234,21 +225,43 @@
           </a>
         </li>
       
-        
+
+      
         <li class="menu-item menu-item-search">
-          <a href="/search.xml" rel="section">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
             
-              <i class="menu-item-icon fa fa-fw fa-search"></i> <br>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
             
             搜索
           </a>
         </li>
       
-
-      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -277,7 +290,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://forcebing.top/2019/04/15/database/">
+    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/15/database/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liliangbin">
@@ -338,6 +351,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+          
+          
 
           
 
@@ -355,17 +373,18 @@
 
       
         <h4 id="数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）"><a href="#数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）" class="headerlink" title="数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）"></a>数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）</h4><h5 id="因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade-sh-可以直接用这个脚本进行更新，"><a href="#因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade-sh-可以直接用这个脚本进行更新，" class="headerlink" title="因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，"></a>因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./upgrade.sh mysql</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <h4 id="使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据）"><a href="#使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据）" class="headerlink" title="使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据）"></a>使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据）</h4><ul>
 <li>备份数据，MySQL的备份数据方法，这个地方我使用的是备份所有的数据库，mysql dump命令，可以实现热备份，（以后可以考虑一下备份数据库 配合crontab ） 参考链接 <a href="https://www.cnblogs.com/feichexia/p/MysqlDataBackup.html" target="_blank" rel="noopener">MySQLdump备份数据库</a><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -u root -pPASSWORD --all-databases &gt; sqlfile.sql</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="/2019/04/15/database/./database/mysqldump.png" alt="mysqldump"></p>
+<p><img src="/2019/04/15/database/mysqldump.png" alt="mysqldump"></p>
 <ul>
-<li>备份好后会在当前文件夹下得到一个文件。<br><img src="/2019/04/15/database/./database/backuoed.png" alt="backuped"></li>
+<li>备份好后会在当前文件夹下得到一个文件。<br><img src="/2019/04/15/database/backuoed.png" alt="backuped"></li>
 <li><p>进入lnmp文件夹下后卸载lnmp（如何没有了再下载就行）</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./uninstall.sh</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>lnmp环境的卸载的时候会自动给你生成一个备份的文件夹，（卸载完后才发现，我们也可以用这个文件夹的东西来进行数据的回复）可以参考这个博客<a href="http://blog.szwyll.com/archives/353" target="_blank" rel="noopener">lnmp的数据库备份文件夹</a><br><img src="/2019/04/15/database/./database/back_up.png" alt="生成的文件"></p>
+<li><p>lnmp环境的卸载的时候会自动给你生成一个备份的文件夹，（卸载完后才发现，我们也可以用这个文件夹的东西来进行数据的回复）可以参考这个博客<a href="http://blog.szwyll.com/archives/353" target="_blank" rel="noopener">lnmp的数据库备份文件夹</a><br><img src="/2019/04/15/database/back_up.png" alt="生成的文件"></p>
 </li>
 <li><p>卸载完后再install嘛，这个不讨论了。我么再来数据的恢复。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source sqlfile.sql  //使用source命令还原数据库包括用户的配置</span><br></pre></td></tr></table></figure>
@@ -375,7 +394,7 @@
 </ul>
 <p>这个问题是真的没道理，扎心，后来网上找打一个例子，这个是密码问题出问题了，所以我们采用跳过密码验证的那一步。参考这个地方<a href="https://www.cnblogs.com/gumuzi/p/5711495.html" target="_blank" rel="noopener">mysqld免密登录</a></p>
 <ul>
-<li>/etc/my.cnf 在里面的mysqld后加上 skip-grant-tables<br><img src="/2019/04/15/database/./database/skip_password.png" alt="ship the password"></li>
+<li>/etc/my.cnf 在里面的mysqld后加上 skip-grant-tables<br><img src="/2019/04/15/database/skip_password.png" alt="ship the password"></li>
 <li>然后我们重启MySQL。。。</li>
 </ul>
 </li>
@@ -396,6 +415,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
 
       
       
@@ -405,8 +430,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/06/thinking/" rel="next" title="thinking">
-                <i class="fa fa-chevron-left"></i> thinking
+              <a href="/2019/04/15/Linux_shell_command/" rel="next" title="Hello linux">
+                <i class="fa fa-chevron-left"></i> Hello linux
               </a>
             
           </div>
@@ -414,6 +439,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/15/innovation/" rel="prev" title="Hello liliangbin">
+                Hello liliangbin <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -493,7 +522,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -505,10 +534,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">1</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 
@@ -579,6 +608,17 @@
 
   <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
+
+<div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style="display:none">
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style="display:none">
+    有<span id="busuanzi_value_site_uv"></span>人看过我的博客啦
+</span>
+</div>
 
 
 
@@ -746,6 +786,323 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 

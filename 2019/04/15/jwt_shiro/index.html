@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="spring,java,">
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="个人比较">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小鲸鱼的小木屋">
-<meta property="og:url" content="https://liliangbin.github.io/tags/杂谈/index.html">
+<meta name="description" content="spring-boot-jwtjwt做一个授权管理 api">
+<meta name="keywords" content="spring,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shiro jwt">
+<meta property="og:url" content="https://liliangbin.github.io/2019/04/15/jwt_shiro/index.html">
 <meta property="og:site_name" content="小鲸鱼的小木屋">
-<meta property="og:description" content="个人比较">
+<meta property="og:description" content="spring-boot-jwtjwt做一个授权管理 api">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-15T14:08:18.928Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小鲸鱼的小木屋">
-<meta name="twitter:description" content="个人比较">
+<meta name="twitter:title" content="shiro jwt">
+<meta name="twitter:description" content="spring-boot-jwtjwt做一个授权管理 api">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://liliangbin.github.io/tags/杂谈/">
+  <link rel="canonical" href="https://liliangbin.github.io/2019/04/15/jwt_shiro/">
 
 
 
 
 
-  <title>标签: 杂谈 | 小鲸鱼的小木屋</title>
+  <title>shiro jwt | 小鲸鱼的小木屋</title>
   
 
 
@@ -143,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -269,52 +271,220 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>杂谈<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/15/jwt_shiro/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liliangbin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小鲸鱼的小木屋">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/04/06/thinking/" itemprop="url">
-              
-                <span itemprop="name">thinking</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">shiro jwt</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-06T00:11:13+08:00" content="2019-04-06">
-          04-06
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-15T20:21:33+08:00">
+                2019-04-15
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/15/jwt_shiro/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/jwt_shiro/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+          
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="spring-boot-jwt"><a href="#spring-boot-jwt" class="headerlink" title="spring-boot-jwt"></a>spring-boot-jwt</h1><p>jwt做一个授权管理 api<br><a id="more"></a></p>
+<h4 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h4><ul>
+<li>半吊子一个，大家有什么好意见或是简介，务必issue下</li>
+<li>项目地址： <a href="https://github.com/liliangbin/spring-boot-jwt" target="_blank" rel="noopener">https://github.com/liliangbin/spring-boot-jwt</a></li>
+<li>同样，感谢一位大佬，也是在他的项目基础上建立起来的。</li>
+<li>他的项目地址 ：<a href="https://github.com/Smith-Cruise/Spring-Boot-Shiro" target="_blank" rel="noopener">https://github.com/Smith-Cruise/Spring-Boot-Shiro</a></li>
+<li>但是同样因为他在于数据库的连接上没有搞定，所以也就是有了这个例子</li>
+<li>不讲具体方法，说说程序的逻辑。<h5 id="第一步，shiro-，jwt-maven配置。"><a href="#第一步，shiro-，jwt-maven配置。" class="headerlink" title="第一步，shiro ，jwt maven配置。"></a>第一步，shiro ，jwt maven配置。</h5></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.jsonwebtoken<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jjwt<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.7.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shiro<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>shiro-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="添加shiro俩个基类。"><a href="#添加shiro俩个基类。" class="headerlink" title="添加shiro俩个基类。"></a>添加shiro俩个基类。</h5><ul>
+<li><p>shiroConfig</p>
+<ul>
+<li><p>这个类是shiro的主入口。。包含的是shiro框架使用的逻辑。</p>
+<ul>
+<li>使用逻辑。。请求从shiroConfig这个类进去，然后经过过滤器，，过滤器是自己重写的，JwtAuthenticationFilter 只有过滤没有报错才能进入myealm这地方。。</li>
+<li>而进去myRealm后，进行的是doGetAuthenticationInfo 。这个类主要的是判断密码和用户名是否正确，(因为我们使用的是jwt传递过来的是一个token，，所以最后校验的时候哪里填的是俩个token，如果觉得有问题可以看看最后返回的那个类的参数。。）</li>
+<li>当我们的密码校验完毕后，我们才是最后的登陆成功。。。我们才能使用他的权限使用。</li>
+</ul>
+</li>
+<li><p>同样这个类也是对于url匹配关系的配置。。<br>   <code>`</code></p>
+<p>  Map&lt;String, String&gt; filterRuleMap = new HashMap&lt;&gt;();<br>  // 所有请求通过我们自己的JWT Filter<br>  filterRuleMap.put(“/**”, “jwt”);<br>  // 访问401和404页面不通过我们的Filter<br>  filterRuleMap.put(“/401”, “anon”);<br>  filterRuleMap.put(“/login”,”anon”);<br>  filterRuleMap.put(“/name”,”anon”);<br>  //当然也是可以在controller中通过注解配置。</p>
+</li>
+</ul>
+</li>
+<li><p>myRealm</p>
+<ul>
+<li>该类的主要作用是鉴权和授权。</li>
+<li>doGetAuthorizationInfo  这个方法主要是用来获取用户的权限，和角色。</li>
+<li>doGetAuthenticationInfo 这个方法的作用主要是用来登陆的</li>
+</ul>
+</li>
+</ul>
+<h5 id="jwt，需要做什么。"><a href="#jwt，需要做什么。" class="headerlink" title="jwt，需要做什么。"></a>jwt，需要做什么。</h5><ul>
+<li><p>在jwt中我们会使用到一个token类，作为中间的一个传输对象。。在shiro中同样是有一个，所以我们需要的是让这个token类 实现一个接口</p>
+<pre><code> public class AccessToken implements AuthenticationToken
+
+//这个地方重载的俩个方法名字其实和myRealm里面最后密码验证时一样的，，所以我们在那个地方才传递的是来个相同的token
+  @Override
+     public Object getPrincipal() {
+         return access_token;
+     }
+
+     @Override
+     public Object getCredentials() {
+         return access_token;
+     }
+</code></pre></li>
+</ul>
+<h4 id="因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session-cookie，-使用jwt鉴权。"><a href="#因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session-cookie，-使用jwt鉴权。" class="headerlink" title="因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session  cookie， 使用jwt鉴权。"></a>因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session  cookie， 使用jwt鉴权。</h4><ul>
+<li>apache shiro 当然还有其他的功能，，，另外有一个关于shiro的例子，</li>
+<li><a href="https://github.com/liliangbin/apache-shiro" target="_blank" rel="noopener">https://github.com/liliangbin/apache-shiro</a></li>
+</ul>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag"># spring</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/15/spring-learn-/" rel="next" title="springframework">
+                <i class="fa fa-chevron-left"></i> springframework
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/15/mysql/" rel="prev" title="mysql">
+                mysql <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -322,6 +492,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -342,8 +519,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -394,6 +580,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#spring-boot-jwt"><span class="nav-number">1.</span> <span class="nav-text">spring-boot-jwt</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#序言"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">序言</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#第一步，shiro-，jwt-maven配置。"><span class="nav-number">1.0.0.1.1.</span> <span class="nav-text">第一步，shiro ，jwt maven配置。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加shiro俩个基类。"><span class="nav-number">1.0.0.1.2.</span> <span class="nav-text">添加shiro俩个基类。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jwt，需要做什么。"><span class="nav-number">1.0.0.1.3.</span> <span class="nav-text">jwt，需要做什么。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session-cookie，-使用jwt鉴权。"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session  cookie， 使用jwt鉴权。</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -538,6 +740,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
