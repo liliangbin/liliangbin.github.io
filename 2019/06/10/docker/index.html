@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="docker,slam,">
 
 
 
@@ -79,16 +79,25 @@
 
 
 
-<meta name="description" content="个人比较">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小鲸鱼的小木屋">
-<meta property="og:url" content="https://liliangbin.github.io/page/2/index.html">
+<meta name="description" content="阿里云下的docker 安装 以及仓库的配置">
+<meta name="keywords" content="docker,slam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker">
+<meta property="og:url" content="https://liliangbin.github.io/2019/06/10/docker/index.html">
 <meta property="og:site_name" content="小鲸鱼的小木屋">
-<meta property="og:description" content="个人比较">
+<meta property="og:description" content="阿里云下的docker 安装 以及仓库的配置">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/done.jpg">
+<meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/docker.jpg">
+<meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/code.jpg">
+<meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/cangku.jpg">
+<meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/goujian.jpg">
+<meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/kong.jpg">
+<meta property="og:updated_time" content="2019-06-10T10:07:01.280Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小鲸鱼的小木屋">
-<meta name="twitter:description" content="个人比较">
+<meta name="twitter:title" content="docker">
+<meta name="twitter:description" content="阿里云下的docker 安装 以及仓库的配置">
+<meta name="twitter:image" content="https://liliangbin.github.io/2019/06/10/docker/done.jpg">
 
 
 
@@ -118,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="https://liliangbin.github.io/page/2/">
+  <link rel="canonical" href="https://liliangbin.github.io/2019/06/10/docker/">
 
 
 
 
 
-  <title>小鲸鱼的小木屋</title>
+  <title>docker | 小鲸鱼的小木屋</title>
   
 
 
@@ -143,8 +152,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -269,9 +277,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -284,7 +292,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/15/ssh/">
+    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/06/10/docker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liliangbin">
@@ -301,9 +309,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/15/ssh/" itemprop="url">ssh learn</a></h1>
+          <h1 class="post-title" itemprop="name headline">docker</h1>
         
 
         <div class="post-meta">
@@ -315,8 +321,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-15T20:21:33+08:00">
-                2019-04-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-10T17:17:44+08:00">
+                2019-06-10
               </time>
             
 
@@ -334,8 +340,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/04/15/ssh/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/ssh/" itemprop="commentCount"></span>
+                <a href="/2019/06/10/docker/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/06/10/docker/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -346,6 +352,9 @@
 
           
 
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
           
           
           
@@ -365,292 +374,27 @@
       
 
       
-        
-          <h3 id="Linux-ssh"><a href="#Linux-ssh" class="headerlink" title="Linux ssh"></a>Linux ssh</h3><ul>
-<li>ssh的意义<ol>
-<li>这是一个用的是远程登录的操作。同时可以用于文件的上传和下载</li>
-<li>相比于密码登录。这样不会中间人截取数据，（除了在第一次登录时被截取了数据）</li>
-<li>思想。本地创建一个公钥，同时提交给服务器。在第一次登录的时候输入密码，下次登录的时候直接用ssh  username@host 然后主机看是否能够解析出密码，如果能够接下出来，则是正确的。这样就不会出现</li></ol></li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/15/ssh/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/15/spring-learn-/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liliangbin">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小鲸鱼的小木屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/15/spring-learn-/" itemprop="url">springframework</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-15T20:21:33+08:00">
-                2019-04-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/15/spring-learn-/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/spring-learn-/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-          
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="spring学习笔记"><a href="#spring学习笔记" class="headerlink" title="spring学习笔记"></a>spring学习笔记</h3>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/15/spring-learn-/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/06/thinking/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liliangbin">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小鲸鱼的小木屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/06/thinking/" itemprop="url">thinking</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-06T00:11:13+08:00">
-                2019-04-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/06/thinking/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/06/thinking/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-          
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="自闭的第一千零一天（骗你的）"><a href="#自闭的第一千零一天（骗你的）" class="headerlink" title="自闭的第一千零一天（骗你的）"></a>自闭的第一千零一天（骗你的）</h4><ul>
-<li>现在开始真正写博客</li>
-<li>还有，，爱你哟。</li>
-<li>迁移博客完毕</li>
+        <h4 id="阿里云下的docker-安装-以及仓库的配置"><a href="#阿里云下的docker-安装-以及仓库的配置" class="headerlink" title="阿里云下的docker 安装 以及仓库的配置"></a>阿里云下的docker 安装 以及仓库的配置</h4><a id="more"></a>
+<p>d<br> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5</span><br><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>阿里云容器服务位置 <a href="https://cr.console.aliyun.com/cn-qingdao/instances/repositories" target="_blank" rel="noopener">https://cr.console.aliyun.com/cn-qingdao/instances/repositories</a></li>
 </ul>
-
-          
-        
+<h4 id="安装好后我们选择自己的一个"><a href="#安装好后我们选择自己的一个" class="headerlink" title="安装好后我们选择自己的一个"></a>安装好后我们选择自己的一个</h4><ul>
+<li><img src="/2019/06/10/docker/done.jpg" alt="Images"></li>
+<li>我们在上图中首先设置好我们固定密码，这个密码对应一个当前登录的密码。 （docker login  - username= <em>**</em>）</li>
+<li>然后我们可以使用一个加速后的镜像源。</li>
+<li><img src="/2019/06/10/docker/docker.jpg" alt="test"></li>
+<li>假如我们使用子用户的时候，我们需要用子用户登录后再重新设置一次，</li>
+<li>子用户的登录入口时不一样的。 <a href="https://signin.aliyun.com" target="_blank" rel="noopener">https://signin.aliyun.com</a>  </li>
+</ul>
+<h4 id="仓库建立。以及建立自己的私有仓库，docker-pull-push"><a href="#仓库建立。以及建立自己的私有仓库，docker-pull-push" class="headerlink" title="仓库建立。以及建立自己的私有仓库，docker pull  push"></a>仓库建立。以及建立自己的私有仓库，docker pull  push</h4><ul>
+<li>命名空间，仓库名，代码源</li>
+<li><img src="/2019/06/10/docker/code.jpg" alt="code"></li>
+<li><img src="/2019/06/10/docker/cangku.jpg" alt="code"></li>
+<li><img src="/2019/06/10/docker/goujian.jpg" alt="code"></li>
+<li><img src="/2019/06/10/docker/kong.jpg" alt="code"></li>
+</ul>
+<h5 id="其他修改问题不是问题。。。主要是子账户登录的时候需要修改。"><a href="#其他修改问题不是问题。。。主要是子账户登录的时候需要修改。" class="headerlink" title="其他修改问题不是问题。。。主要是子账户登录的时候需要修改。"></a>其他修改问题不是问题。。。主要是子账户登录的时候需要修改。</h5>
       
     </div>
     
@@ -665,14 +409,38 @@
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+            <a href="/tags/slam/" rel="tag"># slam</a>
+          
+        </div>
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/03/math/" rel="next" title="高数的美以及我们被形成的思维方式">
+                <i class="fa fa-chevron-left"></i> 高数的美以及我们被形成的思维方式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </div>
@@ -682,14 +450,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -697,6 +462,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -717,8 +489,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -769,6 +550,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#阿里云下的docker-安装-以及仓库的配置"><span class="nav-number">1.</span> <span class="nav-text">阿里云下的docker 安装 以及仓库的配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装好后我们选择自己的一个"><span class="nav-number">2.</span> <span class="nav-text">安装好后我们选择自己的一个</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#仓库建立。以及建立自己的私有仓库，docker-pull-push"><span class="nav-number">3.</span> <span class="nav-text">仓库建立。以及建立自己的私有仓库，docker pull  push</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#其他修改问题不是问题。。。主要是子账户登录的时候需要修改。"><span class="nav-number">3.1.</span> <span class="nav-text">其他修改问题不是问题。。。主要是子账户登录的时候需要修改。</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -913,6 +710,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
