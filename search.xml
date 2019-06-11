@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[树莓派]]></title>
+    <url>%2F2019%2F06%2F11%2F%E6%A0%91%E8%8E%93%E6%B4%BE%2F</url>
+    <content type="text"><![CDATA[折腾日记第一个问题， 树莓派安装的时候遇见了python的问题。1TypeError: unsupported operand type(s) for -=: &apos;Retry&apos; and &apos;int&apos; 当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114.114.114 然后这个时候修改后第一次是可以的，然后我们遇到了另外一个问题 它的md5 下载验证失败 下载不完整的原因，我们用wget 重新手动下载 再用pip3 手动安装 1THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package 总结上述问题，电压不够，造成了网络不稳定，出错了，使用树莓派默认得电源模块便可以了 树莓派局域网访问flask得应用时同样需要添加]]></content>
+      <tags>
+        <tag>树莓派，Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[docker]]></title>
     <url>%2F2019%2F06%2F10%2Fdocker%2F</url>
-    <content type="text"><![CDATA[阿里云下的docker 安装 以及仓库的配置 d 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun 阿里云容器服务位置 https://cr.console.aliyun.com/cn-qingdao/instances/repositories 安装好后我们选择自己的一个 我们在上图中首先设置好我们固定密码，这个密码对应一个当前登录的密码。 （docker login - username= **） 然后我们可以使用一个加速后的镜像源。 假如我们使用子用户的时候，我们需要用子用户登录后再重新设置一次， 子用户的登录入口时不一样的。 https://signin.aliyun.com 仓库建立。以及建立自己的私有仓库，docker pull push 命名空间，仓库名，代码源 其他修改问题不是问题。。。主要是子账户登录的时候需要修改。]]></content>
+    <content type="text"><![CDATA[阿里云下的docker 安装 以及仓库的配置 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun 阿里云容器服务位置 https://cr.console.aliyun.com/cn-qingdao/instances/repositories 安装好后我们选择自己的一个 我们在上图中首先设置好我们固定密码，这个密码对应一个当前登录的密码。 （docker login - username= **） 然后我们可以使用一个加速后的镜像源。 假如我们使用子用户的时候，我们需要用子用户登录后再重新设置一次， 子用户的登录入口时不一样的。 https://signin.aliyun.com 仓库建立。以及建立自己的私有仓库，docker pull push 命名空间，仓库名，代码源 其他修改问题不是问题。。。主要是子账户登录的时候需要修改。]]></content>
       <tags>
         <tag>docker</tag>
         <tag>slam</tag>
@@ -18,28 +26,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[shiro jwt]]></title>
-    <url>%2F2019%2F04%2F15%2Fjwt_shiro%2F</url>
-    <content type="text"><![CDATA[spring-boot-jwtjwt做一个授权管理 api 序言 半吊子一个，大家有什么好意见或是简介，务必issue下 项目地址： https://github.com/liliangbin/spring-boot-jwt 同样，感谢一位大佬，也是在他的项目基础上建立起来的。 他的项目地址 ：https://github.com/Smith-Cruise/Spring-Boot-Shiro 但是同样因为他在于数据库的连接上没有搞定，所以也就是有了这个例子 不讲具体方法，说说程序的逻辑。第一步，shiro ，jwt maven配置。 12345678910&lt;dependency&gt; &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt; &lt;artifactId&gt;jjwt&lt;/artifactId&gt; &lt;version&gt;0.7.0&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt; &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt; &lt;version&gt;1.3.2&lt;/version&gt;&lt;/dependency&gt; 添加shiro俩个基类。 shiroConfig 这个类是shiro的主入口。。包含的是shiro框架使用的逻辑。 使用逻辑。。请求从shiroConfig这个类进去，然后经过过滤器，，过滤器是自己重写的，JwtAuthenticationFilter 只有过滤没有报错才能进入myealm这地方。。 而进去myRealm后，进行的是doGetAuthenticationInfo 。这个类主要的是判断密码和用户名是否正确，(因为我们使用的是jwt传递过来的是一个token，，所以最后校验的时候哪里填的是俩个token，如果觉得有问题可以看看最后返回的那个类的参数。。） 当我们的密码校验完毕后，我们才是最后的登陆成功。。。我们才能使用他的权限使用。 同样这个类也是对于url匹配关系的配置。。 ` Map&lt;String, String&gt; filterRuleMap = new HashMap&lt;&gt;(); // 所有请求通过我们自己的JWT Filter filterRuleMap.put(“/**”, “jwt”); // 访问401和404页面不通过我们的Filter filterRuleMap.put(“/401”, “anon”); filterRuleMap.put(“/login”,”anon”); filterRuleMap.put(“/name”,”anon”); //当然也是可以在controller中通过注解配置。 myRealm 该类的主要作用是鉴权和授权。 doGetAuthorizationInfo 这个方法主要是用来获取用户的权限，和角色。 doGetAuthenticationInfo 这个方法的作用主要是用来登陆的 jwt，需要做什么。 在jwt中我们会使用到一个token类，作为中间的一个传输对象。。在shiro中同样是有一个，所以我们需要的是让这个token类 实现一个接口 public class AccessToken implements AuthenticationToken //这个地方重载的俩个方法名字其实和myRealm里面最后密码验证时一样的，，所以我们在那个地方才传递的是来个相同的token @Override public Object getPrincipal() { return access_token; } @Override public Object getCredentials() { return access_token; } 因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session cookie， 使用jwt鉴权。 apache shiro 当然还有其他的功能，，，另外有一个关于shiro的例子， https://github.com/liliangbin/apache-shiro]]></content>
+    <title><![CDATA[Hello linux]]></title>
+    <url>%2F2019%2F04%2F15%2FLinux_shell_command%2F</url>
+    <content type="text"><![CDATA[shell命令apt cache get 12345$ sudo apt-cache search 安装的软件.....或是你不知道你需要的那个软件的名字。可以进行模糊的搜索$ sudo apt-cache search | grep 'jdk' //jdk是你要安装的软件包含的某个值 装软件的时候我们第一部总是需要先确认是那个软件 然后我们才能更加贴合我们的需求来找软件 123456$ sudo apt-get install software// 可能会需要不能安装的问题，告诉你可能存在依赖的问题 // 可能你需要这个命令$ sudo apt-get install -f // 修复依赖 同样如果再centos下面的话，包管理工具是yum 同样的可以用相同的方法。 123$ yum search jdk$ yum install **** nohup 这个命令代表的是后台挂起的意思。例如 nohup java -jar demo.jar &amp; &gt;log.txt 在这个里面nohup 代表后台挂起 &amp;代表的是退出session后不会停止 更多的更新以后在说]]></content>
       <tags>
-        <tag>spring</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[如何利用vmvare 安装一个Android for PC]]></title>
-    <url>%2F2019%2F04%2F15%2FAndroid%2F</url>
-    <content type="text"><![CDATA[准备工作 寻找Android镜像 http://www.android-x86.org/download //在这个平台上有很多的Android资源vmvare如何安装，在网上找到一个教程。 https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html //最重要的是那个3D加速支持。。不然开始后就是一堆的命令行界面 同样，相同的方法可以运用到直接在日常用的PC机上安装Android。。但是没有找到有一个国内的Android 镜像]]></content>
-      <tags>
-        <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mysql]]></title>
-    <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
-    <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
-      <tags>
-        <tag>MySQL</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -51,20 +42,19 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[cpu查看]]></title>
-    <url>%2F2019%2F04%2F15%2Fcpu%2F</url>
-    <content type="text"><![CDATA[linux 查看物理cpu个数，核数，逻辑cpu个数总核数 = 物理cpu个数 * 每颗cpu的核数总逻辑cpu个数 = 物理cpu个数 每颗cpu的核数 超线程数 查看物理cpu个数cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l 查看每个物理cpu的core的个数 (就是核数)cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq 查看逻辑CPU的个数cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l 查看CPU信息（型号）cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>cpu</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[jenkins配置]]></title>
     <url>%2F2019%2F04%2F15%2Fjenkins%2F</url>
     <content type="text"><![CDATA[准备工作，获取jenkins的deb文件（有的是用的war包）－ 我们先去其官网下载镜像。 https://jenkins.io/download/ 我们在这个地方下载ubuntu的 jenkins的安装。。 sudo dpkg -i jenkins.deb jenkins 查看是否安装成功service jenkins restart jenkins jenkins默认端口是8080 ,打开localhost:8080 因为这个文章是我已经搞定后再来写的就没有图了，直接说吧。 最开始进去的时候会叫你输入一个初始密码，，那个初始密码就在上面他给你的那个路径里面，你cat 出来粘贴上去就好。 然后一个很尴尬的事情，我当时遇到的是插件安装不上，，（offline)然后直接跳过。。然后叫你创建用户，密码。。这个后期登录用。－ 插件安装。git github maven ssh 然后本地maven jdk 配置。 - 在这个地方的java_home maven_home 是你的电脑jdk maven 安装路径。。 环境配置完成后。开始新建项目 构建项目,选择maven ,最后配置文件如图。 最后保存下来。主页面开始构建。。构建的目录在 /var/share/jenkins 这个目录下。默认，可能有不一样。 jenkins 端口配置。。－ 有的人可能8080端口被占用了，我们就可以把他的端口改到其他的地方。配置文件 var/lib/jenkins /etc/default/jenkins 这俩个都是配置文件，都需要我们去修改。。。。我是参照的这个人的一个博客。https://blog.whsir.com/post-1774.html 给大佬递茶。具体的配置端口就是把端口号改了就是了 网上还有通过改war 包运行的时候端口，，，没有试过，觉得这个不是一个很好的方法，，最好是改配置文件。。]]></content>
       <tags>
         <tag>linux，服务器运维</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[如何利用vmvare 安装一个Android for PC]]></title>
+    <url>%2F2019%2F04%2F15%2FAndroid%2F</url>
+    <content type="text"><![CDATA[准备工作 寻找Android镜像 http://www.android-x86.org/download //在这个平台上有很多的Android资源vmvare如何安装，在网上找到一个教程。 https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html //最重要的是那个3D加速支持。。不然开始后就是一堆的命令行界面 同样，相同的方法可以运用到直接在日常用的PC机上安装Android。。但是没有找到有一个国内的Android 镜像]]></content>
+      <tags>
+        <tag>Android</tag>
       </tags>
   </entry>
   <entry>
@@ -76,11 +66,29 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Hello linux]]></title>
-    <url>%2F2019%2F04%2F15%2FLinux_shell_command%2F</url>
-    <content type="text"><![CDATA[shell命令apt cache get 12345$ sudo apt-cache search 安装的软件.....或是你不知道你需要的那个软件的名字。可以进行模糊的搜索$ sudo apt-cache search | grep 'jdk' //jdk是你要安装的软件包含的某个值 装软件的时候我们第一部总是需要先确认是那个软件 然后我们才能更加贴合我们的需求来找软件 123456$ sudo apt-get install software// 可能会需要不能安装的问题，告诉你可能存在依赖的问题 // 可能你需要这个命令$ sudo apt-get install -f // 修复依赖 同样如果再centos下面的话，包管理工具是yum 同样的可以用相同的方法。 123$ yum search jdk$ yum install **** nohup 这个命令代表的是后台挂起的意思。例如 nohup java -jar demo.jar &amp; &gt;log.txt 在这个里面nohup 代表后台挂起 &amp;代表的是退出session后不会停止 更多的更新以后在说]]></content>
+    <title><![CDATA[shiro jwt]]></title>
+    <url>%2F2019%2F04%2F15%2Fjwt_shiro%2F</url>
+    <content type="text"><![CDATA[spring-boot-jwtjwt做一个授权管理 api 序言 半吊子一个，大家有什么好意见或是简介，务必issue下 项目地址： https://github.com/liliangbin/spring-boot-jwt 同样，感谢一位大佬，也是在他的项目基础上建立起来的。 他的项目地址 ：https://github.com/Smith-Cruise/Spring-Boot-Shiro 但是同样因为他在于数据库的连接上没有搞定，所以也就是有了这个例子 不讲具体方法，说说程序的逻辑。第一步，shiro ，jwt maven配置。 12345678910&lt;dependency&gt; &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt; &lt;artifactId&gt;jjwt&lt;/artifactId&gt; &lt;version&gt;0.7.0&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt; &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt; &lt;version&gt;1.3.2&lt;/version&gt;&lt;/dependency&gt; 添加shiro俩个基类。 shiroConfig 这个类是shiro的主入口。。包含的是shiro框架使用的逻辑。 使用逻辑。。请求从shiroConfig这个类进去，然后经过过滤器，，过滤器是自己重写的，JwtAuthenticationFilter 只有过滤没有报错才能进入myealm这地方。。 而进去myRealm后，进行的是doGetAuthenticationInfo 。这个类主要的是判断密码和用户名是否正确，(因为我们使用的是jwt传递过来的是一个token，，所以最后校验的时候哪里填的是俩个token，如果觉得有问题可以看看最后返回的那个类的参数。。） 当我们的密码校验完毕后，我们才是最后的登陆成功。。。我们才能使用他的权限使用。 同样这个类也是对于url匹配关系的配置。。 ` Map&lt;String, String&gt; filterRuleMap = new HashMap&lt;&gt;(); // 所有请求通过我们自己的JWT Filter filterRuleMap.put(“/**”, “jwt”); // 访问401和404页面不通过我们的Filter filterRuleMap.put(“/401”, “anon”); filterRuleMap.put(“/login”,”anon”); filterRuleMap.put(“/name”,”anon”); //当然也是可以在controller中通过注解配置。 myRealm 该类的主要作用是鉴权和授权。 doGetAuthorizationInfo 这个方法主要是用来获取用户的权限，和角色。 doGetAuthenticationInfo 这个方法的作用主要是用来登陆的 jwt，需要做什么。 在jwt中我们会使用到一个token类，作为中间的一个传输对象。。在shiro中同样是有一个，所以我们需要的是让这个token类 实现一个接口 public class AccessToken implements AuthenticationToken //这个地方重载的俩个方法名字其实和myRealm里面最后密码验证时一样的，，所以我们在那个地方才传递的是来个相同的token @Override public Object getPrincipal() { return access_token; } @Override public Object getCredentials() { return access_token; } 因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session cookie， 使用jwt鉴权。 apache shiro 当然还有其他的功能，，，另外有一个关于shiro的例子， https://github.com/liliangbin/apache-shiro]]></content>
+      <tags>
+        <tag>spring</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mysql]]></title>
+    <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
+    <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[cpu查看]]></title>
+    <url>%2F2019%2F04%2F15%2Fcpu%2F</url>
+    <content type="text"><![CDATA[linux 查看物理cpu个数，核数，逻辑cpu个数总核数 = 物理cpu个数 * 每颗cpu的核数总逻辑cpu个数 = 物理cpu个数 每颗cpu的核数 超线程数 查看物理cpu个数cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l 查看每个物理cpu的core的个数 (就是核数)cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq 查看逻辑CPU的个数cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l 查看CPU信息（型号）cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c]]></content>
       <tags>
         <tag>linux</tag>
+        <tag>cpu</tag>
       </tags>
   </entry>
   <entry>
