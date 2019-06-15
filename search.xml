@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[树莓派]]></title>
     <url>%2F2019%2F06%2F11%2F%E6%A0%91%E8%8E%93%E6%B4%BE%2F</url>
-    <content type="text"><![CDATA[折腾日记第一个问题， 树莓派安装的时候遇见了python的问题。1TypeError: unsupported operand type(s) for -=: &apos;Retry&apos; and &apos;int&apos; 当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114.114.114 然后这个时候修改后第一次是可以的，然后我们遇到了另外一个问题 它的md5 下载验证失败 下载不完整的原因，我们用wget 重新手动下载 再用pip3 手动安装 1THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package 总结上述问题，电压不够，造成了网络不稳定，出错了，使用树莓派默认得电源模块便可以了 树莓派局域网访问flask得应用时同样需要添加]]></content>
+    <content type="text"><![CDATA[折腾日记第一个问题， 树莓派安装的时候遇见了python的问题。1TypeError: unsupported operand type(s) for -=: &apos;Retry&apos; and &apos;int&apos; 当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114.114.114 然后这个时候修改后第一次是可以的，然后我们遇到了另外一个问题 它的md5 下载验证失败 下载不完整的原因，我们用wget 重新手动下载 再用pip3 手动安装1THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package 总结上述问题，电压不够，造成了网络不稳定，出错了，使用树莓派默认得电源模块便可以了 树莓派局域网访问flask得应用时同样需要添加安装深度学习服务 keras tensorflow 搜索相关的树莓派安装相关的方法。 问题主要是用pip3 安装的时候需要很多的依赖，但是有时候因为网络问题，不稳定，(电源问题)，使用国内的pip源 安装方案 详见 https://blog.csdn.net/perry0418/article/details/80994840 安装arm版的TensorFlow，方法参考：https://github.com/samjabrahams/tensorflow-on-raspberry-pi 安装keras 1234567891011sudo apt-get install libhdf5-serial-devsudo pip install h5py 安装过程大概需要30-40分钟sudo apt-get install python-scipy 亲测不能使用pip安装（坑！）！ 安装过程大概5分钟 如果是python3 安装需要修改为 python3-scipysudo pip install keras 安装过程2-3分钟（安装opencv，没有测试，系统自带）sudo apt-get install python-opencv opencv-python 安装告诉我们缺少依赖 1234567sudo apt-get update #安装依赖库sudo apt-get install libhdf5-devsudo apt-get install libatlas-base-devsudo apt-get install libjasper-devsudo apt-get install libqt4-testsudo apt-get install libqtgui4sudo apt-get update sklearn 1234sudo apt-get install python-sklearn# opencv sudo apt-get install libopencv-dev sudo apt-get install python-opencv]]></content>
       <tags>
         <tag>树莓派，Linux</tag>
       </tags>
@@ -11,7 +11,7 @@
   <entry>
     <title><![CDATA[docker]]></title>
     <url>%2F2019%2F06%2F10%2Fdocker%2F</url>
-    <content type="text"><![CDATA[阿里云下的docker 安装 以及仓库的配置 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun 阿里云容器服务位置 https://cr.console.aliyun.com/cn-qingdao/instances/repositories 安装好后我们选择自己的一个 我们在上图中首先设置好我们固定密码，这个密码对应一个当前登录的密码。 （docker login - username= **） 然后我们可以使用一个加速后的镜像源。 假如我们使用子用户的时候，我们需要用子用户登录后再重新设置一次， 子用户的登录入口时不一样的。 https://signin.aliyun.com 仓库建立。以及建立自己的私有仓库，docker pull push 命名空间，仓库名，代码源 其他修改问题不是问题。。。主要是子账户登录的时候需要修改。]]></content>
+    <content type="text"><![CDATA[阿里云下的docker 安装 以及仓库的配置 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun 阿里云容器服务位置 https://cr.console.aliyun.com/cn-qingdao/instances/repositories 安装好后我们选择自己的一个 我们在上图中首先设置好我们固定密码，这个密码对应一个当前登录的密码。 （docker login - username= **） 然后我们可以使用一个加速后的镜像源。 假如我们使用子用户的时候，我们需要用子用户登录后再重新设置一次， 子用户的登录入口时不一样的。 https://signin.aliyun.com 仓库建立。以及建立自己的私有仓库，docker pull push 命名空间，仓库名，代码源 其他修改问题不是问题。。。主要是子账户登录的时候需要修改。docker 打包镜像 以及上传问题 本地打包镜像并上传到阿里云的私有仓库里 123456 sudo docker login --username=docker@1808011574081122 registry.cn-shanghai.aliyuncs.com# 后缀仓库名对应你账号登录后阿里云分配的仓库位置 docker tag ros:vins-fusion registry.cn-shanghai.aliyuncs.com/upchsop/ros:vins_fusion_v1 # tag 一定要写全仓库路径，不然它会默认使用dockerhub的仓库 docker push registry.cn-shanghai.aliyuncs.com/upchsop/ros:vins_fusion_v1 # 提交镜像 上传代码使用云端构建项目 构建规则可以由我们自己定义 优势，本地访问外部网络速度太慢，阿里云的速度还阔以 某些网络下载不下来的还是没有办法。哭唧唧 刚发现原来阿里云还有一个海外构建的按钮。某些不能下载的东西可以通过这个构建 此外我们登进入的时候有时候我们看不到我们的仓库，因为我们没有修改我们的仓库位置]]></content>
       <tags>
         <tag>docker</tag>
         <tag>slam</tag>
@@ -26,11 +26,19 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Hello linux]]></title>
-    <url>%2F2019%2F04%2F15%2FLinux_shell_command%2F</url>
-    <content type="text"><![CDATA[shell命令apt cache get 12345$ sudo apt-cache search 安装的软件.....或是你不知道你需要的那个软件的名字。可以进行模糊的搜索$ sudo apt-cache search | grep 'jdk' //jdk是你要安装的软件包含的某个值 装软件的时候我们第一部总是需要先确认是那个软件 然后我们才能更加贴合我们的需求来找软件 123456$ sudo apt-get install software// 可能会需要不能安装的问题，告诉你可能存在依赖的问题 // 可能你需要这个命令$ sudo apt-get install -f // 修复依赖 同样如果再centos下面的话，包管理工具是yum 同样的可以用相同的方法。 123$ yum search jdk$ yum install **** nohup 这个命令代表的是后台挂起的意思。例如 nohup java -jar demo.jar &amp; &gt;log.txt 在这个里面nohup 代表后台挂起 &amp;代表的是退出session后不会停止 更多的更新以后在说]]></content>
+    <title><![CDATA[MySQL数据库更新的备份及复原]]></title>
+    <url>%2F2019%2F04%2F15%2Fdatabase%2F</url>
+    <content type="text"><![CDATA[数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）方法一 因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql 使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据） 备份数据，MySQL的备份数据方法，这个地方我使用的是备份所有的数据库，mysql dump命令，可以实现热备份，（以后可以考虑一下备份数据库 配合crontab ） 参考链接 MySQLdump备份数据库1mysqldump -u root -pPASSWORD --all-databases &gt; sqlfile.sql 备份好后会在当前文件夹下得到一个文件。 进入lnmp文件夹下后卸载lnmp（如何没有了再下载就行） 1./uninstall.sh lnmp环境的卸载的时候会自动给你生成一个备份的文件夹，（卸载完后才发现，我们也可以用这个文件夹的东西来进行数据的回复）可以参考这个博客lnmp的数据库备份文件夹 卸载完后再install嘛，这个不讨论了。我么再来数据的恢复。 1source sqlfile.sql //使用source命令还原数据库包括用户的配置 但是这个时候就再source完毕后出现问题。出现了拒绝访问的情况。1mysql -u root -p password //出现了拒绝访问的情况 数据库用户信息需要更新 这个问题是真的没道理，扎心，后来网上找打一个例子，这个是密码问题出问题了，所以我们采用跳过密码验证的那一步。参考这个地方mysqld免密登录 /etc/my.cnf 在里面的mysqld后加上 skip-grant-tables 然后我们重启MySQL。。应该能够直接过去了。但是后来还有一个问题，就是不能新建用户了。解决办法，好像是更新用户表，我这里好像没有记载下来。希望后面的笔记能够别这么水吧。 后来的问题，数据库的3306端口莫名给关了修改/etc/syscong/iptables 里面关于数据库的3306的限制 Linux端口问题]]></content>
       <tags>
-        <tag>linux</tag>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[如何利用vmvare 安装一个Android for PC]]></title>
+    <url>%2F2019%2F04%2F15%2FAndroid%2F</url>
+    <content type="text"><![CDATA[准备工作 寻找Android镜像 http://www.android-x86.org/download //在这个平台上有很多的Android资源vmvare如何安装，在网上找到一个教程。 https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html //最重要的是那个3D加速支持。。不然开始后就是一堆的命令行界面 同样，相同的方法可以运用到直接在日常用的PC机上安装Android。。但是没有找到有一个国内的Android 镜像]]></content>
+      <tags>
+        <tag>Android</tag>
       </tags>
   </entry>
   <entry>
@@ -50,36 +58,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[如何利用vmvare 安装一个Android for PC]]></title>
-    <url>%2F2019%2F04%2F15%2FAndroid%2F</url>
-    <content type="text"><![CDATA[准备工作 寻找Android镜像 http://www.android-x86.org/download //在这个平台上有很多的Android资源vmvare如何安装，在网上找到一个教程。 https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html //最重要的是那个3D加速支持。。不然开始后就是一堆的命令行界面 同样，相同的方法可以运用到直接在日常用的PC机上安装Android。。但是没有找到有一个国内的Android 镜像]]></content>
+    <title><![CDATA[linux 常用命令]]></title>
+    <url>%2F2019%2F04%2F15%2FLinux_shell_command%2F</url>
+    <content type="text"><![CDATA[shell命令apt cache get 12345$ sudo apt-cache search 安装的软件.....或是你不知道你需要的那个软件的名字。可以进行模糊的搜索$ sudo apt-cache search | grep 'jdk' //jdk是你要安装的软件包含的某个值 装软件的时候我们第一部总是需要先确认是那个软件 然后我们才能更加贴合我们的需求来找软件 123456$ sudo apt-get install software// 可能会需要不能安装的问题，告诉你可能存在依赖的问题 // 可能你需要这个命令$ sudo apt-get install -f // 修复依赖 同样如果再centos下面的话，包管理工具是yum 同样的可以用相同的方法。 123$ yum search jdk$ yum install **** nohup 这个命令代表的是后台挂起的意思。例如 nohup java -jar demo.jar &amp; &gt;log.txt 在这个里面nohup 代表后台挂起 &amp;代表的是退出session后不会停止 查看相关的进程 1ps -aux |grep main.py # 后台运行的main.py 的进程然后杀死它 服务器防火墙问题 更多的更新以后在说]]></content>
       <tags>
-        <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[database]]></title>
-    <url>%2F2019%2F04%2F15%2Fdatabase%2F</url>
-    <content type="text"><![CDATA[数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql 使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据） 备份数据，MySQL的备份数据方法，这个地方我使用的是备份所有的数据库，mysql dump命令，可以实现热备份，（以后可以考虑一下备份数据库 配合crontab ） 参考链接 MySQLdump备份数据库1mysqldump -u root -pPASSWORD --all-databases &gt; sqlfile.sql 备份好后会在当前文件夹下得到一个文件。 进入lnmp文件夹下后卸载lnmp（如何没有了再下载就行） 1./uninstall.sh lnmp环境的卸载的时候会自动给你生成一个备份的文件夹，（卸载完后才发现，我们也可以用这个文件夹的东西来进行数据的回复）可以参考这个博客lnmp的数据库备份文件夹 卸载完后再install嘛，这个不讨论了。我么再来数据的恢复。 1source sqlfile.sql //使用source命令还原数据库包括用户的配置 但是这个时候就再source完毕后出现问题。出现了拒绝访问的情况。1mysql -u root -p password //出现了拒绝访问的情况 这个问题是真的没道理，扎心，后来网上找打一个例子，这个是密码问题出问题了，所以我们采用跳过密码验证的那一步。参考这个地方mysqld免密登录 /etc/my.cnf 在里面的mysqld后加上 skip-grant-tables 然后我们重启MySQL。。。 后来的问题，数据库的3306端口莫名给关了修改/etc/syscong/iptables 里面关于数据库的3306的限制]]></content>
-      <tags>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[shiro jwt]]></title>
-    <url>%2F2019%2F04%2F15%2Fjwt_shiro%2F</url>
-    <content type="text"><![CDATA[spring-boot-jwtjwt做一个授权管理 api 序言 半吊子一个，大家有什么好意见或是简介，务必issue下 项目地址： https://github.com/liliangbin/spring-boot-jwt 同样，感谢一位大佬，也是在他的项目基础上建立起来的。 他的项目地址 ：https://github.com/Smith-Cruise/Spring-Boot-Shiro 但是同样因为他在于数据库的连接上没有搞定，所以也就是有了这个例子 不讲具体方法，说说程序的逻辑。第一步，shiro ，jwt maven配置。 12345678910&lt;dependency&gt; &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt; &lt;artifactId&gt;jjwt&lt;/artifactId&gt; &lt;version&gt;0.7.0&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt; &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt; &lt;version&gt;1.3.2&lt;/version&gt;&lt;/dependency&gt; 添加shiro俩个基类。 shiroConfig 这个类是shiro的主入口。。包含的是shiro框架使用的逻辑。 使用逻辑。。请求从shiroConfig这个类进去，然后经过过滤器，，过滤器是自己重写的，JwtAuthenticationFilter 只有过滤没有报错才能进入myealm这地方。。 而进去myRealm后，进行的是doGetAuthenticationInfo 。这个类主要的是判断密码和用户名是否正确，(因为我们使用的是jwt传递过来的是一个token，，所以最后校验的时候哪里填的是俩个token，如果觉得有问题可以看看最后返回的那个类的参数。。） 当我们的密码校验完毕后，我们才是最后的登陆成功。。。我们才能使用他的权限使用。 同样这个类也是对于url匹配关系的配置。。 ` Map&lt;String, String&gt; filterRuleMap = new HashMap&lt;&gt;(); // 所有请求通过我们自己的JWT Filter filterRuleMap.put(“/**”, “jwt”); // 访问401和404页面不通过我们的Filter filterRuleMap.put(“/401”, “anon”); filterRuleMap.put(“/login”,”anon”); filterRuleMap.put(“/name”,”anon”); //当然也是可以在controller中通过注解配置。 myRealm 该类的主要作用是鉴权和授权。 doGetAuthorizationInfo 这个方法主要是用来获取用户的权限，和角色。 doGetAuthenticationInfo 这个方法的作用主要是用来登陆的 jwt，需要做什么。 在jwt中我们会使用到一个token类，作为中间的一个传输对象。。在shiro中同样是有一个，所以我们需要的是让这个token类 实现一个接口 public class AccessToken implements AuthenticationToken //这个地方重载的俩个方法名字其实和myRealm里面最后密码验证时一样的，，所以我们在那个地方才传递的是来个相同的token @Override public Object getPrincipal() { return access_token; } @Override public Object getCredentials() { return access_token; } 因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session cookie， 使用jwt鉴权。 apache shiro 当然还有其他的功能，，，另外有一个关于shiro的例子， https://github.com/liliangbin/apache-shiro]]></content>
-      <tags>
-        <tag>spring</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mysql]]></title>
-    <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
-    <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
-      <tags>
-        <tag>MySQL</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -92,6 +75,23 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[mysql]]></title>
+    <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
+    <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springframework]]></title>
+    <url>%2F2019%2F04%2F15%2Fspring-learn-%2F</url>
+    <content type="text"><![CDATA[spring学习笔记 123456789101112@RestControllerpublic class GreetingController &#123; private static final String template = "Hello, %s!"; private final AtomicLong counter = new AtomicLong();//这个地方最想说的是俩个东西： format 和 atomicLong ，线程安全 @RequestMapping("/greeting") public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) &#123; return new Greeting(counter.incrementAndGet(), String.format(template, name)); &#125;&#125; spring项目启动的方法 两种方法 直接运行： ./mvnw spring-boot:run //直接运行的就是该springboot 项 jar包运行 ： ./mvnw clean package//打包成jar包 java -jar target / gs-rest-service-0.1.0.jar//运行该包]]></content>
+      <tags>
+        <tag>spring</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[ssh learn]]></title>
     <url>%2F2019%2F04%2F15%2Fssh%2F</url>
     <content type="text"><![CDATA[Linux ssh ssh的意义 这是一个用的是远程登录的操作。同时可以用于文件的上传和下载 相比于密码登录。这样不会中间人截取数据，（除了在第一次登录时被截取了数据） 思想。本地创建一个公钥，同时提交给服务器。在第一次登录的时候输入密码，下次登录的时候直接用ssh username@host 然后主机看是否能够解析出密码，如果能够接下出来，则是正确的。这样就不会出现 ssh操作 直接登陆的方式（每次都是需要输入密码） 12345 $ ssh user@host // //另外一种方式 $ ssh -p 8080 user@host //在这个地方登录的是以8080端口与登录 。ssh 默认的端口是22然后输入密码： 用ssh 公钥登录 本地看是否有公钥了如果没有执行此项操作 1$ ssh-keygen //这个是在本地生成一个公钥 然后把你的秘钥提交到服务器 1$ ssh-copy-id user@host 然后就是能够直接通过 ssh user@host 访问服务器了 备注 host 可以是你的ip 例如 127.0.0.1 类型的 或是例如域名 yb.upc.edu.cn]]></content>
@@ -101,9 +101,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springframework]]></title>
-    <url>%2F2019%2F04%2F15%2Fspring-learn-%2F</url>
-    <content type="text"><![CDATA[spring学习笔记 123456789101112@RestControllerpublic class GreetingController &#123; private static final String template = "Hello, %s!"; private final AtomicLong counter = new AtomicLong();//这个地方最想说的是俩个东西： format 和 atomicLong ，线程安全 @RequestMapping("/greeting") public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) &#123; return new Greeting(counter.incrementAndGet(), String.format(template, name)); &#125;&#125; spring项目启动的方法 两种方法 直接运行： ./mvnw spring-boot:run //直接运行的就是该springboot 项 jar包运行 ： ./mvnw clean package//打包成jar包 java -jar target / gs-rest-service-0.1.0.jar//运行该包]]></content>
+    <title><![CDATA[shiro jwt]]></title>
+    <url>%2F2019%2F04%2F15%2Fjwt_shiro%2F</url>
+    <content type="text"><![CDATA[spring-boot-jwtjwt做一个授权管理 api 序言 半吊子一个，大家有什么好意见或是简介，务必issue下 项目地址： https://github.com/liliangbin/spring-boot-jwt 同样，感谢一位大佬，也是在他的项目基础上建立起来的。 他的项目地址 ：https://github.com/Smith-Cruise/Spring-Boot-Shiro 但是同样因为他在于数据库的连接上没有搞定，所以也就是有了这个例子 不讲具体方法，说说程序的逻辑。第一步，shiro ，jwt maven配置。 12345678910&lt;dependency&gt; &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt; &lt;artifactId&gt;jjwt&lt;/artifactId&gt; &lt;version&gt;0.7.0&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt; &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt; &lt;version&gt;1.3.2&lt;/version&gt;&lt;/dependency&gt; 添加shiro俩个基类。 shiroConfig 这个类是shiro的主入口。。包含的是shiro框架使用的逻辑。 使用逻辑。。请求从shiroConfig这个类进去，然后经过过滤器，，过滤器是自己重写的，JwtAuthenticationFilter 只有过滤没有报错才能进入myealm这地方。。 而进去myRealm后，进行的是doGetAuthenticationInfo 。这个类主要的是判断密码和用户名是否正确，(因为我们使用的是jwt传递过来的是一个token，，所以最后校验的时候哪里填的是俩个token，如果觉得有问题可以看看最后返回的那个类的参数。。） 当我们的密码校验完毕后，我们才是最后的登陆成功。。。我们才能使用他的权限使用。 同样这个类也是对于url匹配关系的配置。。 ` Map&lt;String, String&gt; filterRuleMap = new HashMap&lt;&gt;(); // 所有请求通过我们自己的JWT Filter filterRuleMap.put(“/**”, “jwt”); // 访问401和404页面不通过我们的Filter filterRuleMap.put(“/401”, “anon”); filterRuleMap.put(“/login”,”anon”); filterRuleMap.put(“/name”,”anon”); //当然也是可以在controller中通过注解配置。 myRealm 该类的主要作用是鉴权和授权。 doGetAuthorizationInfo 这个方法主要是用来获取用户的权限，和角色。 doGetAuthenticationInfo 这个方法的作用主要是用来登陆的 jwt，需要做什么。 在jwt中我们会使用到一个token类，作为中间的一个传输对象。。在shiro中同样是有一个，所以我们需要的是让这个token类 实现一个接口 public class AccessToken implements AuthenticationToken //这个地方重载的俩个方法名字其实和myRealm里面最后密码验证时一样的，，所以我们在那个地方才传递的是来个相同的token @Override public Object getPrincipal() { return access_token; } @Override public Object getCredentials() { return access_token; } 因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session cookie， 使用jwt鉴权。 apache shiro 当然还有其他的功能，，，另外有一个关于shiro的例子， https://github.com/liliangbin/apache-shiro]]></content>
       <tags>
         <tag>spring</tag>
         <tag>java</tag>

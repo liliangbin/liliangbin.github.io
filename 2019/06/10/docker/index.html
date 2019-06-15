@@ -93,7 +93,11 @@
 <meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/cangku.jpg">
 <meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/goujian.jpg">
 <meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/kong.jpg">
-<meta property="og:updated_time" content="2019-06-11T08:42:48.035Z">
+<meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/create.jpg">
+<meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/fail.jpg">
+<meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/board.jpg">
+<meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/area.jpg">
+<meta property="og:updated_time" content="2019-06-15T04:14:03.202Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker">
 <meta name="twitter:description" content="阿里云下的docker 安装 以及仓库的配置 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun  阿里云容器服务位置 https://c">
@@ -374,7 +378,7 @@
       
 
       
-        <h4 id="阿里云下的docker-安装-以及仓库的配置"><a href="#阿里云下的docker-安装-以及仓库的配置" class="headerlink" title="阿里云下的docker 安装 以及仓库的配置"></a>阿里云下的docker 安装 以及仓库的配置</h4> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5</span><br><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
+        <h4 id="阿里云下的docker-安装-以及仓库的配置"><a href="#阿里云下的docker-安装-以及仓库的配置" class="headerlink" title="阿里云下的docker 安装 以及仓库的配置"></a>阿里云下的docker 安装 以及仓库的配置</h4> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5</span></span><br><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
 <ul>
 <li>阿里云容器服务位置 <a href="https://cr.console.aliyun.com/cn-qingdao/instances/repositories" target="_blank" rel="noopener">https://cr.console.aliyun.com/cn-qingdao/instances/repositories</a><a id="more"></a>
 </li>
@@ -394,7 +398,26 @@
 <li><img src="/2019/06/10/docker/goujian.jpg" alt="code"></li>
 <li><img src="/2019/06/10/docker/kong.jpg" alt="code"></li>
 </ul>
-<h5 id="其他修改问题不是问题。。。主要是子账户登录的时候需要修改。"><a href="#其他修改问题不是问题。。。主要是子账户登录的时候需要修改。" class="headerlink" title="其他修改问题不是问题。。。主要是子账户登录的时候需要修改。"></a>其他修改问题不是问题。。。主要是子账户登录的时候需要修改。</h5>
+<h5 id="其他修改问题不是问题。。。主要是子账户登录的时候需要修改。"><a href="#其他修改问题不是问题。。。主要是子账户登录的时候需要修改。" class="headerlink" title="其他修改问题不是问题。。。主要是子账户登录的时候需要修改。"></a>其他修改问题不是问题。。。主要是子账户登录的时候需要修改。</h5><h4 id="docker-打包镜像-以及上传问题"><a href="#docker-打包镜像-以及上传问题" class="headerlink" title="docker 打包镜像 以及上传问题"></a>docker 打包镜像 以及上传问题</h4><ul>
+<li>本地打包镜像并上传到阿里云的私有仓库里</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> sudo docker login --username=docker@1808011574081122 registry.cn-shanghai.aliyuncs.com</span><br><span class="line"><span class="meta">#</span><span class="bash"> 后缀仓库名对应你账号登录后阿里云分配的仓库位置</span></span><br><span class="line"> docker tag ros:vins-fusion registry.cn-shanghai.aliyuncs.com/upchsop/ros:vins_fusion_v1</span><br><span class="line"><span class="meta"> #</span><span class="bash"> tag 一定要写全仓库路径，不然它会默认使用dockerhub的仓库</span></span><br><span class="line"> docker push  registry.cn-shanghai.aliyuncs.com/upchsop/ros:vins_fusion_v1</span><br><span class="line"><span class="meta"> #</span><span class="bash"> 提交镜像</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>上传代码使用云端构建项目</p>
+</li>
+<li><p><img src="/2019/06/10/docker/create.jpg" alt="create"></p>
+</li>
+<li>构建规则可以由我们自己定义</li>
+<li>优势，本地访问外部网络速度太慢，阿里云的速度还阔以</li>
+<li><img src="/2019/06/10/docker/fail.jpg" alt="fail"></li>
+<li>某些网络下载不下来的还是没有办法。哭唧唧</li>
+</ul>
+<hr>
+<ul>
+<li>刚发现原来阿里云还有一个海外构建的按钮。某些不能下载的东西可以通过这个构建<br><img src="/2019/06/10/docker/board.jpg" alt="board"></li>
+<li>此外我们登进入的时候有时候我们看不到我们的仓库，因为我们没有修改我们的仓库位置<br><img src="/2019/06/10/docker/area.jpg" alt="location"></li>
+</ul>
+
       
     </div>
     
@@ -564,7 +587,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#阿里云下的docker-安装-以及仓库的配置"><span class="nav-number">1.</span> <span class="nav-text">阿里云下的docker 安装 以及仓库的配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装好后我们选择自己的一个"><span class="nav-number">2.</span> <span class="nav-text">安装好后我们选择自己的一个</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#仓库建立。以及建立自己的私有仓库，docker-pull-push"><span class="nav-number">3.</span> <span class="nav-text">仓库建立。以及建立自己的私有仓库，docker pull  push</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#其他修改问题不是问题。。。主要是子账户登录的时候需要修改。"><span class="nav-number">3.1.</span> <span class="nav-text">其他修改问题不是问题。。。主要是子账户登录的时候需要修改。</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#阿里云下的docker-安装-以及仓库的配置"><span class="nav-number">1.</span> <span class="nav-text">阿里云下的docker 安装 以及仓库的配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装好后我们选择自己的一个"><span class="nav-number">2.</span> <span class="nav-text">安装好后我们选择自己的一个</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#仓库建立。以及建立自己的私有仓库，docker-pull-push"><span class="nav-number">3.</span> <span class="nav-text">仓库建立。以及建立自己的私有仓库，docker pull  push</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#其他修改问题不是问题。。。主要是子账户登录的时候需要修改。"><span class="nav-number">3.1.</span> <span class="nav-text">其他修改问题不是问题。。。主要是子账户登录的时候需要修改。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-打包镜像-以及上传问题"><span class="nav-number">4.</span> <span class="nav-text">docker 打包镜像 以及上传问题</span></a></li></ol></div>
             
 
           </div>

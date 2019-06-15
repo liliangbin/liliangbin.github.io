@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="小鲸鱼的小木屋">
 <meta property="og:description" content="折腾日记第一个问题， 树莓派安装的时候遇见了python的问题。1TypeError: unsupported operand type(s) for -=: &amp;apos;Retry&amp;apos; and &amp;apos;int&amp;apos;  当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-11T13:23:23.865Z">
+<meta property="og:updated_time" content="2019-06-12T02:59:59.825Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="树莓派">
 <meta name="twitter:description" content="折腾日记第一个问题， 树莓派安装的时候遇见了python的问题。1TypeError: unsupported operand type(s) for -=: &amp;apos;Retry&amp;apos; and &amp;apos;int&amp;apos;  当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114">
@@ -370,12 +370,29 @@
         <h4 id="折腾日记"><a href="#折腾日记" class="headerlink" title="折腾日记"></a>折腾日记</h4><h6 id="第一个问题，-树莓派安装的时候遇见了python的问题。"><a href="#第一个问题，-树莓派安装的时候遇见了python的问题。" class="headerlink" title="第一个问题， 树莓派安装的时候遇见了python的问题。"></a>第一个问题， 树莓派安装的时候遇见了python的问题。</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TypeError: unsupported operand type(s) for -=: &apos;Retry&apos; and &apos;int&apos;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114.114.114</li>
-<li><p>然后这个时候修改后第一次是可以的，然后我们遇到了另外一个问题 它的md5 下载验证失败 下载不完整的原因，我们用wget  重新手动下载 再用pip3 手动安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package</span><br></pre></td></tr></table></figure>
+<li>然后这个时候修改后第一次是可以的，然后我们遇到了另外一个问题 它的md5 下载验证失败 下载不完整的原因，我们用wget  重新手动下载 再用pip3 手动安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>总结上述问题，电压不够，造成了网络不稳定，出错了，使用树莓派默认得电源模块便可以了</p>
+</ul>
+<a id="more"></a>
+<ul>
+<li>总结上述问题，电压不够，造成了网络不稳定，出错了，使用树莓派默认得电源模块便可以了</li>
+<li>树莓派局域网访问flask得应用时同样需要添加<h4 id="安装深度学习服务-keras-tensorflow-搜索相关的树莓派安装相关的方法。"><a href="#安装深度学习服务-keras-tensorflow-搜索相关的树莓派安装相关的方法。" class="headerlink" title="安装深度学习服务  keras  tensorflow  搜索相关的树莓派安装相关的方法。"></a>安装深度学习服务  keras  tensorflow  搜索相关的树莓派安装相关的方法。</h4></li>
+<li>问题主要是用pip3 安装的时候需要很多的依赖，但是有时候因为网络问题，不稳定，(电源问题)，使用国内的pip源</li>
+<li><p>安装方案 详见</p>
+<ul>
+<li><a href="https://blog.csdn.net/perry0418/article/details/80994840" target="_blank" rel="noopener">https://blog.csdn.net/perry0418/article/details/80994840</a></li>
+<li>安装arm版的TensorFlow，方法参考：<a href="https://github.com/samjabrahams/tensorflow-on-raspberry-pi" target="_blank" rel="noopener">https://github.com/samjabrahams/tensorflow-on-raspberry-pi</a></li>
+</ul>
 </li>
-<li>树莓派局域网访问flask得应用时同样需要添加</li>
+<li><p>安装keras</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libhdf5-serial-dev</span><br><span class="line"></span><br><span class="line">sudo pip install h5py    安装过程大概需要30-40分钟</span><br><span class="line"></span><br><span class="line">sudo apt-get install python-scipy   亲测不能使用pip安装（坑！）！  安装过程大概5分钟 如果是python3 安装需要修改为 python3-scipy</span><br><span class="line"></span><br><span class="line">sudo pip install keras   安装过程2-3分钟</span><br><span class="line"></span><br><span class="line">（安装opencv，没有测试，系统自带）</span><br><span class="line"></span><br><span class="line">sudo apt-get install python-opencv</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>opencv-python  安装告诉我们缺少依赖</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update #安装依赖库</span><br><span class="line">sudo apt-get install libhdf5-dev</span><br><span class="line">sudo apt-get install libatlas-base-dev</span><br><span class="line">sudo apt-get install libjasper-dev</span><br><span class="line">sudo apt-get install libqt4-test</span><br><span class="line">sudo apt-get install libqtgui4</span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sklearn</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python-sklearn</span><br><span class="line"><span class="meta">#</span><span class="bash"> opencv </span></span><br><span class="line">sudo apt-get install libopencv-dev  </span><br><span class="line">sudo apt-get install python-opencv</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 
       
@@ -541,7 +558,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#折腾日记"><span class="nav-number">1.</span> <span class="nav-text">折腾日记</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#第一个问题，-树莓派安装的时候遇见了python的问题。"><span class="nav-number">1.0.1.</span> <span class="nav-text">第一个问题， 树莓派安装的时候遇见了python的问题。</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#折腾日记"><span class="nav-number">1.</span> <span class="nav-text">折腾日记</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#第一个问题，-树莓派安装的时候遇见了python的问题。"><span class="nav-number">1.0.1.</span> <span class="nav-text">第一个问题， 树莓派安装的时候遇见了python的问题。</span></a></li></ol></li></ol><li class="nav-item nav-level-4"><a class="nav-link" href="#安装深度学习服务-keras-tensorflow-搜索相关的树莓派安装相关的方法。"><span class="nav-number">2.</span> <span class="nav-text">安装深度学习服务  keras  tensorflow  搜索相关的树莓派安装相关的方法。</span></a></li></div>
             
 
           </div>

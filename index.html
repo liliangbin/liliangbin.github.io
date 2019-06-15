@@ -366,19 +366,19 @@
 
       
         
-          
-            <h4 id="折腾日记"><a href="#折腾日记" class="headerlink" title="折腾日记"></a>折腾日记</h4><h6 id="第一个问题，-树莓派安装的时候遇见了python的问题。"><a href="#第一个问题，-树莓派安装的时候遇见了python的问题。" class="headerlink" title="第一个问题， 树莓派安装的时候遇见了python的问题。"></a>第一个问题， 树莓派安装的时候遇见了python的问题。</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TypeError: unsupported operand type(s) for -=: &apos;Retry&apos; and &apos;int&apos;</span><br></pre></td></tr></table></figure>
+          <h4 id="折腾日记"><a href="#折腾日记" class="headerlink" title="折腾日记"></a>折腾日记</h4><h6 id="第一个问题，-树莓派安装的时候遇见了python的问题。"><a href="#第一个问题，-树莓派安装的时候遇见了python的问题。" class="headerlink" title="第一个问题， 树莓派安装的时候遇见了python的问题。"></a>第一个问题， 树莓派安装的时候遇见了python的问题。</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TypeError: unsupported operand type(s) for -=: &apos;Retry&apos; and &apos;int&apos;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114.114.114</li>
-<li><p>然后这个时候修改后第一次是可以的，然后我们遇到了另外一个问题 它的md5 下载验证失败 下载不完整的原因，我们用wget  重新手动下载 再用pip3 手动安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package</span><br></pre></td></tr></table></figure>
+<li>然后这个时候修改后第一次是可以的，然后我们遇到了另外一个问题 它的md5 下载验证失败 下载不完整的原因，我们用wget  重新手动下载 再用pip3 手动安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>总结上述问题，电压不够，造成了网络不稳定，出错了，使用树莓派默认得电源模块便可以了</p>
-</li>
-<li>树莓派局域网访问flask得应用时同样需要添加</li>
 </ul>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/11/树莓派/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -507,7 +507,7 @@
 
       
         
-          <h4 id="阿里云下的docker-安装-以及仓库的配置"><a href="#阿里云下的docker-安装-以及仓库的配置" class="headerlink" title="阿里云下的docker 安装 以及仓库的配置"></a>阿里云下的docker 安装 以及仓库的配置</h4> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5</span><br><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
+          <h4 id="阿里云下的docker-安装-以及仓库的配置"><a href="#阿里云下的docker-安装-以及仓库的配置" class="headerlink" title="阿里云下的docker 安装 以及仓库的配置"></a>阿里云下的docker 安装 以及仓库的配置</h4> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5</span></span><br><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
 <ul>
 <li>阿里云容器服务位置 <a href="https://cr.console.aliyun.com/cn-qingdao/instances/repositories" target="_blank" rel="noopener">https://cr.console.aliyun.com/cn-qingdao/instances/repositories</a></li></ul>
           <!--noindex-->
@@ -700,7 +700,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/15/Linux_shell_command/">
+    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/15/database/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liliangbin">
@@ -719,7 +719,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/04/15/Linux_shell_command/" itemprop="url">Hello linux</a></h1>
+                <a class="post-title-link" href="/2019/04/15/database/" itemprop="url">MySQL数据库更新的备份及复原</a></h1>
         
 
         <div class="post-meta">
@@ -750,8 +750,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/04/15/Linux_shell_command/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/Linux_shell_command/" itemprop="commentCount"></span>
+                <a href="/2019/04/15/database/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/database/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -782,16 +782,151 @@
 
       
         
-          <h2 id="shell命令"><a href="#shell命令" class="headerlink" title="shell命令"></a>shell命令</h2><h3 id="apt"><a href="#apt" class="headerlink" title="apt"></a>apt</h3><ul>
-<li>cache</li>
-<li>get</li></ul>
+          <h4 id="数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）"><a href="#数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）" class="headerlink" title="数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）"></a>数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）</h4><h5 id="方法一-因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade-sh-可以直接用这个脚本进行更新，"><a href="#方法一-因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade-sh-可以直接用这个脚本进行更新，" class="headerlink" title="方法一 因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，"></a>方法一 因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./upgrade.sh mysql</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/04/15/Linux_shell_command/#more" rel="contents">
+            <a class="btn" href="/2019/04/15/database/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/15/Android/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liliangbin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小鲸鱼的小木屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/15/Android/" itemprop="url">如何利用vmvare 安装一个Android  for  PC</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-15T20:21:33+08:00">
+                2019-04-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/15/Android/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/Android/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+          
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<h3 id="准备工作-寻找Android镜像"><a href="#准备工作-寻找Android镜像" class="headerlink" title="准备工作  寻找Android镜像"></a>准备工作  寻找Android镜像</h3><ul>
+<li><a href="http://www.android-x86.org/download" target="_blank" rel="noopener">http://www.android-x86.org/download</a>    //在这个平台上有很多的Android资源<h3 id="vmvare如何安装，在网上找到一个教程。"><a href="#vmvare如何安装，在网上找到一个教程。" class="headerlink" title="vmvare如何安装，在网上找到一个教程。"></a>vmvare如何安装，在网上找到一个教程。</h3></li>
+<li><a href="https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html</a> //最重要的是那个3D加速支持。。不然开始后就是一堆的命令行界面</li>
+<li>同样，相同的方法可以运用到直接在日常用的PC机上安装Android。。但是没有找到有一个国内的Android 镜像</li>
+</ul>
+
+          
         
       
     </div>
@@ -1111,7 +1246,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/15/Android/">
+    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/15/Linux_shell_command/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liliangbin">
@@ -1130,7 +1265,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/04/15/Android/" itemprop="url">如何利用vmvare 安装一个Android  for  PC</a></h1>
+                <a class="post-title-link" href="/2019/04/15/Linux_shell_command/" itemprop="url">linux 常用命令</a></h1>
         
 
         <div class="post-meta">
@@ -1161,8 +1296,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/04/15/Android/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/Android/" itemprop="commentCount"></span>
+                <a href="/2019/04/15/Linux_shell_command/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/Linux_shell_command/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1193,147 +1328,12 @@
 
       
         
-          
-            <a id="more"></a>
-<h3 id="准备工作-寻找Android镜像"><a href="#准备工作-寻找Android镜像" class="headerlink" title="准备工作  寻找Android镜像"></a>准备工作  寻找Android镜像</h3><ul>
-<li><a href="http://www.android-x86.org/download" target="_blank" rel="noopener">http://www.android-x86.org/download</a>    //在这个平台上有很多的Android资源<h3 id="vmvare如何安装，在网上找到一个教程。"><a href="#vmvare如何安装，在网上找到一个教程。" class="headerlink" title="vmvare如何安装，在网上找到一个教程。"></a>vmvare如何安装，在网上找到一个教程。</h3></li>
-<li><a href="https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html</a> //最重要的是那个3D加速支持。。不然开始后就是一堆的命令行界面</li>
-<li>同样，相同的方法可以运用到直接在日常用的PC机上安装Android。。但是没有找到有一个国内的Android 镜像</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/15/database/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liliangbin">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小鲸鱼的小木屋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/15/database/" itemprop="url">database</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-15T20:21:33+08:00">
-                2019-04-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/15/database/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/database/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-          
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）"><a href="#数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）" class="headerlink" title="数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）"></a>数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）</h4><h5 id="因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade-sh-可以直接用这个脚本进行更新，"><a href="#因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade-sh-可以直接用这个脚本进行更新，" class="headerlink" title="因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，"></a>因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./upgrade.sh mysql</span><br></pre></td></tr></table></figure>
+          <h2 id="shell命令"><a href="#shell命令" class="headerlink" title="shell命令"></a>shell命令</h2><h3 id="apt"><a href="#apt" class="headerlink" title="apt"></a>apt</h3><ul>
+<li>cache</li>
+<li>get</li></ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/04/15/database/#more" rel="contents">
+            <a class="btn" href="/2019/04/15/Linux_shell_command/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1384,7 +1384,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/15/jwt_shiro/">
+    <link itemprop="mainEntityOfPage" href="https://liliangbin.github.io/2019/04/15/cpu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liliangbin">
@@ -1403,7 +1403,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/04/15/jwt_shiro/" itemprop="url">shiro jwt</a></h1>
+                <a class="post-title-link" href="/2019/04/15/cpu/" itemprop="url">cpu查看</a></h1>
         
 
         <div class="post-meta">
@@ -1434,8 +1434,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/04/15/jwt_shiro/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/jwt_shiro/" itemprop="commentCount"></span>
+                <a href="/2019/04/15/cpu/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/15/cpu/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1466,10 +1466,10 @@
 
       
         
-          <h1 id="spring-boot-jwt"><a href="#spring-boot-jwt" class="headerlink" title="spring-boot-jwt"></a>spring-boot-jwt</h1><p>jwt做一个授权管理 api<br></p>
+          <h4 id="linux-查看物理cpu个数，核数，逻辑cpu个数"><a href="#linux-查看物理cpu个数，核数，逻辑cpu个数" class="headerlink" title="linux 查看物理cpu个数，核数，逻辑cpu个数"></a>linux 查看物理cpu个数，核数，逻辑cpu个数</h4><h5 id="总核数-物理cpu个数-每颗cpu的核数"><a href="#总核数-物理cpu个数-每颗cpu的核数" class="headerlink" title="总核数 = 物理cpu个数 *  每颗cpu的核数"></a>总核数 = 物理cpu个数 *  每颗cpu的核数</h5><h5 id="总逻辑cpu个数-物理cpu个数-每颗cpu的核数-超线程数"><a href="#总逻辑cpu个数-物理cpu个数-每颗cpu的核数-超线程数" class="headerlink" title="总逻辑cpu个数 = 物理cpu个数   每颗cpu的核数    超线程数"></a>总逻辑cpu个数 = 物理cpu个数  <em> 每颗cpu的核数  </em>  超线程数</h5>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/04/15/jwt_shiro/#more" rel="contents">
+            <a class="btn" href="/2019/04/15/cpu/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
