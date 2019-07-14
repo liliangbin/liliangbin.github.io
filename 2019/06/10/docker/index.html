@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="docker,slam,">
+  <meta name="keywords" content="docker,rabbit_mq,">
 
 
 
@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="阿里云下的docker 安装 以及仓库的配置 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun  阿里云容器服务位置 https://c">
-<meta name="keywords" content="docker,slam">
+<meta name="description" content="阿里云下的docker ，以及运行一个rabbitmq的 docker程序 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun  阿里云容">
+<meta name="keywords" content="docker,rabbit_mq">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker">
 <meta property="og:url" content="https://liliangbin.github.io/2019/06/10/docker/index.html">
 <meta property="og:site_name" content="小鲸鱼的小木屋">
-<meta property="og:description" content="阿里云下的docker 安装 以及仓库的配置 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun  阿里云容器服务位置 https://c">
+<meta property="og:description" content="阿里云下的docker ，以及运行一个rabbitmq的 docker程序 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun  阿里云容">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/done.jpg">
 <meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/docker.jpg">
@@ -97,10 +97,11 @@
 <meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/fail.jpg">
 <meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/board.jpg">
 <meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/area.jpg">
-<meta property="og:updated_time" content="2019-06-15T04:14:03.202Z">
+<meta property="og:image" content="https://liliangbin.github.io/2019/06/10/docker/rabbit.jpg">
+<meta property="og:updated_time" content="2019-07-14T12:36:27.900Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker">
-<meta name="twitter:description" content="阿里云下的docker 安装 以及仓库的配置 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun  阿里云容器服务位置 https://c">
+<meta name="twitter:description" content="阿里云下的docker ，以及运行一个rabbitmq的 docker程序 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun  阿里云容">
 <meta name="twitter:image" content="https://liliangbin.github.io/2019/06/10/docker/done.jpg">
 
 
@@ -378,7 +379,7 @@
       
 
       
-        <h4 id="阿里云下的docker-安装-以及仓库的配置"><a href="#阿里云下的docker-安装-以及仓库的配置" class="headerlink" title="阿里云下的docker 安装 以及仓库的配置"></a>阿里云下的docker 安装 以及仓库的配置</h4> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5</span></span><br><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
+        <h4 id="阿里云下的docker-，以及运行一个rabbitmq的-docker程序"><a href="#阿里云下的docker-，以及运行一个rabbitmq的-docker程序" class="headerlink" title="阿里云下的docker ，以及运行一个rabbitmq的 docker程序"></a>阿里云下的docker ，以及运行一个rabbitmq的 docker程序</h4> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5</span></span><br><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
 <ul>
 <li>阿里云容器服务位置 <a href="https://cr.console.aliyun.com/cn-qingdao/instances/repositories" target="_blank" rel="noopener">https://cr.console.aliyun.com/cn-qingdao/instances/repositories</a><a id="more"></a>
 </li>
@@ -415,7 +416,41 @@
 <hr>
 <ul>
 <li>刚发现原来阿里云还有一个海外构建的按钮。某些不能下载的东西可以通过这个构建<br><img src="/2019/06/10/docker/board.jpg" alt="board"></li>
-<li>此外我们登进入的时候有时候我们看不到我们的仓库，因为我们没有修改我们的仓库位置<br><img src="/2019/06/10/docker/area.jpg" alt="location"></li>
+<li>此外我们登进入的时候有时候我们看不到我们的仓库，因为我们没有修改我们的仓库位置<br><img src="/2019/06/10/docker/area.jpg" alt="location"><h4 id="docker相关"><a href="#docker相关" class="headerlink" title="docker相关"></a>docker相关</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -it ros:vins-fusion /bin/bash --name ros_vins # 使用ros:vins-fusion 这个镜像，创建一个名字为ros_vins的容器，并运行一个bash</span><br><span class="line">exit #退出镜像</span><br><span class="line">docker images_contanier_name restart</span><br><span class="line"><span class="meta">#</span><span class="bash"> 运行起来后是在后台，</span></span><br><span class="line">docker exec -it contanierIDorcontaniername /bin/bash #可以使用多运行一个实例</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="运行一个docker-的rabbit-mq-服务程序"><a href="#运行一个docker-的rabbit-mq-服务程序" class="headerlink" title="运行一个docker 的rabbit_mq 服务程序"></a>运行一个docker 的rabbit_mq 服务程序</h4><ul>
+<li><p>运行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 -v `<span class="built_in">pwd</span>`/data:/var/lib/rabbitmq --hostname rabbit_host -e RABBITMQ_DEFAULT_VHOST=my_vhost  </span><br><span class="line">-e RABBITMQ_DEFAULT_USER=shop -e RABBITMQ_DEFAULT_PASS=shop rabbitmq:3.7.7-management</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行命令解析</p>
+<ul>
+<li>-v <code>pwd</code>/data:/var/lib/rabbitmq<br>// -v 挂载本地volume到容器内部 ，将数据保存到本地。</li>
+<li>-e RABBITMQ_DEFAULT_VHOST=my_vhost  -e RABBITMQ_DEFAULT_USER=shop -e RABBITMQ_DEFAULT_PASS=shop<br>我创建的用户能够访问的用户空间  my_host  以及用户名， 用户密码 </li>
+<li>rabbitmq:3.7.7-management 为了我们能够看到我们相关的信息流，我们使用带管理页面的镜像   </li>
+<li>跑起来后我们访问 localhost:15672  即可查看相关的信息 。</li>
+<li><p>镜像我们可以去dockerhub 查看 rabbit 带management的 镜像版本 可以不用本地先pull</p>
+</li>
+<li><p><img src="/2019/06/10/docker/rabbit.jpg" alt="rabbit"></p>
+</li>
+</ul>
+</li>
+<li><p>如何查看能否连上rabbit_mq </p>
+<ul>
+<li>一个小demo  spring-boot</li>
+<li><p>appliction.yml </p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">rabbitmq:</span></span><br><span class="line"><span class="attr">    host:</span> <span class="string">localhost</span> </span><br><span class="line"><span class="attr">    username:</span> <span class="string">shop</span></span><br><span class="line"><span class="attr">    password:</span> <span class="string">shop</span></span><br><span class="line"><span class="attr">    port:</span> <span class="number">5672</span></span><br><span class="line"><span class="attr">    virtual-host:</span> <span class="string">my_vhost</span> <span class="comment"># shop 用户的工作空间，对应我们上面的设置，当前用用户只允许你在这个目录下运行，我是这么理解的，只要能用就行</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>项目入口以及队列的设置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.amqp.core.Queue;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Queue <span class="title">Queue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Queue(<span class="string">"hello"</span>); <span class="comment">// 设置一个队列</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置一个发送者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.amqp.core.AmqpTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> liliangbin  dumpling1520@gmail.com</span></span><br><span class="line"><span class="comment">* <span class="doctag">@date</span> 2019/6/20  13:10</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloSender</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AmqpTemplate rabbitTemplate;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String context = <span class="string">"hello "</span> + <span class="keyword">new</span> Date(); <span class="comment">// 我们的发送内容可以是一个类 但是最好能够继承实现seriarl 的那个类，具体是啥我忘了，大概是这个写的。序列化的那个类 还是接口</span></span><br><span class="line">        System.out.println(<span class="string">"Sender : "</span> + context);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.rabbitTemplate.convertAndSend(<span class="string">"hello"</span>, context); <span class="comment">//发送</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接收者 ，可以是不同的主机，我们把他卸载一个包里面  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.amqp.rabbit.annotation.RabbitHandler;</span><br><span class="line"><span class="keyword">import</span> org.springframework.amqp.rabbit.annotation.RabbitListener;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> liliangbin  dumpling1520@gmail.com</span></span><br><span class="line"><span class="comment">* <span class="doctag">@date</span> 2019/6/20  13:11</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@RabbitListener</span>(queues = <span class="string">"hello"</span>)  <span class="comment">//监听某一个接口 </span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloReceiver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RabbitHandler</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(String hello)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Receiver  : "</span> + hello);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
 </ul>
 
       
@@ -436,7 +471,7 @@
           
             <a href="/tags/docker/" rel="tag"># docker</a>
           
-            <a href="/tags/slam/" rel="tag"># slam</a>
+            <a href="/tags/rabbit-mq/" rel="tag"># rabbit_mq</a>
           
         </div>
       
@@ -459,8 +494,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/11/树莓派/" rel="prev" title="树莓派">
-                树莓派 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/11/树莓派/" rel="prev" title="树莓派安装keras python-opencv tensorflow 以及遇到的一些问题">
+                树莓派安装keras python-opencv tensorflow 以及遇到的一些问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -541,7 +576,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -554,7 +589,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -587,7 +622,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#阿里云下的docker-安装-以及仓库的配置"><span class="nav-number">1.</span> <span class="nav-text">阿里云下的docker 安装 以及仓库的配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装好后我们选择自己的一个"><span class="nav-number">2.</span> <span class="nav-text">安装好后我们选择自己的一个</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#仓库建立。以及建立自己的私有仓库，docker-pull-push"><span class="nav-number">3.</span> <span class="nav-text">仓库建立。以及建立自己的私有仓库，docker pull  push</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#其他修改问题不是问题。。。主要是子账户登录的时候需要修改。"><span class="nav-number">3.1.</span> <span class="nav-text">其他修改问题不是问题。。。主要是子账户登录的时候需要修改。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-打包镜像-以及上传问题"><span class="nav-number">4.</span> <span class="nav-text">docker 打包镜像 以及上传问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#阿里云下的docker-，以及运行一个rabbitmq的-docker程序"><span class="nav-number">1.</span> <span class="nav-text">阿里云下的docker ，以及运行一个rabbitmq的 docker程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装好后我们选择自己的一个"><span class="nav-number">2.</span> <span class="nav-text">安装好后我们选择自己的一个</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#仓库建立。以及建立自己的私有仓库，docker-pull-push"><span class="nav-number">3.</span> <span class="nav-text">仓库建立。以及建立自己的私有仓库，docker pull  push</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#其他修改问题不是问题。。。主要是子账户登录的时候需要修改。"><span class="nav-number">3.1.</span> <span class="nav-text">其他修改问题不是问题。。。主要是子账户登录的时候需要修改。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-打包镜像-以及上传问题"><span class="nav-number">4.</span> <span class="nav-text">docker 打包镜像 以及上传问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker相关"><span class="nav-number">5.</span> <span class="nav-text">docker相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行一个docker-的rabbit-mq-服务程序"><span class="nav-number">6.</span> <span class="nav-text">运行一个docker 的rabbit_mq 服务程序</span></a></li></ol></div>
             
 
           </div>

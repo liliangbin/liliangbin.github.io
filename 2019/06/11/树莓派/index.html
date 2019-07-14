@@ -82,14 +82,14 @@
 <meta name="description" content="折腾日记第一个问题， 树莓派安装的时候遇见了python的问题。1TypeError: unsupported operand type(s) for -=: &amp;apos;Retry&amp;apos; and &amp;apos;int&amp;apos;  当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114">
 <meta name="keywords" content="树莓派，Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="树莓派">
+<meta property="og:title" content="树莓派安装keras python-opencv tensorflow 以及遇到的一些问题">
 <meta property="og:url" content="https://liliangbin.github.io/2019/06/11/树莓派/index.html">
 <meta property="og:site_name" content="小鲸鱼的小木屋">
 <meta property="og:description" content="折腾日记第一个问题， 树莓派安装的时候遇见了python的问题。1TypeError: unsupported operand type(s) for -=: &amp;apos;Retry&amp;apos; and &amp;apos;int&amp;apos;  当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-12T02:59:59.825Z">
+<meta property="og:updated_time" content="2019-07-14T13:14:06.884Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="树莓派">
+<meta name="twitter:title" content="树莓派安装keras python-opencv tensorflow 以及遇到的一些问题">
 <meta name="twitter:description" content="折腾日记第一个问题， 树莓派安装的时候遇见了python的问题。1TypeError: unsupported operand type(s) for -=: &amp;apos;Retry&amp;apos; and &amp;apos;int&amp;apos;  当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114">
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>树莓派 | 小鲸鱼的小木屋</title>
+  <title>树莓派安装keras python-opencv tensorflow 以及遇到的一些问题 | 小鲸鱼的小木屋</title>
   
 
 
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">树莓派</h1>
+          <h1 class="post-title" itemprop="name headline">树莓派安装keras python-opencv tensorflow 以及遇到的一些问题</h1>
         
 
         <div class="post-meta">
@@ -394,6 +394,14 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python-sklearn</span><br><span class="line"><span class="meta">#</span><span class="bash"> opencv </span></span><br><span class="line">sudo apt-get install libopencv-dev  </span><br><span class="line">sudo apt-get install python-opencv</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<h4 id="树莓派遇到的问题"><a href="#树莓派遇到的问题" class="headerlink" title="树莓派遇到的问题"></a>树莓派遇到的问题</h4><ul>
+<li>无线网络打不开 因为rfkill 把wifi给block了，目的是为了让嵌入式设备更省电 </li>
+<li>开锁 rfkill list  找到  rfkill unblock 0 </li>
+<li>Ubuntu  mate 18.04 原声支持树莓派3b+ 不用那么麻烦</li>
+<li>树莓派ssh服务启动不了。 因为缺少 密钥文件 ，我们可以查看状态信息</li>
+<li>sudo service ssh status 会得到一个没有某个文件的信息</li>
+<li>会得到他现在有一个报错，对应的是在/etc/ssh/—- 那个目录下面没有文件，我们使用ssh-key-gen  新建一个密钥文件就可以了  ， ssh-key-gen  -t rsa -f /etc/ssh/ssh_host_rsa_key   这个地方的文件对应我们上个地方缺失的文件。</li>
+</ul>
 
       
     </div>
@@ -433,6 +441,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/14/arm-linux/" rel="prev" title="arm_linux 软件源的配置">
+                arm_linux 软件源的配置 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -512,7 +524,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -525,7 +537,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -558,7 +570,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#折腾日记"><span class="nav-number">1.</span> <span class="nav-text">折腾日记</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#第一个问题，-树莓派安装的时候遇见了python的问题。"><span class="nav-number">1.0.1.</span> <span class="nav-text">第一个问题， 树莓派安装的时候遇见了python的问题。</span></a></li></ol></li></ol><li class="nav-item nav-level-4"><a class="nav-link" href="#安装深度学习服务-keras-tensorflow-搜索相关的树莓派安装相关的方法。"><span class="nav-number">2.</span> <span class="nav-text">安装深度学习服务  keras  tensorflow  搜索相关的树莓派安装相关的方法。</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#折腾日记"><span class="nav-number">1.</span> <span class="nav-text">折腾日记</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#第一个问题，-树莓派安装的时候遇见了python的问题。"><span class="nav-number">1.0.1.</span> <span class="nav-text">第一个问题， 树莓派安装的时候遇见了python的问题。</span></a></li></ol></li></ol><li class="nav-item nav-level-4"><a class="nav-link" href="#安装深度学习服务-keras-tensorflow-搜索相关的树莓派安装相关的方法。"><span class="nav-number">2.</span> <span class="nav-text">安装深度学习服务  keras  tensorflow  搜索相关的树莓派安装相关的方法。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#树莓派遇到的问题"><span class="nav-number">3.</span> <span class="nav-text">树莓派遇到的问题</span></a></li></div>
             
 
           </div>

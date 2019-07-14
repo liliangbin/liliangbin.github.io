@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[树莓派]]></title>
+    <title><![CDATA[TX2_ros_RTABMAP_kinect2]]></title>
+    <url>%2F2019%2F07%2F14%2FTX2-ros-RTABMAP%2F</url>
+    <content type="text"><![CDATA[ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题 1W: GPG error: http://mirrors.ustc.edu.cn/ros/ubuntu xenial InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY F42ED6FBAB17C654 解决 1sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A # 复制上面的key ros 版本导致的opencv 问题 ，orbslam 以及vins 都是基于opencv3 以后的版本，最好使用Ubuntu 16.04 TX2 安装好相应的ros配置后，默认是不推荐rviz 的，但是我们可能会用到rviz 解决 123 unset GTK_IM_MODULE &gt;&gt; .bashrc ===&gt;solve the Segmentation fault ## It is not recommended to run rviz on most ARM-based CPUs. They're generally too slow, and the version of OpenGL ## that is provided by the software (mesa) libraries it not new enough to start rviz. 安装rtabmap sudo apt-get install ros-kinetic-rtabmap-ros 安装kinect 驱动 libfreet2 iai_kinect 百度吧 https://blog.csdn.net/weixin_41038905/article/details/80907580 或是直接去那俩的githu官网查看 运行kinect2 跑rtabmap建图 可参考链接 http://wiki.ros.org/rtabmap_ros 确立基础的坐标变化以及camera_link 和kinect2_link 的位置 123rosrun tf static_transform_publisher 0 0 0 -1.5707963267948966 0 -1.5707963267948966 camera_link kinect2_link 100- 启动相机 1roslaunch kinect2_bridge kinect2_bridge.launchpublish_tf:=true //启动相机，最后一个参数是为了让相机输出的pointcloud 有坐标 启动建图 123456roslaunch rtabmap_ros rgbd_mapping_kinect2.launch resolution:=qhd localization:=true //定位的方式打开 但是在使用过程种遇到了一些问题，选择放弃这个# 可见 使用Kinect的 qhd 格式 960*480 roslaunch rtabmap_ros rtabmap2.launch rtabmap_args:="--delete_db_on_start" rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=false# 建图不可见roslaunch rtabmap_ros rtabmap.launch rtabmap_args:="--delete_db_on_start" rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=false rtabmapviz:=false 启动可视化界面12roslaunch rtabmap_ros demo_turtlebot_rviz.launch# 在这里面为了得到一个可视化的二维地图，我们可以将map 选项修改为rtabmap/grid_map 导航模块-]]></content>
+      <tags>
+        <tag>slam</tag>
+        <tag>TX2</tag>
+        <tag>RTABMAP</tag>
+        <tag>ROS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[arm_linux 软件源的配置]]></title>
+    <url>%2F2019%2F07%2F14%2Farm-linux%2F</url>
+    <content type="text"><![CDATA[arm_linux软件源的修改。 arm Linux和x86 的软件源是不一样的，x86 对应的是/ubuntu arm 对应的是 /ubuntu-ports 同时我们的系统同样也要分发行版 树莓派 我们默认的查看 /etc/apt/source.list 里面默认的软件源 以及系统的发行版 Jessie 和 stretch 然后再去搞一个其他的镜像源 。注意修改 软件源和发行版 arm_linux (TX2/TK1) TX2 使用的是 Ubuntu 16.04 的系统 我们修改软件源为清华的软件源。 ubuntu就是x86 默认的，ports 就是arm 使用的，只有 x86 采用入口，最后我们把后缀改为ports 就行 。 这是我修改后的ports 源 1234567891011121314151617181920212223# README 这个是Ubuntu 16.04 的适配源，如果要改为 Ubuntu 14 或 18 的请把 xenial 修改为对应的发行号 trusty &gt;&gt;14.04 bionic &gt;&gt; 18.04 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ xenial main restricted universe multiversedeb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ xenial main restricted universe multiversedeb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ xenial-updates main restricted universe multiversedeb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ xenial-updates main restricted universe multiversedeb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ xenial-backports main restricted universe multiversedeb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ xenial-backports main restricted universe multiversedeb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ xenial-security main restricted universe multiversedeb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ xenial-security main restricted universe multiverse# 后面还有俩预发布源，我给删了，那个很有可能安装上一些有冲突的文件 。# 附上一个中科大的 , 如果不喜欢清华的，用中科大的也行 deb http://mirrors.ustc.edu.cn/ubuntu-ports/ xenial main multiverse restricted universedeb http://mirrors.ustc.edu.cn/ubuntu-ports/ xenial-backports main multiverse restricted universedeb http://mirrors.ustc.edu.cn/ubuntu-ports/ xenial-proposed main multiverse restricted universedeb http://mirrors.ustc.edu.cn/ubuntu-ports/ xenial-security main multiverse restricted universedeb http://mirrors.ustc.edu.cn/ubuntu-ports/ xenial-updates main multiverse restricted universedeb-src http://mirrors.ustc.edu.cn/ubuntu-ports/ xenial main multiverse restricted universedeb-src http://mirrors.ustc.edu.cn/ubuntu-ports/ xenial-backports main multiverse restricted universedeb-src http://mirrors.ustc.edu.cn/ubuntu-ports/ xenial-proposed main multiverse restricted universedeb-src http://mirrors.ustc.edu.cn/ubuntu-ports/ xenial-security main multiverse restricted universedeb-src http://mirrors.ustc.edu.cn/ubuntu-ports/ xenial-updates main multiverse restricted universe 最后可能无法解析源 什么https 什么的，因为清华的软件源前缀是使用的 https 安装 apt-transport-https sudo apt-get install apt-transport-https]]></content>
+      <tags>
+        <tag>树莓派，TX2</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[树莓派安装keras python-opencv tensorflow 以及遇到的一些问题]]></title>
     <url>%2F2019%2F06%2F11%2F%E6%A0%91%E8%8E%93%E6%B4%BE%2F</url>
-    <content type="text"><![CDATA[折腾日记第一个问题， 树莓派安装的时候遇见了python的问题。1TypeError: unsupported operand type(s) for -=: &apos;Retry&apos; and &apos;int&apos; 当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114.114.114 然后这个时候修改后第一次是可以的，然后我们遇到了另外一个问题 它的md5 下载验证失败 下载不完整的原因，我们用wget 重新手动下载 再用pip3 手动安装1THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package 总结上述问题，电压不够，造成了网络不稳定，出错了，使用树莓派默认得电源模块便可以了 树莓派局域网访问flask得应用时同样需要添加安装深度学习服务 keras tensorflow 搜索相关的树莓派安装相关的方法。 问题主要是用pip3 安装的时候需要很多的依赖，但是有时候因为网络问题，不稳定，(电源问题)，使用国内的pip源 安装方案 详见 https://blog.csdn.net/perry0418/article/details/80994840 安装arm版的TensorFlow，方法参考：https://github.com/samjabrahams/tensorflow-on-raspberry-pi 安装keras 1234567891011sudo apt-get install libhdf5-serial-devsudo pip install h5py 安装过程大概需要30-40分钟sudo apt-get install python-scipy 亲测不能使用pip安装（坑！）！ 安装过程大概5分钟 如果是python3 安装需要修改为 python3-scipysudo pip install keras 安装过程2-3分钟（安装opencv，没有测试，系统自带）sudo apt-get install python-opencv opencv-python 安装告诉我们缺少依赖 1234567sudo apt-get update #安装依赖库sudo apt-get install libhdf5-devsudo apt-get install libatlas-base-devsudo apt-get install libjasper-devsudo apt-get install libqt4-testsudo apt-get install libqtgui4sudo apt-get update sklearn 1234sudo apt-get install python-sklearn# opencv sudo apt-get install libopencv-dev sudo apt-get install python-opencv]]></content>
+    <content type="text"><![CDATA[折腾日记第一个问题， 树莓派安装的时候遇见了python的问题。1TypeError: unsupported operand type(s) for -=: &apos;Retry&apos; and &apos;int&apos; 当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114.114.114 然后这个时候修改后第一次是可以的，然后我们遇到了另外一个问题 它的md5 下载验证失败 下载不完整的原因，我们用wget 重新手动下载 再用pip3 手动安装1THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package 总结上述问题，电压不够，造成了网络不稳定，出错了，使用树莓派默认得电源模块便可以了 树莓派局域网访问flask得应用时同样需要添加安装深度学习服务 keras tensorflow 搜索相关的树莓派安装相关的方法。 问题主要是用pip3 安装的时候需要很多的依赖，但是有时候因为网络问题，不稳定，(电源问题)，使用国内的pip源 安装方案 详见 https://blog.csdn.net/perry0418/article/details/80994840 安装arm版的TensorFlow，方法参考：https://github.com/samjabrahams/tensorflow-on-raspberry-pi 安装keras 1234567891011sudo apt-get install libhdf5-serial-devsudo pip install h5py 安装过程大概需要30-40分钟sudo apt-get install python-scipy 亲测不能使用pip安装（坑！）！ 安装过程大概5分钟 如果是python3 安装需要修改为 python3-scipysudo pip install keras 安装过程2-3分钟（安装opencv，没有测试，系统自带）sudo apt-get install python-opencv opencv-python 安装告诉我们缺少依赖 1234567sudo apt-get update #安装依赖库sudo apt-get install libhdf5-devsudo apt-get install libatlas-base-devsudo apt-get install libjasper-devsudo apt-get install libqt4-testsudo apt-get install libqtgui4sudo apt-get update sklearn 1234sudo apt-get install python-sklearn# opencv sudo apt-get install libopencv-dev sudo apt-get install python-opencv 树莓派遇到的问题 无线网络打不开 因为rfkill 把wifi给block了，目的是为了让嵌入式设备更省电 开锁 rfkill list 找到 rfkill unblock 0 Ubuntu mate 18.04 原声支持树莓派3b+ 不用那么麻烦 树莓派ssh服务启动不了。 因为缺少 密钥文件 ，我们可以查看状态信息 sudo service ssh status 会得到一个没有某个文件的信息 会得到他现在有一个报错，对应的是在/etc/ssh/—- 那个目录下面没有文件，我们使用ssh-key-gen 新建一个密钥文件就可以了 ， ssh-key-gen -t rsa -f /etc/ssh/ssh_host_rsa_key 这个地方的文件对应我们上个地方缺失的文件。]]></content>
       <tags>
         <tag>树莓派，Linux</tag>
       </tags>
@@ -11,10 +30,10 @@
   <entry>
     <title><![CDATA[docker]]></title>
     <url>%2F2019%2F06%2F10%2Fdocker%2F</url>
-    <content type="text"><![CDATA[阿里云下的docker 安装 以及仓库的配置 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun 阿里云容器服务位置 https://cr.console.aliyun.com/cn-qingdao/instances/repositories 安装好后我们选择自己的一个 我们在上图中首先设置好我们固定密码，这个密码对应一个当前登录的密码。 （docker login - username= **） 然后我们可以使用一个加速后的镜像源。 假如我们使用子用户的时候，我们需要用子用户登录后再重新设置一次， 子用户的登录入口时不一样的。 https://signin.aliyun.com 仓库建立。以及建立自己的私有仓库，docker pull push 命名空间，仓库名，代码源 其他修改问题不是问题。。。主要是子账户登录的时候需要修改。docker 打包镜像 以及上传问题 本地打包镜像并上传到阿里云的私有仓库里 123456 sudo docker login --username=docker@1808011574081122 registry.cn-shanghai.aliyuncs.com# 后缀仓库名对应你账号登录后阿里云分配的仓库位置 docker tag ros:vins-fusion registry.cn-shanghai.aliyuncs.com/upchsop/ros:vins_fusion_v1 # tag 一定要写全仓库路径，不然它会默认使用dockerhub的仓库 docker push registry.cn-shanghai.aliyuncs.com/upchsop/ros:vins_fusion_v1 # 提交镜像 上传代码使用云端构建项目 构建规则可以由我们自己定义 优势，本地访问外部网络速度太慢，阿里云的速度还阔以 某些网络下载不下来的还是没有办法。哭唧唧 刚发现原来阿里云还有一个海外构建的按钮。某些不能下载的东西可以通过这个构建 此外我们登进入的时候有时候我们看不到我们的仓库，因为我们没有修改我们的仓库位置]]></content>
+    <content type="text"><![CDATA[阿里云下的docker ，以及运行一个rabbitmq的 docker程序 12# 使用的是阿里云的安装方式 https://yq.aliyun.com/articles/110806?spm=5176.8351553.0.0.5e3b19914aBPO5curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun 阿里云容器服务位置 https://cr.console.aliyun.com/cn-qingdao/instances/repositories 安装好后我们选择自己的一个 我们在上图中首先设置好我们固定密码，这个密码对应一个当前登录的密码。 （docker login - username= **） 然后我们可以使用一个加速后的镜像源。 假如我们使用子用户的时候，我们需要用子用户登录后再重新设置一次， 子用户的登录入口时不一样的。 https://signin.aliyun.com 仓库建立。以及建立自己的私有仓库，docker pull push 命名空间，仓库名，代码源 其他修改问题不是问题。。。主要是子账户登录的时候需要修改。docker 打包镜像 以及上传问题 本地打包镜像并上传到阿里云的私有仓库里 123456 sudo docker login --username=docker@1808011574081122 registry.cn-shanghai.aliyuncs.com# 后缀仓库名对应你账号登录后阿里云分配的仓库位置 docker tag ros:vins-fusion registry.cn-shanghai.aliyuncs.com/upchsop/ros:vins_fusion_v1 # tag 一定要写全仓库路径，不然它会默认使用dockerhub的仓库 docker push registry.cn-shanghai.aliyuncs.com/upchsop/ros:vins_fusion_v1 # 提交镜像 上传代码使用云端构建项目 构建规则可以由我们自己定义 优势，本地访问外部网络速度太慢，阿里云的速度还阔以 某些网络下载不下来的还是没有办法。哭唧唧 刚发现原来阿里云还有一个海外构建的按钮。某些不能下载的东西可以通过这个构建 此外我们登进入的时候有时候我们看不到我们的仓库，因为我们没有修改我们的仓库位置docker相关12345docker run -it ros:vins-fusion /bin/bash --name ros_vins # 使用ros:vins-fusion 这个镜像，创建一个名字为ros_vins的容器，并运行一个bashexit #退出镜像docker images_contanier_name restart# 运行起来后是在后台，docker exec -it contanierIDorcontaniername /bin/bash #可以使用多运行一个实例 运行一个docker 的rabbit_mq 服务程序 运行命令 12docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 -v `pwd`/data:/var/lib/rabbitmq --hostname rabbit_host -e RABBITMQ_DEFAULT_VHOST=my_vhost -e RABBITMQ_DEFAULT_USER=shop -e RABBITMQ_DEFAULT_PASS=shop rabbitmq:3.7.7-management 运行命令解析 -v pwd/data:/var/lib/rabbitmq// -v 挂载本地volume到容器内部 ，将数据保存到本地。 -e RABBITMQ_DEFAULT_VHOST=my_vhost -e RABBITMQ_DEFAULT_USER=shop -e RABBITMQ_DEFAULT_PASS=shop我创建的用户能够访问的用户空间 my_host 以及用户名， 用户密码 rabbitmq:3.7.7-management 为了我们能够看到我们相关的信息流，我们使用带管理页面的镜像 跑起来后我们访问 localhost:15672 即可查看相关的信息 。 镜像我们可以去dockerhub 查看 rabbit 带management的 镜像版本 可以不用本地先pull 如何查看能否连上rabbit_mq 一个小demo spring-boot appliction.yml 1234567spring:rabbitmq: host: localhost username: shop password: shop port: 5672 virtual-host: my_vhost # shop 用户的工作空间，对应我们上面的设置，当前用用户只允许你在这个目录下运行，我是这么理解的，只要能用就行 项目入口以及队列的设置 1234567891011121314151617import org.springframework.amqp.core.Queue;import org.springframework.boot.SpringApplication;import org.springframework.boot.autoconfigure.SpringBootApplication;import org.springframework.context.annotation.Bean;@SpringBootApplicationpublic class DemoApplication &#123; public static void main(String[] args) &#123; SpringApplication.run(DemoApplication.class, args); &#125; @Bean public Queue Queue() &#123; return new Queue("hello"); // 设置一个队列 &#125;&#125; 设置一个发送者 1234567891011121314151617181920212223import org.springframework.amqp.core.AmqpTemplate;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.stereotype.Component;import java.util.Date;/*** @author liliangbin dumpling1520@gmail.com* @date 2019/6/20 13:10**/@Componentpublic class HelloSender &#123; @Autowired private AmqpTemplate rabbitTemplate; public void send() &#123; String context = "hello " + new Date(); // 我们的发送内容可以是一个类 但是最好能够继承实现seriarl 的那个类，具体是啥我忘了，大概是这个写的。序列化的那个类 还是接口 System.out.println("Sender : " + context); this.rabbitTemplate.convertAndSend("hello", context); //发送 &#125;&#125; 接收者 ，可以是不同的主机，我们把他卸载一个包里面 12345678910111213141516171819202122package com.example.demo;import org.springframework.amqp.rabbit.annotation.RabbitHandler;import org.springframework.amqp.rabbit.annotation.RabbitListener;import org.springframework.stereotype.Component;/*** @author liliangbin dumpling1520@gmail.com* @date 2019/6/20 13:11**/@Component@RabbitListener(queues = "hello") //监听某一个接口 public class HelloReceiver &#123; @RabbitHandler public void process(String hello) &#123; System.out.println("Receiver : " + hello); &#125;&#125;]]></content>
       <tags>
         <tag>docker</tag>
-        <tag>slam</tag>
+        <tag>rabbit_mq</tag>
       </tags>
   </entry>
   <entry>
@@ -26,6 +45,14 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[如何利用vmvare 安装一个Android for PC]]></title>
+    <url>%2F2019%2F04%2F15%2FAndroid%2F</url>
+    <content type="text"><![CDATA[准备工作 寻找Android镜像 http://www.android-x86.org/download //在这个平台上有很多的Android资源vmvare如何安装，在网上找到一个教程。 https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html //最重要的是那个3D加速支持。。不然开始后就是一堆的命令行界面 同样，相同的方法可以运用到直接在日常用的PC机上安装Android。。但是没有找到有一个国内的Android 镜像]]></content>
+      <tags>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[jenkins配置]]></title>
     <url>%2F2019%2F04%2F15%2Fjenkins%2F</url>
     <content type="text"><![CDATA[准备工作，获取jenkins的deb文件（有的是用的war包）－ 我们先去其官网下载镜像。 https://jenkins.io/download/ 我们在这个地方下载ubuntu的 jenkins的安装。。 sudo dpkg -i jenkins.deb jenkins 查看是否安装成功service jenkins restart jenkins jenkins默认端口是8080 ,打开localhost:8080 因为这个文章是我已经搞定后再来写的就没有图了，直接说吧。 最开始进去的时候会叫你输入一个初始密码，，那个初始密码就在上面他给你的那个路径里面，你cat 出来粘贴上去就好。 然后一个很尴尬的事情，我当时遇到的是插件安装不上，，（offline)然后直接跳过。。然后叫你创建用户，密码。。这个后期登录用。－ 插件安装。git github maven ssh 然后本地maven jdk 配置。 - 在这个地方的java_home maven_home 是你的电脑jdk maven 安装路径。。 环境配置完成后。开始新建项目 构建项目,选择maven ,最后配置文件如图。 最后保存下来。主页面开始构建。。构建的目录在 /var/share/jenkins 这个目录下。默认，可能有不一样。 jenkins 端口配置。。－ 有的人可能8080端口被占用了，我们就可以把他的端口改到其他的地方。配置文件 var/lib/jenkins /etc/default/jenkins 这俩个都是配置文件，都需要我们去修改。。。。我是参照的这个人的一个博客。https://blog.whsir.com/post-1774.html 给大佬递茶。具体的配置端口就是把端口号改了就是了 网上还有通过改war 包运行的时候端口，，，没有试过，觉得这个不是一个很好的方法，，最好是改配置文件。。]]></content>
@@ -34,11 +61,12 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[如何利用vmvare 安装一个Android for PC]]></title>
-    <url>%2F2019%2F04%2F15%2FAndroid%2F</url>
-    <content type="text"><![CDATA[准备工作 寻找Android镜像 http://www.android-x86.org/download //在这个平台上有很多的Android资源vmvare如何安装，在网上找到一个教程。 https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html //最重要的是那个3D加速支持。。不然开始后就是一堆的命令行界面 同样，相同的方法可以运用到直接在日常用的PC机上安装Android。。但是没有找到有一个国内的Android 镜像]]></content>
+    <title><![CDATA[shiro jwt]]></title>
+    <url>%2F2019%2F04%2F15%2Fjwt_shiro%2F</url>
+    <content type="text"><![CDATA[spring-boot-jwtjwt做一个授权管理 api 序言 半吊子一个，大家有什么好意见或是简介，务必issue下 项目地址： https://github.com/liliangbin/spring-boot-jwt 同样，感谢一位大佬，也是在他的项目基础上建立起来的。 他的项目地址 ：https://github.com/Smith-Cruise/Spring-Boot-Shiro 但是同样因为他在于数据库的连接上没有搞定，所以也就是有了这个例子 不讲具体方法，说说程序的逻辑。第一步，shiro ，jwt maven配置。 12345678910&lt;dependency&gt; &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt; &lt;artifactId&gt;jjwt&lt;/artifactId&gt; &lt;version&gt;0.7.0&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt; &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt; &lt;version&gt;1.3.2&lt;/version&gt;&lt;/dependency&gt; 添加shiro俩个基类。 shiroConfig 这个类是shiro的主入口。。包含的是shiro框架使用的逻辑。 使用逻辑。。请求从shiroConfig这个类进去，然后经过过滤器，，过滤器是自己重写的，JwtAuthenticationFilter 只有过滤没有报错才能进入myealm这地方。。 而进去myRealm后，进行的是doGetAuthenticationInfo 。这个类主要的是判断密码和用户名是否正确，(因为我们使用的是jwt传递过来的是一个token，，所以最后校验的时候哪里填的是俩个token，如果觉得有问题可以看看最后返回的那个类的参数。。） 当我们的密码校验完毕后，我们才是最后的登陆成功。。。我们才能使用他的权限使用。 同样这个类也是对于url匹配关系的配置。。 ` Map&lt;String, String&gt; filterRuleMap = new HashMap&lt;&gt;(); // 所有请求通过我们自己的JWT Filter filterRuleMap.put(“/**”, “jwt”); // 访问401和404页面不通过我们的Filter filterRuleMap.put(“/401”, “anon”); filterRuleMap.put(“/login”,”anon”); filterRuleMap.put(“/name”,”anon”); //当然也是可以在controller中通过注解配置。 myRealm 该类的主要作用是鉴权和授权。 doGetAuthorizationInfo 这个方法主要是用来获取用户的权限，和角色。 doGetAuthenticationInfo 这个方法的作用主要是用来登陆的 jwt，需要做什么。 在jwt中我们会使用到一个token类，作为中间的一个传输对象。。在shiro中同样是有一个，所以我们需要的是让这个token类 实现一个接口 public class AccessToken implements AuthenticationToken //这个地方重载的俩个方法名字其实和myRealm里面最后密码验证时一样的，，所以我们在那个地方才传递的是来个相同的token @Override public Object getPrincipal() { return access_token; } @Override public Object getCredentials() { return access_token; } 因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session cookie， 使用jwt鉴权。 apache shiro 当然还有其他的功能，，，另外有一个关于shiro的例子， https://github.com/liliangbin/apache-shiro]]></content>
       <tags>
-        <tag>Android</tag>
+        <tag>spring</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -50,6 +78,14 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[MySQL数据库更新的备份及复原]]></title>
+    <url>%2F2019%2F04%2F15%2Fdatabase%2F</url>
+    <content type="text"><![CDATA[数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）方法一 因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql 使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据） 备份数据，MySQL的备份数据方法，这个地方我使用的是备份所有的数据库，mysql dump命令，可以实现热备份，（以后可以考虑一下备份数据库 配合crontab ） 参考链接 MySQLdump备份数据库1mysqldump -u root -pPASSWORD --all-databases &gt; sqlfile.sql 备份好后会在当前文件夹下得到一个文件。 进入lnmp文件夹下后卸载lnmp（如何没有了再下载就行） 1./uninstall.sh lnmp环境的卸载的时候会自动给你生成一个备份的文件夹，（卸载完后才发现，我们也可以用这个文件夹的东西来进行数据的回复）可以参考这个博客lnmp的数据库备份文件夹 卸载完后再install嘛，这个不讨论了。我么再来数据的恢复。 1source sqlfile.sql //使用source命令还原数据库包括用户的配置 但是这个时候就再source完毕后出现问题。出现了拒绝访问的情况。1mysql -u root -p password //出现了拒绝访问的情况 数据库用户信息需要更新 这个问题是真的没道理，扎心，后来网上找打一个例子，这个是密码问题出问题了，所以我们采用跳过密码验证的那一步。参考这个地方mysqld免密登录 /etc/my.cnf 在里面的mysqld后加上 skip-grant-tables 然后我们重启MySQL。。应该能够直接过去了。但是后来还有一个问题，就是不能新建用户了。解决办法，好像是更新用户表，我这里好像没有记载下来。希望后面的笔记能够别这么水吧。 后来的问题，数据库的3306端口莫名给关了修改/etc/syscong/iptables 里面关于数据库的3306的限制 Linux端口问题]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[mysql]]></title>
     <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
     <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
@@ -58,11 +94,12 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[MySQL数据库更新的备份及复原]]></title>
-    <url>%2F2019%2F04%2F15%2Fdatabase%2F</url>
-    <content type="text"><![CDATA[数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）方法一 因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql 使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据） 备份数据，MySQL的备份数据方法，这个地方我使用的是备份所有的数据库，mysql dump命令，可以实现热备份，（以后可以考虑一下备份数据库 配合crontab ） 参考链接 MySQLdump备份数据库1mysqldump -u root -pPASSWORD --all-databases &gt; sqlfile.sql 备份好后会在当前文件夹下得到一个文件。 进入lnmp文件夹下后卸载lnmp（如何没有了再下载就行） 1./uninstall.sh lnmp环境的卸载的时候会自动给你生成一个备份的文件夹，（卸载完后才发现，我们也可以用这个文件夹的东西来进行数据的回复）可以参考这个博客lnmp的数据库备份文件夹 卸载完后再install嘛，这个不讨论了。我么再来数据的恢复。 1source sqlfile.sql //使用source命令还原数据库包括用户的配置 但是这个时候就再source完毕后出现问题。出现了拒绝访问的情况。1mysql -u root -p password //出现了拒绝访问的情况 数据库用户信息需要更新 这个问题是真的没道理，扎心，后来网上找打一个例子，这个是密码问题出问题了，所以我们采用跳过密码验证的那一步。参考这个地方mysqld免密登录 /etc/my.cnf 在里面的mysqld后加上 skip-grant-tables 然后我们重启MySQL。。应该能够直接过去了。但是后来还有一个问题，就是不能新建用户了。解决办法，好像是更新用户表，我这里好像没有记载下来。希望后面的笔记能够别这么水吧。 后来的问题，数据库的3306端口莫名给关了修改/etc/syscong/iptables 里面关于数据库的3306的限制 Linux端口问题]]></content>
+    <title><![CDATA[cpu查看]]></title>
+    <url>%2F2019%2F04%2F15%2Fcpu%2F</url>
+    <content type="text"><![CDATA[linux 查看物理cpu个数，核数，逻辑cpu个数总核数 = 物理cpu个数 * 每颗cpu的核数总逻辑cpu个数 = 物理cpu个数 每颗cpu的核数 超线程数 查看物理cpu个数cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l 查看每个物理cpu的core的个数 (就是核数)cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq 查看逻辑CPU的个数cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l 查看CPU信息（型号）cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c]]></content>
       <tags>
-        <tag>MySQL</tag>
+        <tag>linux</tag>
+        <tag>cpu</tag>
       </tags>
   </entry>
   <entry>
@@ -83,30 +120,12 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[shiro jwt]]></title>
-    <url>%2F2019%2F04%2F15%2Fjwt_shiro%2F</url>
-    <content type="text"><![CDATA[spring-boot-jwtjwt做一个授权管理 api 序言 半吊子一个，大家有什么好意见或是简介，务必issue下 项目地址： https://github.com/liliangbin/spring-boot-jwt 同样，感谢一位大佬，也是在他的项目基础上建立起来的。 他的项目地址 ：https://github.com/Smith-Cruise/Spring-Boot-Shiro 但是同样因为他在于数据库的连接上没有搞定，所以也就是有了这个例子 不讲具体方法，说说程序的逻辑。第一步，shiro ，jwt maven配置。 12345678910&lt;dependency&gt; &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt; &lt;artifactId&gt;jjwt&lt;/artifactId&gt; &lt;version&gt;0.7.0&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt; &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt; &lt;version&gt;1.3.2&lt;/version&gt;&lt;/dependency&gt; 添加shiro俩个基类。 shiroConfig 这个类是shiro的主入口。。包含的是shiro框架使用的逻辑。 使用逻辑。。请求从shiroConfig这个类进去，然后经过过滤器，，过滤器是自己重写的，JwtAuthenticationFilter 只有过滤没有报错才能进入myealm这地方。。 而进去myRealm后，进行的是doGetAuthenticationInfo 。这个类主要的是判断密码和用户名是否正确，(因为我们使用的是jwt传递过来的是一个token，，所以最后校验的时候哪里填的是俩个token，如果觉得有问题可以看看最后返回的那个类的参数。。） 当我们的密码校验完毕后，我们才是最后的登陆成功。。。我们才能使用他的权限使用。 同样这个类也是对于url匹配关系的配置。。 ` Map&lt;String, String&gt; filterRuleMap = new HashMap&lt;&gt;(); // 所有请求通过我们自己的JWT Filter filterRuleMap.put(“/**”, “jwt”); // 访问401和404页面不通过我们的Filter filterRuleMap.put(“/401”, “anon”); filterRuleMap.put(“/login”,”anon”); filterRuleMap.put(“/name”,”anon”); //当然也是可以在controller中通过注解配置。 myRealm 该类的主要作用是鉴权和授权。 doGetAuthorizationInfo 这个方法主要是用来获取用户的权限，和角色。 doGetAuthenticationInfo 这个方法的作用主要是用来登陆的 jwt，需要做什么。 在jwt中我们会使用到一个token类，作为中间的一个传输对象。。在shiro中同样是有一个，所以我们需要的是让这个token类 实现一个接口 public class AccessToken implements AuthenticationToken //这个地方重载的俩个方法名字其实和myRealm里面最后密码验证时一样的，，所以我们在那个地方才传递的是来个相同的token @Override public Object getPrincipal() { return access_token; } @Override public Object getCredentials() { return access_token; } 因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session cookie， 使用jwt鉴权。 apache shiro 当然还有其他的功能，，，另外有一个关于shiro的例子， https://github.com/liliangbin/apache-shiro]]></content>
-      <tags>
-        <tag>spring</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[ssh learn]]></title>
     <url>%2F2019%2F04%2F15%2Fssh%2F</url>
     <content type="text"><![CDATA[Linux ssh ssh的意义 这是一个用的是远程登录的操作。同时可以用于文件的上传和下载 相比于密码登录。这样不会中间人截取数据，（除了在第一次登录时被截取了数据） 思想。本地创建一个公钥，同时提交给服务器。在第一次登录的时候输入密码，下次登录的时候直接用ssh username@host 然后主机看是否能够解析出密码，如果能够接下出来，则是正确的。这样就不会出现 ssh操作 直接登陆的方式（每次都是需要输入密码） 12345 $ ssh user@host // //另外一种方式 $ ssh -p 8080 user@host //在这个地方登录的是以8080端口与登录 。ssh 默认的端口是22然后输入密码： 用ssh 公钥登录 本地看是否有公钥了如果没有执行此项操作 1$ ssh-keygen //这个是在本地生成一个公钥 然后把你的秘钥提交到服务器 1$ ssh-copy-id user@host 然后就是能够直接通过 ssh user@host 访问服务器了 备注 host 可以是你的ip 例如 127.0.0.1 类型的 或是例如域名 yb.upc.edu.cn]]></content>
       <tags>
         <tag>linux</tag>
         <tag>服务器运维</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[cpu查看]]></title>
-    <url>%2F2019%2F04%2F15%2Fcpu%2F</url>
-    <content type="text"><![CDATA[linux 查看物理cpu个数，核数，逻辑cpu个数总核数 = 物理cpu个数 * 每颗cpu的核数总逻辑cpu个数 = 物理cpu个数 每颗cpu的核数 超线程数 查看物理cpu个数cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l 查看每个物理cpu的core的个数 (就是核数)cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq 查看逻辑CPU的个数cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l 查看CPU信息（型号）cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>cpu</tag>
       </tags>
   </entry>
   <entry>
