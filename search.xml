@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[TX2_ros_RTABMAP_kinect2]]></title>
     <url>%2F2019%2F07%2F14%2FTX2-ros-RTABMAP%2F</url>
-    <content type="text"><![CDATA[ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题 1W: GPG error: http://mirrors.ustc.edu.cn/ros/ubuntu xenial InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY F42ED6FBAB17C654 解决 1sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A # 复制上面的key ros 版本导致的opencv 问题 ，orbslam 以及vins 都是基于opencv3 以后的版本，最好使用Ubuntu 16.04 TX2 安装好相应的ros配置后，默认是不推荐rviz 的，但是我们可能会用到rviz 解决 123 unset GTK_IM_MODULE &gt;&gt; .bashrc ===&gt;solve the Segmentation fault ## It is not recommended to run rviz on most ARM-based CPUs. They're generally too slow, and the version of OpenGL ## that is provided by the software (mesa) libraries it not new enough to start rviz. 安装rtabmap sudo apt-get install ros-kinetic-rtabmap-ros 安装kinect 驱动 libfreet2 iai_kinect 百度吧 https://blog.csdn.net/weixin_41038905/article/details/80907580 或是直接去那俩的githu官网查看 运行kinect2 跑rtabmap建图 可参考链接 http://wiki.ros.org/rtabmap_ros 确立基础的坐标变化以及camera_link 和kinect2_link 的位置 123rosrun tf static_transform_publisher 0 0 0 -1.5707963267948966 0 -1.5707963267948966 camera_link kinect2_link 100- 启动相机 1roslaunch kinect2_bridge kinect2_bridge.launchpublish_tf:=true //启动相机，最后一个参数是为了让相机输出的pointcloud 有坐标 启动建图 123456roslaunch rtabmap_ros rgbd_mapping_kinect2.launch resolution:=qhd localization:=true //定位的方式打开 但是在使用过程种遇到了一些问题，选择放弃这个# 可见 使用Kinect的 qhd 格式 960*480 roslaunch rtabmap_ros rtabmap2.launch rtabmap_args:="--delete_db_on_start" rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=false# 建图不可见roslaunch rtabmap_ros rtabmap.launch rtabmap_args:="--delete_db_on_start" rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=false rtabmapviz:=false 启动可视化界面12roslaunch rtabmap_ros demo_turtlebot_rviz.launch# 在这里面为了得到一个可视化的二维地图，我们可以将map 选项修改为rtabmap/grid_map 导航模块-]]></content>
+    <content type="text"><![CDATA[ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题 1W: GPG error: http://mirrors.ustc.edu.cn/ros/ubuntu xenial InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY F42ED6FBAB17C654 解决 1sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A # 复制上面的key ros 版本导致的opencv 问题 ，orbslam 以及vins 都是基于opencv3 以后的版本，最好使用Ubuntu 16.04 TX2 安装好相应的ros配置后，默认是不推荐rviz 的，但是我们可能会用到rviz 解决 12345 unset GTK_IM_MODULE &gt;&gt; .bashrc ===&gt;solve the Segmentation fault ## It is not recommended to run rviz on most ARM-based CPUs. They're generally too slow, and the version of OpenGL ## that is provided by the software (mesa) libraries it not new enough to start rviz.## 待处理，这个地方我们的设置我忘记是什么了，待我有时间的时候去看下 安装rtabmap sudo apt-get install ros-kinetic-rtabmap-ros https://github.com/introlab/rtabmap_ros # 或是使用博主官方给我们的链接安装，他里面有例子 安装kinect 驱动 libfreet2 iai_kinect 百度吧 https://blog.csdn.net/weixin_41038905/article/details/80907580 或是直接去那俩的github官网查看 注意Kinect的时候我们有一个参数叫做 publish_tf 我们把他设置为true的时候发布的pointcloud数据才有坐标值运行kinect2 跑rtabmap建图 可参考链接 http://wiki.ros.org/rtabmap_ros 确立基础的坐标变化以及camera_link 和kinect2_link 的位置 1rosrun tf static_transform_publisher 0 0 0 -1.5707963267948966 0 -1.5707963267948966 camera_link kinect2_link 100 上面是一个tf的静态变换，在tf变换中一般有以下几种，map odom base_link laser_link (camera_link kinect2_link ) …..map 一般就是robot的基础坐标，也就是世界坐标，odom 是里程计坐标 。 base_link 一般是小车的基座，和小车的map坐标系重合。（我们在做move_base 导航的时候最好也是用base_link 或是他的基座，例如我们的camera_link，和map的姿势是相同的） tf 的意义，定义两个刚体之间的位置，以及姿势的关系， 关于参数的定义 rosrun tf static_transform_publisher x y z yawl patich roll father_link child_link period_in_ms(发布间隔) 分别的意义在于 x y z 对应该刚体中心相对于上个link的位置，然后 yawl pitch roll 分别对应于偏航角，俯仰角，翻滚角，这个对应于刚体运动的知识，可以去补充一下相关的知识。 其中注意 yaw pitch roll 不要弄错，可以通过rviz查看， 红色是x ， 绿色是y， 蓝色是z 静态发布信息还有一种是四元数的方式发布，不会。。。。我 reference https://www.jianshu.com/p/83bbf69ba6d3 tf 变换重要么，相当重要，同时我们也需要理解倒tf变换的意义，我，，，真的没有看懂，但是基本也就是知道他们之间怎么看是否重合了，啊哈哈， rviz （我们当时的小车在路径规划完毕后每次都会往一个角度转一个角度，然后再开始运行，没错，就是跑倒另外的地方去了结果自己的跑丢了。） 启动相机 12```bashroslaunch kinect2_bridge kinect2_bridge.launchpublish_tf:=true //启动相机，最后一个参数是为了让相机输出的pointcloud 有坐标 启动建图 //这一块的启动有时候需要参考着官方给的例子来看着，因为很多时候会出现很多奇怪的问题。重启，欸 123456roslaunch rtabmap_ros rgbd_mapping_kinect2.launch resolution:=qhd localization:=true //定位的方式打开 但是在使用过程种遇到了一些问题，选择放弃这个# 可见 使用Kinect的 qhd 格式 960*480 roslaunch rtabmap_ros rtabmap2.launch rtabmap_args:="--delete_db_on_start" rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=false# 建图不可见roslaunch rtabmap_ros rtabmap.launch rtabmap_args:="--delete_db_on_start" rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=false rtabmapviz:=false 启动可视化界面12roslaunch rtabmap_ros demo_turtlebot_rviz.launch# 在这里面为了得到一个可视化的二维地图，我们可以将map 选项修改为rtabmap/grid_map 导航模块 先说思路， 假激光，我们使用 depthimage_to_laserscan 包将来自Kinect2 的图像以及深度信息转化为scan 的数据类型。 https://github.com/liliangbin/move_base_rtab-map/blob/master/launch/laser_scan.launch 投影地图法，我们利用kinect2 的Kinect2/qhd/points 接口出来的带有坐标的cloud 信息，经过rtbmap 的 nodelet 转化后生成一个投影地图，作为局部地图的输入 https://github.com/liliangbin/move_base_rtab-map/blob/master/launch/node.launch reference http://wiki.ros.org/rtabmap_ros/Tutorials/StereoOutdoorNavigation move_base 需要输入的东西 ，odom cloud 然后再move_base还需要一个代价地图得输入。]]></content>
       <tags>
         <tag>slam</tag>
         <tag>TX2</tag>
@@ -45,22 +45,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[如何利用vmvare 安装一个Android for PC]]></title>
-    <url>%2F2019%2F04%2F15%2FAndroid%2F</url>
-    <content type="text"><![CDATA[准备工作 寻找Android镜像 http://www.android-x86.org/download //在这个平台上有很多的Android资源vmvare如何安装，在网上找到一个教程。 https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html //最重要的是那个3D加速支持。。不然开始后就是一堆的命令行界面 同样，相同的方法可以运用到直接在日常用的PC机上安装Android。。但是没有找到有一个国内的Android 镜像]]></content>
-      <tags>
-        <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[jenkins配置]]></title>
-    <url>%2F2019%2F04%2F15%2Fjenkins%2F</url>
-    <content type="text"><![CDATA[准备工作，获取jenkins的deb文件（有的是用的war包）－ 我们先去其官网下载镜像。 https://jenkins.io/download/ 我们在这个地方下载ubuntu的 jenkins的安装。。 sudo dpkg -i jenkins.deb jenkins 查看是否安装成功service jenkins restart jenkins jenkins默认端口是8080 ,打开localhost:8080 因为这个文章是我已经搞定后再来写的就没有图了，直接说吧。 最开始进去的时候会叫你输入一个初始密码，，那个初始密码就在上面他给你的那个路径里面，你cat 出来粘贴上去就好。 然后一个很尴尬的事情，我当时遇到的是插件安装不上，，（offline)然后直接跳过。。然后叫你创建用户，密码。。这个后期登录用。－ 插件安装。git github maven ssh 然后本地maven jdk 配置。 - 在这个地方的java_home maven_home 是你的电脑jdk maven 安装路径。。 环境配置完成后。开始新建项目 构建项目,选择maven ,最后配置文件如图。 最后保存下来。主页面开始构建。。构建的目录在 /var/share/jenkins 这个目录下。默认，可能有不一样。 jenkins 端口配置。。－ 有的人可能8080端口被占用了，我们就可以把他的端口改到其他的地方。配置文件 var/lib/jenkins /etc/default/jenkins 这俩个都是配置文件，都需要我们去修改。。。。我是参照的这个人的一个博客。https://blog.whsir.com/post-1774.html 给大佬递茶。具体的配置端口就是把端口号改了就是了 网上还有通过改war 包运行的时候端口，，，没有试过，觉得这个不是一个很好的方法，，最好是改配置文件。。]]></content>
-      <tags>
-        <tag>linux，服务器运维</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[shiro jwt]]></title>
     <url>%2F2019%2F04%2F15%2Fjwt_shiro%2F</url>
     <content type="text"><![CDATA[spring-boot-jwtjwt做一个授权管理 api 序言 半吊子一个，大家有什么好意见或是简介，务必issue下 项目地址： https://github.com/liliangbin/spring-boot-jwt 同样，感谢一位大佬，也是在他的项目基础上建立起来的。 他的项目地址 ：https://github.com/Smith-Cruise/Spring-Boot-Shiro 但是同样因为他在于数据库的连接上没有搞定，所以也就是有了这个例子 不讲具体方法，说说程序的逻辑。第一步，shiro ，jwt maven配置。 12345678910&lt;dependency&gt; &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt; &lt;artifactId&gt;jjwt&lt;/artifactId&gt; &lt;version&gt;0.7.0&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt; &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt; &lt;version&gt;1.3.2&lt;/version&gt;&lt;/dependency&gt; 添加shiro俩个基类。 shiroConfig 这个类是shiro的主入口。。包含的是shiro框架使用的逻辑。 使用逻辑。。请求从shiroConfig这个类进去，然后经过过滤器，，过滤器是自己重写的，JwtAuthenticationFilter 只有过滤没有报错才能进入myealm这地方。。 而进去myRealm后，进行的是doGetAuthenticationInfo 。这个类主要的是判断密码和用户名是否正确，(因为我们使用的是jwt传递过来的是一个token，，所以最后校验的时候哪里填的是俩个token，如果觉得有问题可以看看最后返回的那个类的参数。。） 当我们的密码校验完毕后，我们才是最后的登陆成功。。。我们才能使用他的权限使用。 同样这个类也是对于url匹配关系的配置。。 ` Map&lt;String, String&gt; filterRuleMap = new HashMap&lt;&gt;(); // 所有请求通过我们自己的JWT Filter filterRuleMap.put(“/**”, “jwt”); // 访问401和404页面不通过我们的Filter filterRuleMap.put(“/401”, “anon”); filterRuleMap.put(“/login”,”anon”); filterRuleMap.put(“/name”,”anon”); //当然也是可以在controller中通过注解配置。 myRealm 该类的主要作用是鉴权和授权。 doGetAuthorizationInfo 这个方法主要是用来获取用户的权限，和角色。 doGetAuthenticationInfo 这个方法的作用主要是用来登陆的 jwt，需要做什么。 在jwt中我们会使用到一个token类，作为中间的一个传输对象。。在shiro中同样是有一个，所以我们需要的是让这个token类 实现一个接口 public class AccessToken implements AuthenticationToken //这个地方重载的俩个方法名字其实和myRealm里面最后密码验证时一样的，，所以我们在那个地方才传递的是来个相同的token @Override public Object getPrincipal() { return access_token; } @Override public Object getCredentials() { return access_token; } 因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session cookie， 使用jwt鉴权。 apache shiro 当然还有其他的功能，，，另外有一个关于shiro的例子， https://github.com/liliangbin/apache-shiro]]></content>
@@ -70,27 +54,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux 常用命令]]></title>
-    <url>%2F2019%2F04%2F15%2FLinux_shell_command%2F</url>
-    <content type="text"><![CDATA[shell命令apt cache get 12345$ sudo apt-cache search 安装的软件.....或是你不知道你需要的那个软件的名字。可以进行模糊的搜索$ sudo apt-cache search | grep 'jdk' //jdk是你要安装的软件包含的某个值 装软件的时候我们第一部总是需要先确认是那个软件 然后我们才能更加贴合我们的需求来找软件 123456$ sudo apt-get install software// 可能会需要不能安装的问题，告诉你可能存在依赖的问题 // 可能你需要这个命令$ sudo apt-get install -f // 修复依赖 同样如果再centos下面的话，包管理工具是yum 同样的可以用相同的方法。 123$ yum search jdk$ yum install **** nohup 这个命令代表的是后台挂起的意思。例如 nohup java -jar demo.jar &amp; &gt;log.txt 在这个里面nohup 代表后台挂起 &amp;代表的是退出session后不会停止 查看相关的进程 1ps -aux |grep main.py # 后台运行的main.py 的进程然后杀死它 服务器防火墙问题 更多的更新以后在说]]></content>
+    <title><![CDATA[如何利用vmvare 安装一个Android for PC]]></title>
+    <url>%2F2019%2F04%2F15%2FAndroid%2F</url>
+    <content type="text"><![CDATA[准备工作 寻找Android镜像 http://www.android-x86.org/download //在这个平台上有很多的Android资源vmvare如何安装，在网上找到一个教程。 https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html //最重要的是那个3D加速支持。。不然开始后就是一堆的命令行界面 同样，相同的方法可以运用到直接在日常用的PC机上安装Android。。但是没有找到有一个国内的Android 镜像]]></content>
       <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[MySQL数据库更新的备份及复原]]></title>
-    <url>%2F2019%2F04%2F15%2Fdatabase%2F</url>
-    <content type="text"><![CDATA[数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）方法一 因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql 使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据） 备份数据，MySQL的备份数据方法，这个地方我使用的是备份所有的数据库，mysql dump命令，可以实现热备份，（以后可以考虑一下备份数据库 配合crontab ） 参考链接 MySQLdump备份数据库1mysqldump -u root -pPASSWORD --all-databases &gt; sqlfile.sql 备份好后会在当前文件夹下得到一个文件。 进入lnmp文件夹下后卸载lnmp（如何没有了再下载就行） 1./uninstall.sh lnmp环境的卸载的时候会自动给你生成一个备份的文件夹，（卸载完后才发现，我们也可以用这个文件夹的东西来进行数据的回复）可以参考这个博客lnmp的数据库备份文件夹 卸载完后再install嘛，这个不讨论了。我么再来数据的恢复。 1source sqlfile.sql //使用source命令还原数据库包括用户的配置 但是这个时候就再source完毕后出现问题。出现了拒绝访问的情况。1mysql -u root -p password //出现了拒绝访问的情况 数据库用户信息需要更新 这个问题是真的没道理，扎心，后来网上找打一个例子，这个是密码问题出问题了，所以我们采用跳过密码验证的那一步。参考这个地方mysqld免密登录 /etc/my.cnf 在里面的mysqld后加上 skip-grant-tables 然后我们重启MySQL。。应该能够直接过去了。但是后来还有一个问题，就是不能新建用户了。解决办法，好像是更新用户表，我这里好像没有记载下来。希望后面的笔记能够别这么水吧。 后来的问题，数据库的3306端口莫名给关了修改/etc/syscong/iptables 里面关于数据库的3306的限制 Linux端口问题]]></content>
-      <tags>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mysql]]></title>
-    <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
-    <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
-      <tags>
-        <tag>MySQL</tag>
+        <tag>Android</tag>
       </tags>
   </entry>
   <entry>
@@ -103,11 +71,35 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[linux 常用命令]]></title>
+    <url>%2F2019%2F04%2F15%2FLinux_shell_command%2F</url>
+    <content type="text"><![CDATA[shell命令apt cache get 12345$ sudo apt-cache search 安装的软件.....或是你不知道你需要的那个软件的名字。可以进行模糊的搜索$ sudo apt-cache search | grep 'jdk' //jdk是你要安装的软件包含的某个值 装软件的时候我们第一部总是需要先确认是那个软件 然后我们才能更加贴合我们的需求来找软件 123456$ sudo apt-get install software// 可能会需要不能安装的问题，告诉你可能存在依赖的问题 // 可能你需要这个命令$ sudo apt-get install -f // 修复依赖 同样如果再centos下面的话，包管理工具是yum 同样的可以用相同的方法。 123$ yum search jdk$ yum install **** nohup 这个命令代表的是后台挂起的意思。例如 nohup java -jar demo.jar &amp; &gt;log.txt 在这个里面nohup 代表后台挂起 &amp;代表的是退出session后不会停止 查看相关的进程 1ps -aux |grep main.py # 后台运行的main.py 的进程然后杀死它 服务器防火墙问题 更多的更新以后在说]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Hello liliangbin]]></title>
     <url>%2F2019%2F04%2F15%2Finnovation%2F</url>
     <content type="text"><![CDATA[基于云的服务 全部的数据都是在云端存储 现象 本地的资源使用度低， 安全性，存在被黑客渗透的危险 重装系统后环境和软件还需要自己重新配。 分析： 为什么利用低啦？ 现在这个已经做的很好了。我们还没有达到太大的需求。。。。 安全性能 ，数据都是在本地存储，同时由于我们上网习惯的不友好，容易让电脑暴露在黑客们的眼中。。。 有时候自己数据量太大。希望能够进行重置电脑，或是重装系统的时候，数据量太大，同时花的时间真多。 解决办法–方向由上面的这些原因我们可以知道。能解决这个的办法就是基于云了。。。 资源的利用率不高，那么我们就可以按需来分配资源。。本地留一定的缓存存储。同样可以减少CPU，内存的容量。进而节约成本。。 数据的话，个人的信息及各个应用的数据都是存储在云端中。我们有一个私人的账号，假如我们换了设备，我们可以通过登陆账号同步你的的信息。 在应用上。将是基于web的app。各个应用之间能够相互的联系，同时我想要添加某个应用的时候我们可以去应用商店直接添加。 开发环境的配置的话能够直接通过向云端要求什么环境，然后自动给你配置完毕，不用自己手动配置。 对大型游戏可以采用本地优化，比如针对游戏环境进行特殊的处理。 软件提供商，就像QQ音乐网页版那样。但是需要的功能需要更加的全面。 不足的地方 浏览器的性能必须足够强劲。 网速必须够快 网络问题，随时随地能够连上网 软件提供商必须要跟上这个系统的更新 。]]></content>
       <tags>
         <tag>瞎想</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MySQL数据库更新的备份及复原]]></title>
+    <url>%2F2019%2F04%2F15%2Fdatabase%2F</url>
+    <content type="text"><![CDATA[数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）方法一 因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql 使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据） 备份数据，MySQL的备份数据方法，这个地方我使用的是备份所有的数据库，mysql dump命令，可以实现热备份，（以后可以考虑一下备份数据库 配合crontab ） 参考链接 MySQLdump备份数据库1mysqldump -u root -pPASSWORD --all-databases &gt; sqlfile.sql 备份好后会在当前文件夹下得到一个文件。 进入lnmp文件夹下后卸载lnmp（如何没有了再下载就行） 1./uninstall.sh lnmp环境的卸载的时候会自动给你生成一个备份的文件夹，（卸载完后才发现，我们也可以用这个文件夹的东西来进行数据的回复）可以参考这个博客lnmp的数据库备份文件夹 卸载完后再install嘛，这个不讨论了。我么再来数据的恢复。 1source sqlfile.sql //使用source命令还原数据库包括用户的配置 但是这个时候就再source完毕后出现问题。出现了拒绝访问的情况。1mysql -u root -p password //出现了拒绝访问的情况 数据库用户信息需要更新 这个问题是真的没道理，扎心，后来网上找打一个例子，这个是密码问题出问题了，所以我们采用跳过密码验证的那一步。参考这个地方mysqld免密登录 /etc/my.cnf 在里面的mysqld后加上 skip-grant-tables 然后我们重启MySQL。。应该能够直接过去了。但是后来还有一个问题，就是不能新建用户了。解决办法，好像是更新用户表，我这里好像没有记载下来。希望后面的笔记能够别这么水吧。 后来的问题，数据库的3306端口莫名给关了修改/etc/syscong/iptables 里面关于数据库的3306的限制 Linux端口问题]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[jenkins配置]]></title>
+    <url>%2F2019%2F04%2F15%2Fjenkins%2F</url>
+    <content type="text"><![CDATA[准备工作，获取jenkins的deb文件（有的是用的war包）－ 我们先去其官网下载镜像。 https://jenkins.io/download/ 我们在这个地方下载ubuntu的 jenkins的安装。。 sudo dpkg -i jenkins.deb jenkins 查看是否安装成功service jenkins restart jenkins jenkins默认端口是8080 ,打开localhost:8080 因为这个文章是我已经搞定后再来写的就没有图了，直接说吧。 最开始进去的时候会叫你输入一个初始密码，，那个初始密码就在上面他给你的那个路径里面，你cat 出来粘贴上去就好。 然后一个很尴尬的事情，我当时遇到的是插件安装不上，，（offline)然后直接跳过。。然后叫你创建用户，密码。。这个后期登录用。－ 插件安装。git github maven ssh 然后本地maven jdk 配置。 - 在这个地方的java_home maven_home 是你的电脑jdk maven 安装路径。。 环境配置完成后。开始新建项目 构建项目,选择maven ,最后配置文件如图。 最后保存下来。主页面开始构建。。构建的目录在 /var/share/jenkins 这个目录下。默认，可能有不一样。 jenkins 端口配置。。－ 有的人可能8080端口被占用了，我们就可以把他的端口改到其他的地方。配置文件 var/lib/jenkins /etc/default/jenkins 这俩个都是配置文件，都需要我们去修改。。。。我是参照的这个人的一个博客。https://blog.whsir.com/post-1774.html 给大佬递茶。具体的配置端口就是把端口号改了就是了 网上还有通过改war 包运行的时候端口，，，没有试过，觉得这个不是一个很好的方法，，最好是改配置文件。。]]></content>
+      <tags>
+        <tag>linux，服务器运维</tag>
       </tags>
   </entry>
   <entry>
@@ -126,6 +118,14 @@
       <tags>
         <tag>linux</tag>
         <tag>服务器运维</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mysql]]></title>
+    <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
+    <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
+      <tags>
+        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>

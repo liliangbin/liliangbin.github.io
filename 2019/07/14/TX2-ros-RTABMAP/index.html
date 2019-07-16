@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题  1W: GPG error: http://mirrors.ustc.edu.cn/ros/ubuntu xenial InRelease: The fol">
+<meta name="description" content="ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题">
 <meta name="keywords" content="slam,TX2,RTABMAP,ROS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TX2_ros_RTABMAP_kinect2">
 <meta property="og:url" content="https://liliangbin.github.io/2019/07/14/TX2-ros-RTABMAP/index.html">
 <meta property="og:site_name" content="小鲸鱼的小木屋">
-<meta property="og:description" content="ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题  1W: GPG error: http://mirrors.ustc.edu.cn/ros/ubuntu xenial InRelease: The fol">
+<meta property="og:description" content="ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-14T13:30:30.218Z">
+<meta property="og:updated_time" content="2019-07-16T13:48:41.394Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TX2_ros_RTABMAP_kinect2">
-<meta name="twitter:description" content="ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题  1W: GPG error: http://mirrors.ustc.edu.cn/ros/ubuntu xenial InRelease: The fol">
+<meta name="twitter:description" content="ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题">
 
 
 
@@ -371,7 +371,8 @@
 <li><a href="http://wiki.ros.org/kinetic/Installation/Ubuntu" target="_blank" rel="noopener">ros 官网</a></li>
 <li>这个时候我们需要修改ros的软件源为国内的软件源</li>
 <li><a href="http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC" target="_blank" rel="noopener">http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC</a> //ros ros的国内源</li>
-<li>可能会出现没有密钥的问题</li>
+<li>可能会出现没有密钥的问题<a id="more"></a>
+</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">W: GPG error: http://mirrors.ustc.edu.cn/ros/ubuntu xenial InRelease: The following signatures couldn<span class="string">'t be verified because the public key is not available: NO_PUBKEY F42ED6FBAB17C654</span></span><br></pre></td></tr></table></figure>
 <ul>
@@ -379,38 +380,69 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A <span class="comment"># 复制上面的key</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>ros 版本导致的opencv  问题 ，orbslam 以及vins  都是基于opencv3 以后的版本，最好使用Ubuntu 16.04 </p>
-<ul>
-<li>TX2 安装好相应的ros配置后，默认是不推荐rviz 的，但是我们可能会用到rviz</li>
-<li>解决 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">unset</span> GTK_IM_MODULE  &gt;&gt; .bashrc   ===&gt;solve the Segmentation fault  </span><br><span class="line"><span class="comment">## It is not recommended to run rviz on most ARM-based CPUs. They're generally too slow, and the version of OpenGL </span></span><br><span class="line"><span class="comment">## that is provided by the software (mesa) libraries it not new enough to start rviz.</span></span><br></pre></td></tr></table></figure>
 </li>
-</ul>
+<li></li>
+<li>TX2 安装好相应的ros配置后，默认是不推荐rviz 的，但是我们可能会用到rviz</li>
+<li>解决 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">unset</span> GTK_IM_MODULE  &gt;&gt; .bashrc   ===&gt;solve the Segmentation fault  </span><br><span class="line"><span class="comment">## It is not recommended to run rviz on most ARM-based CPUs. They're generally too slow, and the version of OpenGL </span></span><br><span class="line"><span class="comment">## that is provided by the software (mesa) libraries it not new enough to start rviz.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 待处理，这个地方我们的设置我忘记是什么了，待我有时间的时候去看下</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h4 id="安装rtabmap"><a href="#安装rtabmap" class="headerlink" title="安装rtabmap"></a>安装rtabmap</h4><ul>
 <li>sudo apt-get install ros-kinetic-rtabmap-ros </li>
+<li><a href="https://github.com/introlab/rtabmap_ros" target="_blank" rel="noopener">https://github.com/introlab/rtabmap_ros</a> # 或是使用博主官方给我们的链接安装，他里面有例子</li>
 </ul>
 <h4 id="安装kinect-驱动-libfreet2-iai-kinect"><a href="#安装kinect-驱动-libfreet2-iai-kinect" class="headerlink" title="安装kinect 驱动 libfreet2 iai_kinect"></a>安装kinect 驱动 libfreet2 iai_kinect</h4><ul>
 <li>百度吧 </li>
 <li><a href="https://blog.csdn.net/weixin_41038905/article/details/80907580" target="_blank" rel="noopener">https://blog.csdn.net/weixin_41038905/article/details/80907580</a> </li>
-<li>或是直接去那俩的githu官网查看</li>
-</ul>
-<h4 id="运行kinect2-跑rtabmap建图"><a href="#运行kinect2-跑rtabmap建图" class="headerlink" title="运行kinect2 跑rtabmap建图"></a>运行kinect2 跑rtabmap建图</h4><ul>
+<li>或是直接去那俩的github官网查看</li>
+<li>注意Kinect的时候我们有一个参数叫做 publish_tf 我们把他设置为true的时候发布的pointcloud数据才有坐标值<h4 id="运行kinect2-跑rtabmap建图"><a href="#运行kinect2-跑rtabmap建图" class="headerlink" title="运行kinect2 跑rtabmap建图"></a>运行kinect2 跑rtabmap建图</h4></li>
 <li><p>可参考链接 <a href="http://wiki.ros.org/rtabmap_ros" target="_blank" rel="noopener">http://wiki.ros.org/rtabmap_ros</a></p>
 </li>
 <li><p>确立基础的坐标变化以及camera_link 和kinect2_link  的位置</p>
 </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rosrun tf static_transform_publisher 0 0 0 -1.5707963267948966 0 -1.5707963267948966 camera_link kinect2_link 100</span><br><span class="line"></span><br><span class="line">- 启动相机</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch kinect2_bridge kinect2_bridge.launchpublish_tf:=<span class="literal">true</span>  //启动相机，最后一个参数是为了让相机输出的pointcloud 有坐标</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosrun tf static_transform_publisher 0 0 0 -1.5707963267948966 0 -1.5707963267948966 camera_link kinect2_link 100</span><br></pre></td></tr></table></figure>
 <ul>
-<li>启动建图</li>
+<li>上面是一个tf的静态变换，在tf变换中一般有以下几种，map  odom  base_link  laser_link  (camera_link kinect2_link ) …..map  一般就是robot的基础坐标，也就是世界坐标，odom 是里程计坐标 。 base_link 一般是小车的基座，和小车的map坐标系重合。（我们在做move_base 导航的时候最好也是用base_link 或是他的基座，例如我们的camera_link，和map的姿势是相同的）</li>
+<li>tf 的意义，定义两个刚体之间的位置，以及姿势的关系，</li>
+<li>关于参数的定义  rosrun tf static_transform_publisher  x y z yawl patich roll father_link child_link  period_in_ms(发布间隔)</li>
+<li>分别的意义在于  x y z  对应该刚体中心相对于上个link的位置，然后 yawl  pitch roll 分别对应于偏航角，俯仰角，翻滚角，这个对应于刚体运动的知识，可以去补充一下相关的知识。 </li>
+<li>其中注意 yaw pitch roll 不要弄错，可以通过rviz查看， 红色是x ， 绿色是y， 蓝色是z</li>
+<li>静态发布信息还有一种是四元数的方式发布，不会。。。。我</li>
+<li><p>reference  <a href="https://www.jianshu.com/p/83bbf69ba6d3" target="_blank" rel="noopener">https://www.jianshu.com/p/83bbf69ba6d3</a></p>
+</li>
+<li><p>tf 变换重要么，相当重要，同时我们也需要理解倒tf变换的意义，我，，，真的没有看懂，但是基本也就是知道他们之间怎么看是否重合了，啊哈哈， rviz   （我们当时的小车在路径规划完毕后每次都会往一个角度转一个角度，然后再开始运行，没错，就是跑倒另外的地方去了结果自己的跑丢了。）</p>
+</li>
+<li></li>
+<li><p>启动相机</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">```bash</span><br><span class="line">roslaunch kinect2_bridge kinect2_bridge.launchpublish_tf:=true  //启动相机，最后一个参数是为了让相机输出的pointcloud 有坐标</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动建图 //这一块的启动有时候需要参考着官方给的例子来看着，因为很多时候会出现很多奇怪的问题。重启，欸 </p>
+</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">roslaunch rtabmap_ros rgbd_mapping_kinect2.launch resolution:=qhd localization:=<span class="literal">true</span> //定位的方式打开 但是在使用过程种遇到了一些问题，选择放弃这个</span><br><span class="line"><span class="comment"># 可见 使用Kinect的 qhd 格式 960*480 </span></span><br><span class="line">roslaunch rtabmap_ros rtabmap2.launch rtabmap_args:=<span class="string">"--delete_db_on_start"</span> rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 建图不可见</span></span><br><span class="line">roslaunch rtabmap_ros rtabmap.launch rtabmap_args:=<span class="string">"--delete_db_on_start"</span> rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=<span class="literal">false</span> rtabmapviz:=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>启动可视化界面<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">roslaunch rtabmap_ros demo_turtlebot_rviz.launch</span><br><span class="line"><span class="comment"># 在这里面为了得到一个可视化的二维地图，我们可以将map 选项修改为rtabmap/grid_map</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h4 id="导航模块"><a href="#导航模块" class="headerlink" title="导航模块"></a>导航模块</h4><p>- </p>
+<h4 id="导航模块"><a href="#导航模块" class="headerlink" title="导航模块"></a>导航模块</h4><ul>
+<li>先说思路，<ol>
+<li>假激光，我们使用 depthimage_to_laserscan 包将来自Kinect2 的图像以及深度信息转化为scan 的数据类型。  </li>
+</ol>
+<ul>
+<li><a href="https://github.com/liliangbin/move_base_rtab-map/blob/master/launch/laser_scan.launch" target="_blank" rel="noopener">https://github.com/liliangbin/move_base_rtab-map/blob/master/launch/laser_scan.launch</a></li>
+</ul>
+<ol start="2">
+<li>投影地图法，我们利用kinect2 的Kinect2/qhd/points  接口出来的带有坐标的cloud 信息，经过rtbmap 的  nodelet 转化后生成一个投影地图，作为局部地图的输入</li>
+</ol>
+<ul>
+<li><a href="https://github.com/liliangbin/move_base_rtab-map/blob/master/launch/node.launch" target="_blank" rel="noopener">https://github.com/liliangbin/move_base_rtab-map/blob/master/launch/node.launch</a> </li>
+</ul>
+</li>
+<li><p>reference  <a href="http://wiki.ros.org/rtabmap_ros/Tutorials/StereoOutdoorNavigation" target="_blank" rel="noopener">http://wiki.ros.org/rtabmap_ros/Tutorials/StereoOutdoorNavigation</a></p>
+</li>
+<li><p>move_base 需要输入的东西 ，odom    cloud   然后再move_base还需要一个代价地图得输入。</p>
+</li>
+</ul>
 
       
     </div>
