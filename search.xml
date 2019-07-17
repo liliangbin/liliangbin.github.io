@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[TX2_ros_RTABMAP_kinect2]]></title>
     <url>%2F2019%2F07%2F14%2FTX2-ros-RTABMAP%2F</url>
-    <content type="text"><![CDATA[ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题 1W: GPG error: http://mirrors.ustc.edu.cn/ros/ubuntu xenial InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY F42ED6FBAB17C654 解决 1sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A # 复制上面的key ros 版本导致的opencv 问题 ，orbslam 以及vins 都是基于opencv3 以后的版本，最好使用Ubuntu 16.04 TX2 安装好相应的ros配置后，默认是不推荐rviz 的，但是我们可能会用到rviz 解决 12345 unset GTK_IM_MODULE &gt;&gt; .bashrc ===&gt;solve the Segmentation fault ## It is not recommended to run rviz on most ARM-based CPUs. They're generally too slow, and the version of OpenGL ## that is provided by the software (mesa) libraries it not new enough to start rviz.## 待处理，这个地方我们的设置我忘记是什么了，待我有时间的时候去看下 安装rtabmap sudo apt-get install ros-kinetic-rtabmap-ros https://github.com/introlab/rtabmap_ros # 或是使用博主官方给我们的链接安装，他里面有例子 安装kinect 驱动 libfreet2 iai_kinect 百度吧 https://blog.csdn.net/weixin_41038905/article/details/80907580 或是直接去那俩的github官网查看 注意Kinect的时候我们有一个参数叫做 publish_tf 我们把他设置为true的时候发布的pointcloud数据才有坐标值运行kinect2 跑rtabmap建图 可参考链接 http://wiki.ros.org/rtabmap_ros 确立基础的坐标变化以及camera_link 和kinect2_link 的位置 1rosrun tf static_transform_publisher 0 0 0 -1.5707963267948966 0 -1.5707963267948966 camera_link kinect2_link 100 上面是一个tf的静态变换，在tf变换中一般有以下几种，map odom base_link laser_link (camera_link kinect2_link ) …..map 一般就是robot的基础坐标，也就是世界坐标，odom 是里程计坐标 。 base_link 一般是小车的基座，和小车的map坐标系重合。（我们在做move_base 导航的时候最好也是用base_link 或是他的基座，例如我们的camera_link，和map的姿势是相同的） tf 的意义，定义两个刚体之间的位置，以及姿势的关系， 关于参数的定义 rosrun tf static_transform_publisher x y z yawl patich roll father_link child_link period_in_ms(发布间隔) 分别的意义在于 x y z 对应该刚体中心相对于上个link的位置，然后 yawl pitch roll 分别对应于偏航角，俯仰角，翻滚角，这个对应于刚体运动的知识，可以去补充一下相关的知识。 其中注意 yaw pitch roll 不要弄错，可以通过rviz查看， 红色是x ， 绿色是y， 蓝色是z 静态发布信息还有一种是四元数的方式发布，不会。。。。我 reference https://www.jianshu.com/p/83bbf69ba6d3 tf 变换重要么，相当重要，同时我们也需要理解倒tf变换的意义，我，，，真的没有看懂，但是基本也就是知道他们之间怎么看是否重合了，啊哈哈， rviz （我们当时的小车在路径规划完毕后每次都会往一个角度转一个角度，然后再开始运行，没错，就是跑倒另外的地方去了结果自己的跑丢了。） 启动相机 12```bashroslaunch kinect2_bridge kinect2_bridge.launchpublish_tf:=true //启动相机，最后一个参数是为了让相机输出的pointcloud 有坐标 启动建图 //这一块的启动有时候需要参考着官方给的例子来看着，因为很多时候会出现很多奇怪的问题。重启，欸 123456roslaunch rtabmap_ros rgbd_mapping_kinect2.launch resolution:=qhd localization:=true //定位的方式打开 但是在使用过程种遇到了一些问题，选择放弃这个# 可见 使用Kinect的 qhd 格式 960*480 roslaunch rtabmap_ros rtabmap2.launch rtabmap_args:="--delete_db_on_start" rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=false# 建图不可见roslaunch rtabmap_ros rtabmap.launch rtabmap_args:="--delete_db_on_start" rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=false rtabmapviz:=false 启动可视化界面12roslaunch rtabmap_ros demo_turtlebot_rviz.launch# 在这里面为了得到一个可视化的二维地图，我们可以将map 选项修改为rtabmap/grid_map 导航模块 先说思路， 假激光，我们使用 depthimage_to_laserscan 包将来自Kinect2 的图像以及深度信息转化为scan 的数据类型。 https://github.com/liliangbin/move_base_rtab-map/blob/master/launch/laser_scan.launch 投影地图法，我们利用kinect2 的Kinect2/qhd/points 接口出来的带有坐标的cloud 信息，经过rtbmap 的 nodelet 转化后生成一个投影地图，作为局部地图的输入 https://github.com/liliangbin/move_base_rtab-map/blob/master/launch/node.launch reference http://wiki.ros.org/rtabmap_ros/Tutorials/StereoOutdoorNavigation move_base 需要输入的东西 ，odom cloud 然后再move_base还需要一个代价地图得输入。]]></content>
+    <content type="text"><![CDATA[ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题 1W: GPG error: http://mirrors.ustc.edu.cn/ros/ubuntu xenial InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY F42ED6FBAB17C654 解决 1sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A # 复制上面的key ros 版本导致的opencv 问题 ，orbslam 以及vins 都是基于opencv3 以后的版本，最好使用Ubuntu 16.04 TX2 安装好相应的ros配置后，默认是不推荐rviz 的，但是我们可能会用到rviz（arm 下得问题，性能原因，系统会做一些禁止，sefaultment fault） 解决 12345 unset GTK_IM_MODULE &gt;&gt; .bashrc ===&gt;solve the Segmentation fault ## It is not recommended to run rviz on most ARM-based CPUs. They're generally too slow, and the version of OpenGL ## that is provided by the software (mesa) libraries it not new enough to start rviz.## 待处理，这个地方我们的设置我忘记是什么了，待我有时间的时候去看下 安装rtabmap sudo apt-get install ros-kinetic-rtabmap-ros https://github.com/introlab/rtabmap_ros # 或是使用博主官方给我们的链接安装，他里面有例子 安装kinect 驱动 libfreet2 iai_kinect 百度吧 https://blog.csdn.net/weixin_41038905/article/details/80907580 或是直接去那俩的github官网查看 注意Kinect的时候我们有一个参数叫做 publish_tf 我们把他设置为true的时候发布的pointcloud数据才有坐标值运行kinect2 跑rtabmap建图 可参考链接 http://wiki.ros.org/rtabmap_ros 确立基础的坐标变化以及camera_link 和kinect2_link 的位置 1rosrun tf static_transform_publisher 0 0 0 -1.5707963267948966 0 -1.5707963267948966 camera_link kinect2_link 100 上面是一个tf的静态变换，在tf变换中一般有以下几种，map odom base_link laser_link (camera_link kinect2_link ) …..map 一般就是robot的基础坐标，也就是世界坐标，odom 是里程计坐标 。 base_link 一般是小车的基座，和小车的map坐标系重合。（我们在做move_base 导航的时候最好也是用base_link 或是他的基座，例如我们的camera_link，和map的姿势是相同的） tf 的意义，定义两个刚体之间的位置，以及姿势的关系， 关于参数的定义 rosrun tf static_transform_publisher x y z yawl patich roll father_link child_link period_in_ms(发布间隔) 分别的意义在于 x y z 对应该刚体中心相对于上个link的位置，然后 yawl pitch roll 分别对应于偏航角，俯仰角，翻滚角，这个对应于刚体运动的知识，可以去补充一下相关的知识。 其中注意 yaw pitch roll 不要弄错，可以通过rviz查看， 红色是x ， 绿色是y， 蓝色是z 静态发布信息还有一种是四元数的方式发布，不会。。。。我 reference https://www.jianshu.com/p/83bbf69ba6d3 tf 变换重要么，相当重要，同时我们也需要理解倒tf变换的意义，我，，，真的没有看懂，但是基本也就是知道他们之间怎么看是否重合了，啊哈哈， rviz （我们当时的小车在路径规划完毕后每次都会往一个角度转一个角度，然后再开始运行，没错，就是跑倒另外的地方去了结果自己的跑丢了。） 启动相机 12```bashroslaunch kinect2_bridge kinect2_bridge.launchpublish_tf:=true //启动相机，最后一个参数是为了让相机输出的pointcloud 有坐标 启动建图 //这一块的启动有时候需要参考着官方给的例子来看着，因为很多时候会出现很多奇怪的问题。重启，欸 在rtabmap中有一些相关的service，我们，能够利用service修改rtabmap的导航和建图模式，以及其他的东西，具体可以查看rtabmap_ros 对于他的参数以及服务的定义，，，对了，他的nodelet的意义不是很明确。。。。咱太菜，没得办法。 123456roslaunch rtabmap_ros rgbd_mapping_kinect2.launch resolution:=qhd localization:=true //定位的方式打开 但是在使用过程种遇到了一些问题，选择放弃这个# 可见 使用Kinect的 qhd 格式 960*480 roslaunch rtabmap_ros rtabmap2.launch rtabmap_args:="--delete_db_on_start" rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=false# 建图不可见roslaunch rtabmap_ros rtabmap.launch rtabmap_args:="--delete_db_on_start" rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=false rtabmapviz:=false 启动可视化界面12roslaunch rtabmap_ros demo_turtlebot_rviz.launch# 在这里面为了得到一个可视化的二维地图，我们可以将map 选项修改为rtabmap/grid_map 导航模块 move_base 需要输入的东西 ，odom cloud 然后再move_base还需要一个代价地图得输入。这个代价地图由我们这里输入 先说思路，（导航需要输入） 假激光，我们使用 depthimage_to_laserscan 包将来自Kinect2 的图像以及深度信息转化为scan 的数据类型。（个人看法，我查看一个博主有说过，这个时候，我们可以修改rtabmap的启动参数，把他监听scan数据类型的参数打开，好像是一个 subscirbe_scan = true 就行。。但是感觉如果只是为了一个代价地图的话，假激光再输入给rtabmap的话，没有太大的意义，反而加大了计算机的计算量） https://github.com/liliangbin/move_base_rtab-map/blob/master/launch/laser_scan.launch 投影地图法，我们利用kinect2 的Kinect2/qhd/points 接口出来的带有坐标的cloud 信息，经过rtbmap 的 nodelet 转化后生成一个投影地图，作为局部地图的输入，其他的什么都不用修改。 https://github.com/liliangbin/move_base_rtab-map/blob/master/launch/node.launch reference http://wiki.ros.org/rtabmap_ros/Tutorials/StereoOutdoorNavigation 但是官方给我的例子我没有改出来，但是现在感觉还是有很多可以修改的地方， 代码实现，以及某些参数的意义。 我的实现方式为仅使用Kinect的深度信息，来建图，同时move_base 的输入为来自rtabmap的传入的grid_map 以及Odom 做为输入，同时代价地图为深度信息的points 节点通过rtabmap的转换节点变为投影地图，输入 base_local_planner_params.yaml 1234567891011121314151617181920212223242526272829303132TrajectoryPlannerROS:# Current limits based on AZ3 standalone configuration.acc_lim_x: 0.75 # x方向的加速度acc_lim_y: 0.0 # y方向的加速度，但是因为在二维平面上运动，也就没有必要，故为0acc_lim_theta: 4.00max_vel_x: 0.500 # x方向的最大速度 min_vel_x: 0.212 # 最小max_rotational_vel: 0.550 # 最大的旋转角速度min_in_place_rotational_vel: 0.15escape_vel: -0.10 # 逃离速度，在某个时候因为离的太近的时候需要有一个逃离速度holonomic_robot: false # 非全向的时候使用，例如 无人机时候开为truexy_goal_tolerance: 0.20yaw_goal_tolerance: 0.20sim_time: 1.7sim_granularity: 0.025vx_samples: 3vtheta_samples: 3vtheta_samples: 20goal_distance_bias: 0.8path_distance_bias: 0.6occdist_scale: 0.01heading_lookahead: 0.325dwa: trueoscillation_reset_dist: 0.05meter_scoring: true # 其他参数还没有细细的去了解 costmap_common_params.yaml 12345678910111213141516171819202122232425262728293031323334353637383940obstacle_range: 2.5raytrace_range: 3.0footprint: [[ 0.15, 0.15], [-0.15, 0.15], [-0.15, -0.15], [ 0.15, -0.15]]footprint_padding: 0.03#robot_radius: ir_of_robotinflation_radius: 0.55transform_tolerance: 1 # 很多时候如果转化由于tf转化是需要时间的，但是我们转化太慢，性能不够的时候，有一个容忍的时间，controller_patience: 2.0NavfnROS: allow_unknown: truerecovery_behaviors: [ &#123;name: conservative_clear, type: clear_costmap_recovery/ClearCostmapRecovery&#125;, &#123;name: aggressive_clear, type: clear_costmap_recovery/ClearCostmapRecovery&#125;]conservative_clear: reset_distance: 3.00aggressive_clear: reset_distance: 1.84cost_scaling_factor: 10.0# observation_sources: scan# scan: &#123;sensor_frame: kinect2_link, observation_persistence: 0.0, max_obstacle_height: 0.4, min_obstacle_height: 0.0, data_type: LaserScan, topic: /scan, marking: true, clearing: true&#125;# 这是两种代价地图的定义方式，一种是scan 一种是投影地图，我用scan没有出来，，然后换成了pointcloud2 ，还有在双目导航的那个地方，该配置文件的配置位置是不对的，我也不知道，反正我没跑出来。。。哭，然后参考一些其他的文件。observation_sources: point_cloud_sensor# assuming receiving a cloud from rtabmap_ros/obstacles_detection nodepoint_cloud_sensor: &#123; sensor_frame: camera_link, # 该帧对应的tf变化坐标，我也不知道了，，反正我都用的基础坐标系作为做关键的坐标系，， data_type: PointCloud2, topic: planner_cloud, expected_update_rate: 0.5, marking: true, clearing: true, min_obstacle_height: -99999.0, max_obstacle_height: 99999.0&#125; global_costmap_param.yaml 1234567global_costmap: global_frame: map # 世界坐标系 robot_base_frame: camera_link # base_link update_frequency: 0.5 publish_frequency: 0.5 static_map: true transform_tolerance: 3 local_costmap_params.yaml 12345678910111213141516171819202122232425262728local_costmap: global_frame: odom # 参照的坐标系，odom 作为移动的坐标系 robot_base_frame: camera_link # 机器人的base link ,我们在静态tf发布的时候有设置base_link为基础坐标系 update_frequency: 2.0 publish_frequency: 2.0 static_map: false #这个地方我们的静态地图选为false ，因为局部地图是随时变化的因为某些东西突然出现需要随时变化，于此同时，全局地图该参数必须与此值相反 rolling_window: true width: 4.0 height: 4.0 resolution: 0.025 origin_x: -2.0 origin_y: -2.0 transform_tolerance: 3 planner_frequency: 1.0 planner_patiente: 5.0 # observation_sources: scan # scan: &#123; # sensor_frame: kinect2_link, # data_type: LaserScan, # topic: /scan , # expected_update_rate: 0.5, # observation_persistence: 0.0, # marking: true, # clearing: true, # min_obstacle_height: -99999.0, # max_obstacle_height: 99999.0 # &#125; 在上述文件中，有用于机器人的大小设置，代价地图的边缘配置， 上位机和下位机得ros master 设置， 下位机对于轮子驱动得设置把摄像头得数据传输到网页中，利用网页来进行控制，（robotwebtools, 一个组织，专门是来做这一块的，虽然有很多的坑）]]></content>
       <tags>
         <tag>slam</tag>
         <tag>TX2</tag>
@@ -45,37 +45,12 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[shiro jwt]]></title>
-    <url>%2F2019%2F04%2F15%2Fjwt_shiro%2F</url>
-    <content type="text"><![CDATA[spring-boot-jwtjwt做一个授权管理 api 序言 半吊子一个，大家有什么好意见或是简介，务必issue下 项目地址： https://github.com/liliangbin/spring-boot-jwt 同样，感谢一位大佬，也是在他的项目基础上建立起来的。 他的项目地址 ：https://github.com/Smith-Cruise/Spring-Boot-Shiro 但是同样因为他在于数据库的连接上没有搞定，所以也就是有了这个例子 不讲具体方法，说说程序的逻辑。第一步，shiro ，jwt maven配置。 12345678910&lt;dependency&gt; &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt; &lt;artifactId&gt;jjwt&lt;/artifactId&gt; &lt;version&gt;0.7.0&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt; &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt; &lt;version&gt;1.3.2&lt;/version&gt;&lt;/dependency&gt; 添加shiro俩个基类。 shiroConfig 这个类是shiro的主入口。。包含的是shiro框架使用的逻辑。 使用逻辑。。请求从shiroConfig这个类进去，然后经过过滤器，，过滤器是自己重写的，JwtAuthenticationFilter 只有过滤没有报错才能进入myealm这地方。。 而进去myRealm后，进行的是doGetAuthenticationInfo 。这个类主要的是判断密码和用户名是否正确，(因为我们使用的是jwt传递过来的是一个token，，所以最后校验的时候哪里填的是俩个token，如果觉得有问题可以看看最后返回的那个类的参数。。） 当我们的密码校验完毕后，我们才是最后的登陆成功。。。我们才能使用他的权限使用。 同样这个类也是对于url匹配关系的配置。。 ` Map&lt;String, String&gt; filterRuleMap = new HashMap&lt;&gt;(); // 所有请求通过我们自己的JWT Filter filterRuleMap.put(“/**”, “jwt”); // 访问401和404页面不通过我们的Filter filterRuleMap.put(“/401”, “anon”); filterRuleMap.put(“/login”,”anon”); filterRuleMap.put(“/name”,”anon”); //当然也是可以在controller中通过注解配置。 myRealm 该类的主要作用是鉴权和授权。 doGetAuthorizationInfo 这个方法主要是用来获取用户的权限，和角色。 doGetAuthenticationInfo 这个方法的作用主要是用来登陆的 jwt，需要做什么。 在jwt中我们会使用到一个token类，作为中间的一个传输对象。。在shiro中同样是有一个，所以我们需要的是让这个token类 实现一个接口 public class AccessToken implements AuthenticationToken //这个地方重载的俩个方法名字其实和myRealm里面最后密码验证时一样的，，所以我们在那个地方才传递的是来个相同的token @Override public Object getPrincipal() { return access_token; } @Override public Object getCredentials() { return access_token; } 因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session cookie， 使用jwt鉴权。 apache shiro 当然还有其他的功能，，，另外有一个关于shiro的例子， https://github.com/liliangbin/apache-shiro]]></content>
-      <tags>
-        <tag>spring</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[如何利用vmvare 安装一个Android for PC]]></title>
-    <url>%2F2019%2F04%2F15%2FAndroid%2F</url>
-    <content type="text"><![CDATA[准备工作 寻找Android镜像 http://www.android-x86.org/download //在这个平台上有很多的Android资源vmvare如何安装，在网上找到一个教程。 https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html //最重要的是那个3D加速支持。。不然开始后就是一堆的命令行界面 同样，相同的方法可以运用到直接在日常用的PC机上安装Android。。但是没有找到有一个国内的Android 镜像]]></content>
-      <tags>
-        <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[cpu查看]]></title>
     <url>%2F2019%2F04%2F15%2Fcpu%2F</url>
     <content type="text"><![CDATA[linux 查看物理cpu个数，核数，逻辑cpu个数总核数 = 物理cpu个数 * 每颗cpu的核数总逻辑cpu个数 = 物理cpu个数 每颗cpu的核数 超线程数 查看物理cpu个数cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l 查看每个物理cpu的core的个数 (就是核数)cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq 查看逻辑CPU的个数cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l 查看CPU信息（型号）cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c]]></content>
       <tags>
         <tag>linux</tag>
         <tag>cpu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux 常用命令]]></title>
-    <url>%2F2019%2F04%2F15%2FLinux_shell_command%2F</url>
-    <content type="text"><![CDATA[shell命令apt cache get 12345$ sudo apt-cache search 安装的软件.....或是你不知道你需要的那个软件的名字。可以进行模糊的搜索$ sudo apt-cache search | grep 'jdk' //jdk是你要安装的软件包含的某个值 装软件的时候我们第一部总是需要先确认是那个软件 然后我们才能更加贴合我们的需求来找软件 123456$ sudo apt-get install software// 可能会需要不能安装的问题，告诉你可能存在依赖的问题 // 可能你需要这个命令$ sudo apt-get install -f // 修复依赖 同样如果再centos下面的话，包管理工具是yum 同样的可以用相同的方法。 123$ yum search jdk$ yum install **** nohup 这个命令代表的是后台挂起的意思。例如 nohup java -jar demo.jar &amp; &gt;log.txt 在这个里面nohup 代表后台挂起 &amp;代表的是退出session后不会停止 查看相关的进程 1ps -aux |grep main.py # 后台运行的main.py 的进程然后杀死它 服务器防火墙问题 更多的更新以后在说]]></content>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -95,20 +70,35 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[如何利用vmvare 安装一个Android for PC]]></title>
+    <url>%2F2019%2F04%2F15%2FAndroid%2F</url>
+    <content type="text"><![CDATA[准备工作 寻找Android镜像 http://www.android-x86.org/download //在这个平台上有很多的Android资源vmvare如何安装，在网上找到一个教程。 https://jingyan.baidu.com/article/7e4409531bf5252fc1e2ef67.html //最重要的是那个3D加速支持。。不然开始后就是一堆的命令行界面 同样，相同的方法可以运用到直接在日常用的PC机上安装Android。。但是没有找到有一个国内的Android 镜像]]></content>
+      <tags>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mysql]]></title>
+    <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
+    <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux 常用命令]]></title>
+    <url>%2F2019%2F04%2F15%2FLinux_shell_command%2F</url>
+    <content type="text"><![CDATA[shell命令apt cache get 12345$ sudo apt-cache search 安装的软件.....或是你不知道你需要的那个软件的名字。可以进行模糊的搜索$ sudo apt-cache search | grep 'jdk' //jdk是你要安装的软件包含的某个值 装软件的时候我们第一部总是需要先确认是那个软件 然后我们才能更加贴合我们的需求来找软件 123456$ sudo apt-get install software// 可能会需要不能安装的问题，告诉你可能存在依赖的问题 // 可能你需要这个命令$ sudo apt-get install -f // 修复依赖 同样如果再centos下面的话，包管理工具是yum 同样的可以用相同的方法。 123$ yum search jdk$ yum install **** nohup 这个命令代表的是后台挂起的意思。例如 nohup java -jar demo.jar &amp; &gt;log.txt 在这个里面nohup 代表后台挂起 &amp;代表的是退出session后不会停止 查看相关的进程 1ps -aux |grep main.py # 后台运行的main.py 的进程然后杀死它 服务器防火墙问题 更多的更新以后在说]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[jenkins配置]]></title>
     <url>%2F2019%2F04%2F15%2Fjenkins%2F</url>
     <content type="text"><![CDATA[准备工作，获取jenkins的deb文件（有的是用的war包）－ 我们先去其官网下载镜像。 https://jenkins.io/download/ 我们在这个地方下载ubuntu的 jenkins的安装。。 sudo dpkg -i jenkins.deb jenkins 查看是否安装成功service jenkins restart jenkins jenkins默认端口是8080 ,打开localhost:8080 因为这个文章是我已经搞定后再来写的就没有图了，直接说吧。 最开始进去的时候会叫你输入一个初始密码，，那个初始密码就在上面他给你的那个路径里面，你cat 出来粘贴上去就好。 然后一个很尴尬的事情，我当时遇到的是插件安装不上，，（offline)然后直接跳过。。然后叫你创建用户，密码。。这个后期登录用。－ 插件安装。git github maven ssh 然后本地maven jdk 配置。 - 在这个地方的java_home maven_home 是你的电脑jdk maven 安装路径。。 环境配置完成后。开始新建项目 构建项目,选择maven ,最后配置文件如图。 最后保存下来。主页面开始构建。。构建的目录在 /var/share/jenkins 这个目录下。默认，可能有不一样。 jenkins 端口配置。。－ 有的人可能8080端口被占用了，我们就可以把他的端口改到其他的地方。配置文件 var/lib/jenkins /etc/default/jenkins 这俩个都是配置文件，都需要我们去修改。。。。我是参照的这个人的一个博客。https://blog.whsir.com/post-1774.html 给大佬递茶。具体的配置端口就是把端口号改了就是了 网上还有通过改war 包运行的时候端口，，，没有试过，觉得这个不是一个很好的方法，，最好是改配置文件。。]]></content>
       <tags>
         <tag>linux，服务器运维</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springframework]]></title>
-    <url>%2F2019%2F04%2F15%2Fspring-learn-%2F</url>
-    <content type="text"><![CDATA[spring学习笔记 123456789101112@RestControllerpublic class GreetingController &#123; private static final String template = "Hello, %s!"; private final AtomicLong counter = new AtomicLong();//这个地方最想说的是俩个东西： format 和 atomicLong ，线程安全 @RequestMapping("/greeting") public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) &#123; return new Greeting(counter.incrementAndGet(), String.format(template, name)); &#125;&#125; spring项目启动的方法 两种方法 直接运行： ./mvnw spring-boot:run //直接运行的就是该springboot 项 jar包运行 ： ./mvnw clean package//打包成jar包 java -jar target / gs-rest-service-0.1.0.jar//运行该包]]></content>
-      <tags>
-        <tag>spring</tag>
-        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -121,11 +111,21 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[mysql]]></title>
-    <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
-    <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
+    <title><![CDATA[springframework]]></title>
+    <url>%2F2019%2F04%2F15%2Fspring-learn-%2F</url>
+    <content type="text"><![CDATA[spring学习笔记 123456789101112@RestControllerpublic class GreetingController &#123; private static final String template = "Hello, %s!"; private final AtomicLong counter = new AtomicLong();//这个地方最想说的是俩个东西： format 和 atomicLong ，线程安全 @RequestMapping("/greeting") public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) &#123; return new Greeting(counter.incrementAndGet(), String.format(template, name)); &#125;&#125; spring项目启动的方法 两种方法 直接运行： ./mvnw spring-boot:run //直接运行的就是该springboot 项 jar包运行 ： ./mvnw clean package//打包成jar包 java -jar target / gs-rest-service-0.1.0.jar//运行该包]]></content>
       <tags>
-        <tag>MySQL</tag>
+        <tag>spring</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[shiro jwt]]></title>
+    <url>%2F2019%2F04%2F15%2Fjwt_shiro%2F</url>
+    <content type="text"><![CDATA[spring-boot-jwtjwt做一个授权管理 api 序言 半吊子一个，大家有什么好意见或是简介，务必issue下 项目地址： https://github.com/liliangbin/spring-boot-jwt 同样，感谢一位大佬，也是在他的项目基础上建立起来的。 他的项目地址 ：https://github.com/Smith-Cruise/Spring-Boot-Shiro 但是同样因为他在于数据库的连接上没有搞定，所以也就是有了这个例子 不讲具体方法，说说程序的逻辑。第一步，shiro ，jwt maven配置。 12345678910&lt;dependency&gt; &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt; &lt;artifactId&gt;jjwt&lt;/artifactId&gt; &lt;version&gt;0.7.0&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt; &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt; &lt;version&gt;1.3.2&lt;/version&gt;&lt;/dependency&gt; 添加shiro俩个基类。 shiroConfig 这个类是shiro的主入口。。包含的是shiro框架使用的逻辑。 使用逻辑。。请求从shiroConfig这个类进去，然后经过过滤器，，过滤器是自己重写的，JwtAuthenticationFilter 只有过滤没有报错才能进入myealm这地方。。 而进去myRealm后，进行的是doGetAuthenticationInfo 。这个类主要的是判断密码和用户名是否正确，(因为我们使用的是jwt传递过来的是一个token，，所以最后校验的时候哪里填的是俩个token，如果觉得有问题可以看看最后返回的那个类的参数。。） 当我们的密码校验完毕后，我们才是最后的登陆成功。。。我们才能使用他的权限使用。 同样这个类也是对于url匹配关系的配置。。 ` Map&lt;String, String&gt; filterRuleMap = new HashMap&lt;&gt;(); // 所有请求通过我们自己的JWT Filter filterRuleMap.put(“/**”, “jwt”); // 访问401和404页面不通过我们的Filter filterRuleMap.put(“/401”, “anon”); filterRuleMap.put(“/login”,”anon”); filterRuleMap.put(“/name”,”anon”); //当然也是可以在controller中通过注解配置。 myRealm 该类的主要作用是鉴权和授权。 doGetAuthorizationInfo 这个方法主要是用来获取用户的权限，和角色。 doGetAuthenticationInfo 这个方法的作用主要是用来登陆的 jwt，需要做什么。 在jwt中我们会使用到一个token类，作为中间的一个传输对象。。在shiro中同样是有一个，所以我们需要的是让这个token类 实现一个接口 public class AccessToken implements AuthenticationToken //这个地方重载的俩个方法名字其实和myRealm里面最后密码验证时一样的，，所以我们在那个地方才传递的是来个相同的token @Override public Object getPrincipal() { return access_token; } @Override public Object getCredentials() { return access_token; } 因为要做的是前后端分离，所以也就是有了现在的这个样子，，放弃session cookie， 使用jwt鉴权。 apache shiro 当然还有其他的功能，，，另外有一个关于shiro的例子， https://github.com/liliangbin/apache-shiro]]></content>
+      <tags>
+        <tag>spring</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
