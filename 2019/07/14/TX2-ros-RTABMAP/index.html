@@ -87,10 +87,12 @@
 <meta property="og:site_name" content="小鲸鱼的小木屋">
 <meta property="og:description" content="ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-17T07:08:58.208Z">
+<meta property="og:image" content="https://liliangbin.github.io/2019/07/14/TX2-ros-RTABMAP/arm.jpg">
+<meta property="og:updated_time" content="2019-07-22T13:16:11.890Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TX2_ros_RTABMAP_kinect2">
 <meta name="twitter:description" content="ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题">
+<meta name="twitter:image" content="https://liliangbin.github.io/2019/07/14/TX2-ros-RTABMAP/arm.jpg">
 
 
 
@@ -462,8 +464,33 @@
 </li>
 <li><p>在上述文件中，有用于机器人的大小设置，代价地图的边缘配置，</p>
 <h4 id="上位机和下位机得ros-master-设置，"><a href="#上位机和下位机得ros-master-设置，" class="headerlink" title="上位机和下位机得ros master 设置，"></a>上位机和下位机得ros master 设置，</h4></li>
+<li>在对于上位机和下位机的配置上，我们使用了最常见的配置方式，网络的方式进行链接（同时又一种是基于arduino 的控制方式，他是基于串口的方式来处理的，同时他对于底部轮子的驱动，在ros中有一些写好的驱动）</li>
+<li>上位机 （都在bashrc 中配置，也就是你的shell的配置文件，如果你的默认bash 是zsh  则在zshrc 里面配置就行) export ROS_IP=192.169.137.43 ; export ROS_MASTER_URI=<a href="http://192.168.137.43:11311" target="_blank" rel="noopener">http://192.168.137.43:11311</a>  上位机作为主机</li>
+<li><p>下位机 export ROS_IP=192.168.137.44 ;export ROS_MASTER_URI=<a href="http://192.168.137.43:11311" target="_blank" rel="noopener">http://192.168.137.43:11311</a></p>
+</li>
+<li><p>问题，如果配置好了后，source  .bashrc  加载进配置，同时假如我直接在下机执行ros的操作的时候，他会去上位机请求roscore 管理信息，但是由于未启动，他会一直等待，故会出现输入ros命令后无法无反应的情况。</p>
+</li>
+<li>解决便是在启动应用前提前将应用的master启动起来。<h4 id="下位机对于轮子驱动得设置"><a href="#下位机对于轮子驱动得设置" class="headerlink" title="下位机对于轮子驱动得设置"></a>下位机对于轮子驱动得设置</h4></li>
+<li><p>轮子的驱动，我们的轮子电机是使用的jtag 370 的电机，没有标转速，但是应该是120的，如果有需要大家可以去店家那里询问，我问了店家没有回我。然后电机的驱动模块。没啥好说的，就是电机驱动，，一共有三个输入，两个控制正传反转的接口，一个控制pwm输入。</p>
+</li>
+<li><p><img src="/2019/07/14/TX2-ros-RTABMAP/arm.jpg" alt="gpio"></p>
+</li>
+<li>然后AIN1 AIN2  控制一个轮子的前进，AIN1=1 AIN2=0 正传，AIN1=0 AIN2=1 反转（同时为零 不转，利用电机的驱动模块来实现，）</li>
+<li>代码实现 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> rospy</span><br><span class="line"><span class="keyword">from</span> geometry_msgs.msg <span class="keyword">import</span> Twist  <span class="comment"># velocity</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> duty_cycle <span class="keyword">import</span> DutyCycle</span><br><span class="line"><span class="keyword">from</span> raspberry_wheel <span class="keyword">import</span> Raspberry</span><br><span class="line"></span><br><span class="line">cycle = DutyCycle()</span><br><span class="line"></span><br><span class="line">raspberry = Raspberry()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">callback</span><span class="params">(msg)</span>:</span></span><br><span class="line">    <span class="comment"># INFO 2019/7/11 20:09 liliangbin  设置树莓派引脚的输出 。</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'msg.linear.x==&gt;'</span>, msg.linear.x, <span class="string">'z==&gt;'</span>, msg.angular.z, <span class="string">'\n'</span></span><br><span class="line"></span><br><span class="line">    left_dc, right_dc = cycle.calculate_pub(msg)</span><br><span class="line">    raspberry.run(left_dc, right_dc)</span><br><span class="line"><span class="comment"># 对数据进行处理，主要是轮子速度的计算，以及转速的修改。代码就补贴了，我把github的项目仍上面</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line"></span><br><span class="line">    rospy.init_node(<span class="string">'topic_subscriber'</span>)</span><br><span class="line"></span><br><span class="line">    sub = rospy.Subscriber(<span class="string">'cmd_vel'</span>, Twist, callback)</span><br><span class="line">    <span class="comment"># 这个地方有一个坑，我github上未修改，就是订阅消息的时候让队列里面的内容缓存只有一个，这样会让数据总是最新的数据，避免出现消息和内容不同步的情况，明明消息已经发送完毕了，同时叫他停止了，但是由于消息未处理完，让车还在运行，qune_size=1 </span></span><br><span class="line">    rospy.spin()</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line"></span><br><span class="line">    raspberry.stop()</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<h4 id="下位机对于轮子驱动得设置"><a href="#下位机对于轮子驱动得设置" class="headerlink" title="下位机对于轮子驱动得设置"></a>下位机对于轮子驱动得设置</h4><h4 id="把摄像头得数据传输到网页中，利用网页来进行控制，（robotwebtools-一个组织，专门是来做这一块的，虽然有很多的坑）"><a href="#把摄像头得数据传输到网页中，利用网页来进行控制，（robotwebtools-一个组织，专门是来做这一块的，虽然有很多的坑）" class="headerlink" title="把摄像头得数据传输到网页中，利用网页来进行控制，（robotwebtools, 一个组织，专门是来做这一块的，虽然有很多的坑）"></a>把摄像头得数据传输到网页中，利用网页来进行控制，（robotwebtools, 一个组织，专门是来做这一块的，虽然有很多的坑）</h4>
+<h4 id="把摄像头得数据传输到网页中，利用网页来进行控制，（robotwebtools-一个组织，专门是来做这一块的，虽然有很多的坑）"><a href="#把摄像头得数据传输到网页中，利用网页来进行控制，（robotwebtools-一个组织，专门是来做这一块的，虽然有很多的坑）" class="headerlink" title="把摄像头得数据传输到网页中，利用网页来进行控制，（robotwebtools, 一个组织，专门是来做这一块的，虽然有很多的坑）"></a>把摄像头得数据传输到网页中，利用网页来进行控制，（robotwebtools, 一个组织，专门是来做这一块的，虽然有很多的坑）</h4><ul>
+<li>一言难尽，这个地方最恶心的就是他给的代码里面相关的js代码不能用的情况，但是在视频上传上还是可以的。</li>
+<li>代码我后期再上传一波。</li>
+</ul>
+<hr>
+<p>代码部分：</p>
+<ul>
+<li>movebase—&gt; <a href="https://github.com/liliangbin/move_base_rtab-map" target="_blank" rel="noopener">https://github.com/liliangbin/move_base_rtab-map</a></li>
+<li>twist_to_wheel_speed —-&gt; <a href="https://github.com/liliangbin/twist-to-wheel-speed" target="_blank" rel="noopener">https://github.com/liliangbin/twist-to-wheel-speed</a></li>
+<li>欢迎大家来玩耍啊，，，，</li>
+</ul>
+
       
     </div>
     
