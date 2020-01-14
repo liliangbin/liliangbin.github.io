@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[trojan]]></title>
+    <url>%2F2020%2F01%2F14%2Ftrojan%2F</url>
+    <content type="text"><![CDATA[一种新型的爬墙工具Trojan的安装 本次博文将搭建两个爬墙工具，传统的ss和Trojan Trojan和ss的分析（浅显的理解） Trojan是一种伪装的方式，将我们的数据包伪装成传统意义上的https包，故墙在判断我们数据包的时候，一般就不会很为难数据包，同时因为现在该种协议的使用人比较少，故我们的IP被封掉的机会也会比较小。 ss/ssr因为使用的人数比较多了，很容易因为某些原因被封掉。而且根据最近的gfw的更新导致ss更有可能被封掉。 故此次采用Trojan。反正就是用的人比较少。 Trojan安装 第一步，安装Google最新的拥塞控制算法 bbr。 1wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh &amp;&amp; chmod +x bbr.sh &amp;&amp; ./bbr.sh 默认安装好就可以了，最好是使用centos7，避免了很多奇奇怪怪的问题 查看安装好了没 1lsmod | grep bbr 返回值有 tcp_bbr 模块即说明 bbr 已启动 (感觉好像不是很有必要安装这个，但是提高效率嘛，添加上) 第二步，一个域名解析到我们服务器的ip上。（Trojan是伪装成传统的https故需要有域名和ssl证书） 域名我使用的是在我原来域名的基础上添加一个二级域名。（已有域名，forcebing.top==&gt;二级域名=&gt;trojan.forcebing.top) 添加一个A级解析到相应的IP上 我们再测试一下，ping trojan.forcebing.top 得到相应的ip且能ping通就是好的 第三步，安装Trojan 网上的一键安装模板 1curl -O https://raw.githubusercontent.com/atrandys/trojan/master/trojan_centos7.sh &amp;&amp; chmod +x trojan_centos7.sh &amp;&amp; ./trojan_centos7.sh 这个按照提示走就可以了。中间输入你的域名，脚本自动帮你搞定ssl证书问题 最后返回一个安装好后的数据 下载这个zip文件，里面有一个start.bat 和一个stop.bat。分别是启动和停止文件。（用于在客户端） 配置文件位于 /usr/src/trojan/server.conf 启动 systemctl start trojan 第四步，本地chrome配置socket5软件 省略，不想写了。一些细节操作在sh文件中，可以看看，还挺有意义的。 此外有见过一个脚本使用的时docker的方式安装Trojan，不用手动安装mysql和nginx和Trojan ，觉得还挺有意思的，但是因为没看到博主的玩整的wiki，然后换了现在这种方案。 ss安装（第二种爬墙姿势） 安装 yum install python-setuptools &amp;&amp; easy_install pip pip install shadowsocks 运行。 创建文件。/etc/shadowsocks.json 12345678910&#123; "server":"my_server_ip", "server_port":8388, "local_address": "127.0.0.1", "local_port":1080, "password":"mypassword", "timeout":300, "method":"aes-256-cfb", "fast_open": false&#125; 运行 12ssserver -c /etc/shadowsocks.json -d startssserver -c /etc/shadowsocks.json -d stop -d的意思是后台运行。 日志文件。/var/log/shadowsocks.log 启动方式的不同，查看ss和Trojan的启动不是很相同，故我决定将ss的启动方式改为Trojan的启动方式（加入到系统的service中） Linux系统管理主要是service和systemctl两种，但是systemctl兼容service。但是service在centos7后就不再推荐使用了，而且确实service的启动脚本编写更复杂。 对比trojan的service，我们编写ss的启动service。 1234567891011[Unit] Description=ss After=network.target //[Service] Type=simple ExecStart=/usr/bin/ssserver -c /etc/shadowsocks.json start ExecReload= ExecStop=/usr/bin/ssserver -c /etc/shadowsocks.json stop PrivateTmp=true [Install] WantedBy=multi-user.target 可以提前了解一下service和systemctl两种启动脚本的不同 这个地方不能采用后台运行的方式，系统会把后台的进程杀死，故我们start那个地方的代码直接start就可以，不用添加 -d参数]]></content>
+      <tags>
+        <tag>trojan</tag>
+        <tag>梯子</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[docker flask 配置]]></title>
+    <url>%2F2019%2F12%2F24%2Fconda-pypi%2F</url>
+    <content type="text"><![CDATA[现有环境信息复现 pip freeze &gt; requirments.txt 数据分析事]]></content>
+      <tags>
+        <tag>python</tag>
+        <tag>anaconda</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[TX2_ros_RTABMAP_kinect2]]></title>
     <url>%2F2019%2F07%2F14%2FTX2-ros-RTABMAP%2F</url>
     <content type="text"><![CDATA[ros安装 ros 官网 这个时候我们需要修改ros的软件源为国内的软件源 http://wiki.ros.org/ROS/Installation/UbuntuMirrors#USTC //ros ros的国内源 可能会出现没有密钥的问题 1W: GPG error: http://mirrors.ustc.edu.cn/ros/ubuntu xenial InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY F42ED6FBAB17C654 解决 1sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A # 复制上面的key ros 版本导致的opencv 问题 ，orbslam 以及vins 都是基于opencv3 以后的版本，最好使用Ubuntu 16.04 TX2 安装好相应的ros配置后，默认是不推荐rviz 的，但是我们可能会用到rviz（arm 下得问题，性能原因，系统会做一些禁止，sefaultment fault） 解决 12345 unset GTK_IM_MODULE &gt;&gt; .bashrc ===&gt;solve the Segmentation fault ## It is not recommended to run rviz on most ARM-based CPUs. They're generally too slow, and the version of OpenGL ## that is provided by the software (mesa) libraries it not new enough to start rviz.## 待处理，这个地方我们的设置我忘记是什么了，待我有时间的时候去看下 安装rtabmap sudo apt-get install ros-kinetic-rtabmap-ros https://github.com/introlab/rtabmap_ros # 或是使用博主官方给我们的链接安装，他里面有例子 安装kinect 驱动 libfreet2 iai_kinect 百度吧 https://blog.csdn.net/weixin_41038905/article/details/80907580 或是直接去那俩的github官网查看 注意Kinect的时候我们有一个参数叫做 publish_tf 我们把他设置为true的时候发布的pointcloud数据才有坐标值运行kinect2 跑rtabmap建图 可参考链接 http://wiki.ros.org/rtabmap_ros 确立基础的坐标变化以及camera_link 和kinect2_link 的位置 1rosrun tf static_transform_publisher 0 0 0 -1.5707963267948966 0 -1.5707963267948966 camera_link kinect2_link 100 上面是一个tf的静态变换，在tf变换中一般有以下几种，map odom base_link laser_link (camera_link kinect2_link ) …..map 一般就是robot的基础坐标，也就是世界坐标，odom 是里程计坐标 。 base_link 一般是小车的基座，和小车的map坐标系重合。（我们在做move_base 导航的时候最好也是用base_link 或是他的基座，例如我们的camera_link，和map的姿势是相同的） tf 的意义，定义两个刚体之间的位置，以及姿势的关系， 关于参数的定义 rosrun tf static_transform_publisher x y z yawl patich roll father_link child_link period_in_ms(发布间隔) 分别的意义在于 x y z 对应该刚体中心相对于上个link的位置，然后 yawl pitch roll 分别对应于偏航角，俯仰角，翻滚角，这个对应于刚体运动的知识，可以去补充一下相关的知识。 其中注意 yaw pitch roll 不要弄错，可以通过rviz查看， 红色是x ， 绿色是y， 蓝色是z 静态发布信息还有一种是四元数的方式发布，不会。。。。我 reference https://www.jianshu.com/p/83bbf69ba6d3 tf 变换重要么，相当重要，同时我们也需要理解倒tf变换的意义，我，，，真的没有看懂，但是基本也就是知道他们之间怎么看是否重合了，啊哈哈， rviz （我们当时的小车在路径规划完毕后每次都会往一个角度转一个角度，然后再开始运行，没错，就是跑倒另外的地方去了结果自己的跑丢了。） 启动相机 12```bashroslaunch kinect2_bridge kinect2_bridge.launchpublish_tf:=true //启动相机，最后一个参数是为了让相机输出的pointcloud 有坐标 启动建图 //这一块的启动有时候需要参考着官方给的例子来看着，因为很多时候会出现很多奇怪的问题。重启，欸 在rtabmap中有一些相关的service，我们，能够利用service修改rtabmap的导航和建图模式，以及其他的东西，具体可以查看rtabmap_ros 对于他的参数以及服务的定义，，，对了，他的nodelet的意义不是很明确。。。。咱太菜，没得办法。 123456roslaunch rtabmap_ros rgbd_mapping_kinect2.launch resolution:=qhd localization:=true //定位的方式打开 但是在使用过程种遇到了一些问题，选择放弃这个# 可见 使用Kinect的 qhd 格式 960*480 roslaunch rtabmap_ros rtabmap2.launch rtabmap_args:="--delete_db_on_start" rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=false# 建图不可见roslaunch rtabmap_ros rtabmap.launch rtabmap_args:="--delete_db_on_start" rgb_topic:=/kinect2/qhd/image_color_rect depth_topic:=/kinect2/qhd/image_depth_rect camera_info_topic:=/kinect2/qhd/camera_info approx_sync:=false rtabmapviz:=false 启动可视化界面12roslaunch rtabmap_ros demo_turtlebot_rviz.launch# 在这里面为了得到一个可视化的二维地图，我们可以将map 选项修改为rtabmap/grid_map 导航模块 move_base 需要输入的东西 ，odom cloud 然后再move_base还需要一个代价地图得输入。这个代价地图由我们这里输入 先说思路，（导航需要输入） 假激光，我们使用 depthimage_to_laserscan 包将来自Kinect2 的图像以及深度信息转化为scan 的数据类型。（个人看法，我查看一个博主有说过，这个时候，我们可以修改rtabmap的启动参数，把他监听scan数据类型的参数打开，好像是一个 subscirbe_scan = true 就行。。但是感觉如果只是为了一个代价地图的话，假激光再输入给rtabmap的话，没有太大的意义，反而加大了计算机的计算量） https://github.com/liliangbin/move_base_rtab-map/blob/master/launch/laser_scan.launch 投影地图法，我们利用kinect2 的Kinect2/qhd/points 接口出来的带有坐标的cloud 信息，经过rtbmap 的 nodelet 转化后生成一个投影地图，作为局部地图的输入，其他的什么都不用修改。 https://github.com/liliangbin/move_base_rtab-map/blob/master/launch/node.launch reference http://wiki.ros.org/rtabmap_ros/Tutorials/StereoOutdoorNavigation 但是官方给我的例子我没有改出来，但是现在感觉还是有很多可以修改的地方， 代码实现，以及某些参数的意义。 我的实现方式为仅使用Kinect的深度信息，来建图，同时move_base 的输入为来自rtabmap的传入的grid_map 以及Odom 做为输入，同时代价地图为深度信息的points 节点通过rtabmap的转换节点变为投影地图，输入 base_local_planner_params.yaml 1234567891011121314151617181920212223242526272829303132TrajectoryPlannerROS:# Current limits based on AZ3 standalone configuration.acc_lim_x: 0.75 # x方向的加速度acc_lim_y: 0.0 # y方向的加速度，但是因为在二维平面上运动，也就没有必要，故为0acc_lim_theta: 4.00max_vel_x: 0.500 # x方向的最大速度 min_vel_x: 0.212 # 最小max_rotational_vel: 0.550 # 最大的旋转角速度min_in_place_rotational_vel: 0.15escape_vel: -0.10 # 逃离速度，在某个时候因为离的太近的时候需要有一个逃离速度holonomic_robot: false # 非全向的时候使用，例如 无人机时候开为truexy_goal_tolerance: 0.20yaw_goal_tolerance: 0.20sim_time: 1.7sim_granularity: 0.025vx_samples: 3vtheta_samples: 3vtheta_samples: 20goal_distance_bias: 0.8path_distance_bias: 0.6occdist_scale: 0.01heading_lookahead: 0.325dwa: trueoscillation_reset_dist: 0.05meter_scoring: true # 其他参数还没有细细的去了解 costmap_common_params.yaml 12345678910111213141516171819202122232425262728293031323334353637383940obstacle_range: 2.5raytrace_range: 3.0footprint: [[ 0.15, 0.15], [-0.15, 0.15], [-0.15, -0.15], [ 0.15, -0.15]]footprint_padding: 0.03#robot_radius: ir_of_robotinflation_radius: 0.55transform_tolerance: 1 # 很多时候如果转化由于tf转化是需要时间的，但是我们转化太慢，性能不够的时候，有一个容忍的时间，controller_patience: 2.0NavfnROS: allow_unknown: truerecovery_behaviors: [ &#123;name: conservative_clear, type: clear_costmap_recovery/ClearCostmapRecovery&#125;, &#123;name: aggressive_clear, type: clear_costmap_recovery/ClearCostmapRecovery&#125;]conservative_clear: reset_distance: 3.00aggressive_clear: reset_distance: 1.84cost_scaling_factor: 10.0# observation_sources: scan# scan: &#123;sensor_frame: kinect2_link, observation_persistence: 0.0, max_obstacle_height: 0.4, min_obstacle_height: 0.0, data_type: LaserScan, topic: /scan, marking: true, clearing: true&#125;# 这是两种代价地图的定义方式，一种是scan 一种是投影地图，我用scan没有出来，，然后换成了pointcloud2 ，还有在双目导航的那个地方，该配置文件的配置位置是不对的，我也不知道，反正我没跑出来。。。哭，然后参考一些其他的文件。observation_sources: point_cloud_sensor# assuming receiving a cloud from rtabmap_ros/obstacles_detection nodepoint_cloud_sensor: &#123; sensor_frame: camera_link, # 该帧对应的tf变化坐标，我也不知道了，，反正我都用的基础坐标系作为做关键的坐标系，， data_type: PointCloud2, topic: planner_cloud, expected_update_rate: 0.5, marking: true, clearing: true, min_obstacle_height: -99999.0, max_obstacle_height: 99999.0&#125; global_costmap_param.yaml 1234567global_costmap: global_frame: map # 世界坐标系 robot_base_frame: camera_link # base_link update_frequency: 0.5 publish_frequency: 0.5 static_map: true transform_tolerance: 3 local_costmap_params.yaml 12345678910111213141516171819202122232425262728local_costmap: global_frame: odom # 参照的坐标系，odom 作为移动的坐标系 robot_base_frame: camera_link # 机器人的base link ,我们在静态tf发布的时候有设置base_link为基础坐标系 update_frequency: 2.0 publish_frequency: 2.0 static_map: false #这个地方我们的静态地图选为false ，因为局部地图是随时变化的因为某些东西突然出现需要随时变化，于此同时，全局地图该参数必须与此值相反 rolling_window: true width: 4.0 height: 4.0 resolution: 0.025 origin_x: -2.0 origin_y: -2.0 transform_tolerance: 3 planner_frequency: 1.0 planner_patiente: 5.0 # observation_sources: scan # scan: &#123; # sensor_frame: kinect2_link, # data_type: LaserScan, # topic: /scan , # expected_update_rate: 0.5, # observation_persistence: 0.0, # marking: true, # clearing: true, # min_obstacle_height: -99999.0, # max_obstacle_height: 99999.0 # &#125; 在上述文件中，有用于机器人的大小设置，代价地图的边缘配置， 上位机和下位机得ros master 设置， 在对于上位机和下位机的配置上，我们使用了最常见的配置方式，网络的方式进行链接（同时又一种是基于arduino 的控制方式，他是基于串口的方式来处理的，同时他对于底部轮子的驱动，在ros中有一些写好的驱动） 上位机 （都在bashrc 中配置，也就是你的shell的配置文件，如果你的默认bash 是zsh 则在zshrc 里面配置就行) export ROS_IP=192.169.137.43 ; export ROS_MASTER_URI=http://192.168.137.43:11311 上位机作为主机 下位机 export ROS_IP=192.168.137.44 ;export ROS_MASTER_URI=http://192.168.137.43:11311 问题，如果配置好了后，source .bashrc 加载进配置，同时假如我直接在下机执行ros的操作的时候，他会去上位机请求roscore 管理信息，但是由于未启动，他会一直等待，故会出现输入ros命令后无法无反应的情况。 解决便是在启动应用前提前将应用的master启动起来。下位机对于轮子驱动得设置 轮子的驱动，我们的轮子电机是使用的jtag 370 的电机，没有标转速，但是应该是120的，如果有需要大家可以去店家那里询问，我问了店家没有回我。然后电机的驱动模块。没啥好说的，就是电机驱动，，一共有三个输入，两个控制正传反转的接口，一个控制pwm输入。 然后AIN1 AIN2 控制一个轮子的前进，AIN1=1 AIN2=0 正传，AIN1=0 AIN2=1 反转（同时为零 不转，利用电机的驱动模块来实现，） 代码实现 1234567891011121314151617181920212223242526272829303132# -*- coding: utf-8 -*-import rospyfrom geometry_msgs.msg import Twist # velocityfrom duty_cycle import DutyCyclefrom raspberry_wheel import Raspberrycycle = DutyCycle()raspberry = Raspberry()def callback(msg): # INFO 2019/7/11 20:09 liliangbin 设置树莓派引脚的输出 。 print 'msg.linear.x==&gt;', msg.linear.x, 'z==&gt;', msg.angular.z, '\n' left_dc, right_dc = cycle.calculate_pub(msg) raspberry.run(left_dc, right_dc)# 对数据进行处理，主要是轮子速度的计算，以及转速的修改。代码就补贴了，我把github的项目仍上面try: rospy.init_node('topic_subscriber') sub = rospy.Subscriber('cmd_vel', Twist, callback) # 这个地方有一个坑，我github上未修改，就是订阅消息的时候让队列里面的内容缓存只有一个，这样会让数据总是最新的数据，避免出现消息和内容不同步的情况，明明消息已经发送完毕了，同时叫他停止了，但是由于消息未处理完，让车还在运行，qune_size=1 rospy.spin()except KeyboardInterrupt: raspberry.stop() 把摄像头得数据传输到网页中，利用网页来进行控制，（robotwebtools, 一个组织，专门是来做这一块的，虽然有很多的坑） 一言难尽，这个地方最恶心的就是他给的代码里面相关的js代码不能用的情况，但是在视频上传上还是可以的。 代码我后期再上传一波。 代码部分： movebase—&gt; https://github.com/liliangbin/move_base_rtab-map twist_to_wheel_speed —-&gt; https://github.com/liliangbin/twist-to-wheel-speed 欢迎大家来玩耍啊，，，，]]></content>
@@ -20,7 +38,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[树莓派安装keras python-opencv tensorflow 以及遇到的一些问题]]></title>
+    <title><![CDATA[树莓派安装深度学习环境]]></title>
     <url>%2F2019%2F06%2F11%2F%E6%A0%91%E8%8E%93%E6%B4%BE%2F</url>
     <content type="text"><![CDATA[折腾日记第一个问题， 树莓派安装的时候遇见了python的问题。1TypeError: unsupported operand type(s) for -=: &apos;Retry&apos; and &apos;int&apos; 当时仔细查看问题的时时候发现是因为无法访问网络而出现的，于是我们首先去ping本地的局域网ip查找ip是否是能用的，然后再修改本地的dns服务器为 114.114.114.114 然后这个时候修改后第一次是可以的，然后我们遇到了另外一个问题 它的md5 下载验证失败 下载不完整的原因，我们用wget 重新手动下载 再用pip3 手动安装1THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package 总结上述问题，电压不够，造成了网络不稳定，出错了，使用树莓派默认得电源模块便可以了 树莓派局域网访问flask得应用时同样需要添加安装深度学习服务 keras tensorflow 搜索相关的树莓派安装相关的方法。 问题主要是用pip3 安装的时候需要很多的依赖，但是有时候因为网络问题，不稳定，(电源问题)，使用国内的pip源 安装方案 详见 https://blog.csdn.net/perry0418/article/details/80994840 安装arm版的TensorFlow，方法参考：https://github.com/samjabrahams/tensorflow-on-raspberry-pi 安装keras 1234567891011sudo apt-get install libhdf5-serial-devsudo pip install h5py 安装过程大概需要30-40分钟sudo apt-get install python-scipy 亲测不能使用pip安装（坑！）！ 安装过程大概5分钟 如果是python3 安装需要修改为 python3-scipysudo pip install keras 安装过程2-3分钟（安装opencv，没有测试，系统自带）sudo apt-get install python-opencv opencv-python 安装告诉我们缺少依赖 1234567sudo apt-get update #安装依赖库sudo apt-get install libhdf5-devsudo apt-get install libatlas-base-devsudo apt-get install libjasper-devsudo apt-get install libqt4-testsudo apt-get install libqtgui4sudo apt-get update sklearn 1234sudo apt-get install python-sklearn# opencv sudo apt-get install libopencv-dev sudo apt-get install python-opencv 树莓派遇到的问题 无线网络打不开 因为rfkill 把wifi给block了，目的是为了让嵌入式设备更省电 开锁 rfkill list 找到 rfkill unblock 0 Ubuntu mate 18.04 原声支持树莓派3b+ 不用那么麻烦 树莓派ssh服务启动不了。 因为缺少 密钥文件 ，我们可以查看状态信息 sudo service ssh status 会得到一个没有某个文件的信息 会得到他现在有一个报错，对应的是在/etc/ssh/—- 那个目录下面没有文件，我们使用ssh-key-gen 新建一个密钥文件就可以了 ， ssh-key-gen -t rsa -f /etc/ssh/ssh_host_rsa_key 这个地方的文件对应我们上个地方缺失的文件。]]></content>
       <tags>
@@ -45,27 +63,12 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[MySQL数据库更新的备份及复原]]></title>
-    <url>%2F2019%2F04%2F15%2Fdatabase%2F</url>
-    <content type="text"><![CDATA[数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）方法一 因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql 使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据） 备份数据，MySQL的备份数据方法，这个地方我使用的是备份所有的数据库，mysql dump命令，可以实现热备份，（以后可以考虑一下备份数据库 配合crontab ） 参考链接 MySQLdump备份数据库1mysqldump -u root -pPASSWORD --all-databases &gt; sqlfile.sql 备份好后会在当前文件夹下得到一个文件。 进入lnmp文件夹下后卸载lnmp（如何没有了再下载就行） 1./uninstall.sh lnmp环境的卸载的时候会自动给你生成一个备份的文件夹，（卸载完后才发现，我们也可以用这个文件夹的东西来进行数据的回复）可以参考这个博客lnmp的数据库备份文件夹 卸载完后再install嘛，这个不讨论了。我么再来数据的恢复。 1source sqlfile.sql //使用source命令还原数据库包括用户的配置 但是这个时候就再source完毕后出现问题。出现了拒绝访问的情况。1mysql -u root -p password //出现了拒绝访问的情况 数据库用户信息需要更新 这个问题是真的没道理，扎心，后来网上找打一个例子，这个是密码问题出问题了，所以我们采用跳过密码验证的那一步。参考这个地方mysqld免密登录 /etc/my.cnf 在里面的mysqld后加上 skip-grant-tables 然后我们重启MySQL。。应该能够直接过去了。但是后来还有一个问题，就是不能新建用户了。解决办法，好像是更新用户表，我这里好像没有记载下来。希望后面的笔记能够别这么水吧。 后来的问题，数据库的3306端口莫名给关了修改/etc/syscong/iptables 里面关于数据库的3306的限制 Linux端口问题]]></content>
-      <tags>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux 常用命令]]></title>
-    <url>%2F2019%2F04%2F15%2FLinux_shell_command%2F</url>
-    <content type="text"><![CDATA[shell命令apt cache get 12345$ sudo apt-cache search 安装的软件.....或是你不知道你需要的那个软件的名字。可以进行模糊的搜索$ sudo apt-cache search | grep 'jdk' //jdk是你要安装的软件包含的某个值 装软件的时候我们第一部总是需要先确认是那个软件 然后我们才能更加贴合我们的需求来找软件 123456$ sudo apt-get install software// 可能会需要不能安装的问题，告诉你可能存在依赖的问题 // 可能你需要这个命令$ sudo apt-get install -f // 修复依赖 同样如果再centos下面的话，包管理工具是yum 同样的可以用相同的方法。 123$ yum search jdk$ yum install **** nohup 这个命令代表的是后台挂起的意思。例如 nohup java -jar demo.jar &amp; &gt;log.txt 在这个里面nohup 代表后台挂起 &amp;代表的是退出session后不会停止 查看相关的进程 1ps -aux |grep main.py # 后台运行的main.py 的进程然后杀死它 服务器防火墙问题 更多的更新以后在说]]></content>
+    <title><![CDATA[cpu查看]]></title>
+    <url>%2F2019%2F04%2F15%2Fcpu%2F</url>
+    <content type="text"><![CDATA[linux 查看物理cpu个数，核数，逻辑cpu个数总核数 = 物理cpu个数 * 每颗cpu的核数总逻辑cpu个数 = 物理cpu个数 每颗cpu的核数 超线程数 查看物理cpu个数cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l 查看每个物理cpu的core的个数 (就是核数)cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq 查看逻辑CPU的个数cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l 查看CPU信息（型号）cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c]]></content>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[jenkins配置]]></title>
-    <url>%2F2019%2F04%2F15%2Fjenkins%2F</url>
-    <content type="text"><![CDATA[准备工作，获取jenkins的deb文件（有的是用的war包）－ 我们先去其官网下载镜像。 https://jenkins.io/download/ 我们在这个地方下载ubuntu的 jenkins的安装。。 sudo dpkg -i jenkins.deb jenkins 查看是否安装成功service jenkins restart jenkins jenkins默认端口是8080 ,打开localhost:8080 因为这个文章是我已经搞定后再来写的就没有图了，直接说吧。 最开始进去的时候会叫你输入一个初始密码，，那个初始密码就在上面他给你的那个路径里面，你cat 出来粘贴上去就好。 然后一个很尴尬的事情，我当时遇到的是插件安装不上，，（offline)然后直接跳过。。然后叫你创建用户，密码。。这个后期登录用。－ 插件安装。git github maven ssh 然后本地maven jdk 配置。 - 在这个地方的java_home maven_home 是你的电脑jdk maven 安装路径。。 环境配置完成后。开始新建项目 构建项目,选择maven ,最后配置文件如图。 最后保存下来。主页面开始构建。。构建的目录在 /var/share/jenkins 这个目录下。默认，可能有不一样。 jenkins 端口配置。。－ 有的人可能8080端口被占用了，我们就可以把他的端口改到其他的地方。配置文件 var/lib/jenkins /etc/default/jenkins 这俩个都是配置文件，都需要我们去修改。。。。我是参照的这个人的一个博客。https://blog.whsir.com/post-1774.html 给大佬递茶。具体的配置端口就是把端口号改了就是了 网上还有通过改war 包运行的时候端口，，，没有试过，觉得这个不是一个很好的方法，，最好是改配置文件。。]]></content>
-      <tags>
-        <tag>linux，服务器运维</tag>
+        <tag>cpu</tag>
       </tags>
   </entry>
   <entry>
@@ -74,6 +77,14 @@
     <content type="text"><![CDATA[基于云的服务 全部的数据都是在云端存储 现象 本地的资源使用度低， 安全性，存在被黑客渗透的危险 重装系统后环境和软件还需要自己重新配。 分析： 为什么利用低啦？ 现在这个已经做的很好了。我们还没有达到太大的需求。。。。 安全性能 ，数据都是在本地存储，同时由于我们上网习惯的不友好，容易让电脑暴露在黑客们的眼中。。。 有时候自己数据量太大。希望能够进行重置电脑，或是重装系统的时候，数据量太大，同时花的时间真多。 解决办法–方向由上面的这些原因我们可以知道。能解决这个的办法就是基于云了。。。 资源的利用率不高，那么我们就可以按需来分配资源。。本地留一定的缓存存储。同样可以减少CPU，内存的容量。进而节约成本。。 数据的话，个人的信息及各个应用的数据都是存储在云端中。我们有一个私人的账号，假如我们换了设备，我们可以通过登陆账号同步你的的信息。 在应用上。将是基于web的app。各个应用之间能够相互的联系，同时我想要添加某个应用的时候我们可以去应用商店直接添加。 开发环境的配置的话能够直接通过向云端要求什么环境，然后自动给你配置完毕，不用自己手动配置。 对大型游戏可以采用本地优化，比如针对游戏环境进行特殊的处理。 软件提供商，就像QQ音乐网页版那样。但是需要的功能需要更加的全面。 不足的地方 浏览器的性能必须足够强劲。 网速必须够快 网络问题，随时随地能够连上网 软件提供商必须要跟上这个系统的更新 。]]></content>
       <tags>
         <tag>瞎想</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux 常用命令]]></title>
+    <url>%2F2019%2F04%2F15%2FLinux_shell_command%2F</url>
+    <content type="text"><![CDATA[shell命令apt cache get 12345$ sudo apt-cache search 安装的软件.....或是你不知道你需要的那个软件的名字。可以进行模糊的搜索$ sudo apt-cache search | grep 'jdk' //jdk是你要安装的软件包含的某个值 装软件的时候我们第一部总是需要先确认是那个软件 然后我们才能更加贴合我们的需求来找软件 123456$ sudo apt-get install software// 可能会需要不能安装的问题，告诉你可能存在依赖的问题 // 可能你需要这个命令$ sudo apt-get install -f // 修复依赖 同样如果再centos下面的话，包管理工具是yum 同样的可以用相同的方法。 123$ yum search jdk$ yum install **** nohup 这个命令代表的是后台挂起的意思。例如 nohup java -jar demo.jar &amp; &gt;log.txt 在这个里面nohup 代表后台挂起 &amp;代表的是退出session后不会停止 查看相关的进程 1ps -aux |grep main.py # 后台运行的main.py 的进程然后杀死它 服务器防火墙问题 更多的更新以后在说]]></content>
+      <tags>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -86,12 +97,19 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[cpu查看]]></title>
-    <url>%2F2019%2F04%2F15%2Fcpu%2F</url>
-    <content type="text"><![CDATA[linux 查看物理cpu个数，核数，逻辑cpu个数总核数 = 物理cpu个数 * 每颗cpu的核数总逻辑cpu个数 = 物理cpu个数 每颗cpu的核数 超线程数 查看物理cpu个数cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l 查看每个物理cpu的core的个数 (就是核数)cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq 查看逻辑CPU的个数cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l 查看CPU信息（型号）cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c]]></content>
+    <title><![CDATA[MySQL数据库更新的备份及复原]]></title>
+    <url>%2F2019%2F04%2F15%2Fdatabase%2F</url>
+    <content type="text"><![CDATA[数据库的更新以及备份导入（忘记给atom设置自动保存了，我特么）方法一 因为我们使用的是lnmp环境，所以在lnmp环境下，有一个upgrade.sh 可以直接用这个脚本进行更新，1./upgrade.sh mysql 使用lnmp进行全局的更新（感觉也是各个地方也是有了一些问题了，注意备份数据，忘记备份了nginx的数据） 备份数据，MySQL的备份数据方法，这个地方我使用的是备份所有的数据库，mysql dump命令，可以实现热备份，（以后可以考虑一下备份数据库 配合crontab ） 参考链接 MySQLdump备份数据库1mysqldump -u root -pPASSWORD --all-databases &gt; sqlfile.sql 备份好后会在当前文件夹下得到一个文件。 进入lnmp文件夹下后卸载lnmp（如何没有了再下载就行） 1./uninstall.sh lnmp环境的卸载的时候会自动给你生成一个备份的文件夹，（卸载完后才发现，我们也可以用这个文件夹的东西来进行数据的回复）可以参考这个博客lnmp的数据库备份文件夹 卸载完后再install嘛，这个不讨论了。我么再来数据的恢复。 1source sqlfile.sql //使用source命令还原数据库包括用户的配置 但是这个时候就再source完毕后出现问题。出现了拒绝访问的情况。1mysql -u root -p password //出现了拒绝访问的情况 数据库用户信息需要更新 这个问题是真的没道理，扎心，后来网上找打一个例子，这个是密码问题出问题了，所以我们采用跳过密码验证的那一步。参考这个地方mysqld免密登录 /etc/my.cnf 在里面的mysqld后加上 skip-grant-tables 然后我们重启MySQL。。应该能够直接过去了。但是后来还有一个问题，就是不能新建用户了。解决办法，好像是更新用户表，我这里好像没有记载下来。希望后面的笔记能够别这么水吧。 后来的问题，数据库的3306端口莫名给关了修改/etc/syscong/iptables 里面关于数据库的3306的限制 Linux端口问题]]></content>
       <tags>
-        <tag>linux</tag>
-        <tag>cpu</tag>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mysql]]></title>
+    <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
+    <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
+      <tags>
+        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
@@ -121,11 +139,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[mysql]]></title>
-    <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
-    <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
+    <title><![CDATA[jenkins配置]]></title>
+    <url>%2F2019%2F04%2F15%2Fjenkins%2F</url>
+    <content type="text"><![CDATA[准备工作，获取jenkins的deb文件（有的是用的war包）－ 我们先去其官网下载镜像。 https://jenkins.io/download/ 我们在这个地方下载ubuntu的 jenkins的安装。。 sudo dpkg -i jenkins.deb jenkins 查看是否安装成功service jenkins restart jenkins jenkins默认端口是8080 ,打开localhost:8080 因为这个文章是我已经搞定后再来写的就没有图了，直接说吧。 最开始进去的时候会叫你输入一个初始密码，，那个初始密码就在上面他给你的那个路径里面，你cat 出来粘贴上去就好。 然后一个很尴尬的事情，我当时遇到的是插件安装不上，，（offline)然后直接跳过。。然后叫你创建用户，密码。。这个后期登录用。－ 插件安装。git github maven ssh 然后本地maven jdk 配置。 - 在这个地方的java_home maven_home 是你的电脑jdk maven 安装路径。。 环境配置完成后。开始新建项目 构建项目,选择maven ,最后配置文件如图。 最后保存下来。主页面开始构建。。构建的目录在 /var/share/jenkins 这个目录下。默认，可能有不一样。 jenkins 端口配置。。－ 有的人可能8080端口被占用了，我们就可以把他的端口改到其他的地方。配置文件 var/lib/jenkins /etc/default/jenkins 这俩个都是配置文件，都需要我们去修改。。。。我是参照的这个人的一个博客。https://blog.whsir.com/post-1774.html 给大佬递茶。具体的配置端口就是把端口号改了就是了 网上还有通过改war 包运行的时候端口，，，没有试过，觉得这个不是一个很好的方法，，最好是改配置文件。。]]></content>
       <tags>
-        <tag>MySQL</tag>
+        <tag>linux，服务器运维</tag>
       </tags>
   </entry>
   <entry>
