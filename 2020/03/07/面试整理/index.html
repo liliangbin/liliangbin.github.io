@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="小鲸鱼的小木屋">
 <meta property="og:description" content="摘要 主要是总结MySQL相关得知识点，做一个知识图谱 MySQL事务，索引，亿级数据量如何处理。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-07T08:20:29.927Z">
+<meta property="og:updated_time" content="2020-03-31T04:22:20.430Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面试整理-mysql">
 <meta name="twitter:description" content="摘要 主要是总结MySQL相关得知识点，做一个知识图谱 MySQL事务，索引，亿级数据量如何处理。">
@@ -443,16 +443,32 @@
 <li>查询优化：<ul>
 <li>索引尽量建立在order by  where 上</li>
 <li>避免使用null，可以设置默认值0，少用varchar变长，select  *  ===&gt;  具体的名字</li>
-<li>！= &lt;  &gt;  也会让其不使用索引使用全局操作</li>
-<li>in  避免使用  尽量用between </li>
-<li>模糊查询，可以采用全文搜索，fulltext。。</li>
+<li>！= &lt;  &gt;  也会让其不使用索引使用全局操作  不要在索引列上使用函数操作</li>
+<li>in  避免使用  尽量用between and 。</li>
+<li>模糊查询，可以采用全文搜索，fulltext。</li>
 <li>where  = 的右边处理，例where num=100*2</li>
 <li>exits 代替in</li>
-<li>索引并不是越多越好，索引固然可 以提高相应的 select 的效率，但同时也降低了 insert 及 update 的效率，一个表索引数量尽量不要超过6个</li>
+<li>索引并不是越多越好，索引固然可以提高相应的 select 的效率，但同时也降低了 insert 及 update 的效率，一个表索引数量尽量不要超过6个</li>
 </ul>
 </li>
 <li>分区  </li>
 <li>物理存储的位置，按照时间拆表，</li>
+<li>mysql对应的buffersize 官方推荐是内存的75%</li>
+<li>可以做缓存</li>
+<li>explain查看执行计划，修改索引</li>
+<li>开启慢查询日志，查看是哪些sql的执行慢了</li>
+</ul>
+<h4 id="数据库索引建立条件"><a href="#数据库索引建立条件" class="headerlink" title="数据库索引建立条件"></a>数据库索引建立条件</h4><ul>
+<li>最好是自增主键===&gt; 因为我们的数据库，底层实现相关</li>
+<li>限制索引数目。</li>
+<li>1NF:原子性 字段不可再分,否则就不是关系数据库;</li>
+<li>2NF:唯一性 一个表只说明一个事物;</li>
+<li>3NF:每列都与主键有直接关系，不存在传递依赖;</li>
+<li>字段不可拆分，字段依赖于主键，字段之间不存在相互依赖</li>
+<li>为经常出现在关键字order by、group by、distinct后面的字段，建立索引。</li>
+<li>经常用作查询的字段建立索引。</li>
+<li>union 或是 连接操作的字段上</li>
+<li>限制索引的数量 复合索引应该在某些位置</li>
 </ul>
 
       
@@ -493,10 +509,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/07/面试整理Java基础/" rel="prev" title="面试整理Java基础">
-                面试整理Java基础 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -576,7 +588,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -622,7 +634,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql事务"><span class="nav-number">1.1.</span> <span class="nav-text">mysql事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL索引"><span class="nav-number">1.2.</span> <span class="nav-text">MySQL索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大数据量如何优化"><span class="nav-number">1.3.</span> <span class="nav-text">大数据量如何优化</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql事务"><span class="nav-number">1.1.</span> <span class="nav-text">mysql事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL索引"><span class="nav-number">1.2.</span> <span class="nav-text">MySQL索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大数据量如何优化"><span class="nav-number">1.3.</span> <span class="nav-text">大数据量如何优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库索引建立条件"><span class="nav-number">1.4.</span> <span class="nav-text">数据库索引建立条件</span></a></li></ol></li></ol></div>
             
 
           </div>
