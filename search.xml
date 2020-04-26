@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[面试整理-mysql]]></title>
     <url>%2F2020%2F03%2F07%2F%E9%9D%A2%E8%AF%95%E6%95%B4%E7%90%86%2F</url>
-    <content type="text"><![CDATA[摘要 主要是总结MySQL相关得知识点，做一个知识图谱 MySQL事务，索引，亿级数据量如何处理。 mysql事务 MySQL的数据库引擎包括两种，innodb myisam innodb 支持事务，行锁，根据索引条件检索数据使用行锁，支持外键，更多的适用于更新插入的情况中。支持外键 myisam 不支持事务，表锁（独占锁和共享锁），读与读之间使用共享锁，读与写之间使用独占锁。==&gt;不支持外键 事务的隔离性， 前提问题： 脏读：一个事务读取了另一个事务未提交的数据，但是读取了这个数据后，另外那个事务回滚了。 不可重复读：一个事务多次读取一个数据，但是另外一个事务读取一次后进行了修改（已提交），导致两次的数据不一致 幻读：指代一个数据整体，事务1多次读一个表，查找所有小于3的数据，一共四条，但是事务2又插入了一条并提交，事务1的下一次处理就发现又多了一条，、不同在于数据整体 进而出现了四种隔离级别 读未提交：别人事务未提交，我可读它未提交数据 读已提交：我只能读取已提交的数据 可重复读：我的事务未完成前，不去读其他人提交的数据，保证和第一次读取的数据一样，mysql默认的隔离等级 串行化：只有我的事务完成了，你们才能处理数据。 事务的隔离实现： 视图和锁实现： 可重复读：事务开始的时候就重建一个读视图使用历史的undo.log mvcc（并发控制） 读已提交：每条sql创建一个视图，写加锁，undo.log 查找未修改的时候值 读未提交，直接返回最新值，事务执行的过程中会修改到记录中，但是可能会回滚 读不加锁，写加行级排他锁，不存在脏写 串行处理,直接加锁。表级读写锁。 MySQL索引 提升查找性能，但是对于亿级记录的表单效果仍然不行了。索引创建的 索引的类型： 唯一索引： 可为null 主键索引 组合索引： 最左原则，（a,,)会使用，（，发，） 不会使用索引 普通索引 全文索引：仅myisam支持， myisam==&gt;非聚簇索引—–索引文件仅保存地址，索引文件和数据文件是分开的。===&gt; 辅助索引和主键索引没有区别，只是使用允许重复 innodb===&gt; 聚簇索引—数据文件本身便是索引文件—叶节点包括了完整的数据记录 InnoDB 要求表必须有主键(MyISAM 可以没有)。如果么有显式指定会自动选择，此外，主键尽量的选择自增主键，B树的维持更加的方便 自增主键可选数据类型，bigint==&gt; 如果达到极限了会报错的，不慌 =====&gt; 对比uuid 主键索引很高效，此外会有辅助索引，其数据域存储的是主键，再使用一次主键检索 索引的底层数据结构： B+树 hash R+树 对比：B+树，B树，平衡二叉树 平衡二叉树的树太高了，导致磁盘io的数目太多， b树搜索结束可能不再叶子结点，插入或是删除时需要进行分裂等操作。 b+树关键字有序，且都在叶子结点。非叶子结点可以存储更多的关键字，顺序访问指针串起来，方便于区间查找。 hash不能范围查找，hash碰撞 大数据量如何优化 处理的思路，查询优化，分区，分库，分表，redis 分布式大数据平台 查询优化： 索引尽量建立在order by where 上 避免使用null，可以设置默认值0，少用varchar变长，select * ===&gt; 具体的名字 ！= &lt; &gt; 也会让其不使用索引使用全局操作 不要在索引列上使用函数操作 in 避免使用 尽量用between and 。 模糊查询，可以采用全文搜索，fulltext。 where = 的右边处理，例where num=100*2 exits 代替in 索引并不是越多越好，索引固然可以提高相应的 select 的效率，但同时也降低了 insert 及 update 的效率，一个表索引数量尽量不要超过6个 分区 物理存储的位置，按照时间拆表， mysql对应的buffersize 官方推荐是内存的75% 可以做缓存 explain查看执行计划，修改索引 开启慢查询日志，查看是哪些sql的执行慢了 数据库索引建立条件 最好是自增主键===&gt; 因为我们的数据库，底层实现相关 限制索引数目。 1NF:原子性 字段不可再分,否则就不是关系数据库; 2NF:唯一性 一个表只说明一个事物; 3NF:每列都与主键有直接关系，不存在传递依赖; 字段不可拆分，字段依赖于主键，字段之间不存在相互依赖 为经常出现在关键字order by、group by、distinct后面的字段，建立索引。 经常用作查询的字段建立索引。 union 或是 连接操作的字段上 限制索引的数量 复合索引应该在某些位置]]></content>
+    <content type="text"><![CDATA[摘要 主要是总结MySQL相关得知识点，做一个知识图谱 MySQL事务，索引，亿级数据量如何处理。 mysql事务 MySQL的数据库引擎包括两种，innodb myisam innodb 支持事务，行锁，根据索引条件检索数据使用行锁，支持外键，更多的适用于更新插入的情况中。支持外键 myisam 不支持事务，表锁（独占锁和共享锁），读与读之间使用共享锁，读与写之间使用独占锁。==&gt;不支持外键 事务的隔离性， 前提问题： 脏读：一个事务读取了另一个事务未提交的数据，但是读取了这个数据后，另外那个事务回滚了。 不可重复读：一个事务多次读取一个数据，但是另外一个事务读取一次后进行了修改（已提交），导致两次的数据不一致 幻读：指代一个数据整体，事务1多次读一个表，查找所有小于3的数据，一共四条，但是事务2又插入了一条并提交，事务1的下一次处理就发现又多了一条，、不同在于数据整体 进而出现了四种隔离级别 读未提交：别人事务未提交，我可读它未提交数据 读已提交：我只能读取已提交的数据 可重复读：我的事务未完成前，不去读其他人提交的数据，保证和第一次读取的数据一样，mysql默认的隔离等级 串行化：只有我的事务完成了，你们才能处理数据。 事务的隔离实现： 视图和锁实现： 可重复读：事务开始的时候就重建一个读视图使用历史的undo.log mvcc（并发控制） 读已提交：每条sql创建一个视图，写加锁，undo.log 查找未修改的时候值 读未提交，直接返回最新值，事务执行的过程中会修改到记录中，但是可能会回滚 读不加锁，写加行级排他锁，不存在脏写 串行处理,直接加锁。表级读写锁。 MySQL索引 提升查找性能，但是对于亿级记录的表单效果仍然不行了。索引创建的 索引的类型： 唯一索引： 可为null 主键索引 组合索引： 最左原则，（a,,)会使用，（，发，） 不会使用索引 普通索引 全文索引：仅myisam支持， myisam==&gt;非聚簇索引—–索引文件仅保存地址，索引文件和数据文件是分开的。===&gt; 辅助索引和主键索引没有区别，只是使用允许重复 innodb===&gt; 聚簇索引—数据文件本身便是索引文件—叶节点包括了完整的数据记录 InnoDB 要求表必须有主键(MyISAM 可以没有)。如果么有显式指定会自动选择，此外，主键尽量的选择自增主键，B树的维持更加的方便 自增主键可选数据类型，bigint==&gt; 如果达到极限了会报错的，不慌 =====&gt; 对比uuid 主键索引很高效，此外会有辅助索引，其数据域存储的是主键，再使用一次主键检索 索引的底层数据结构： B+树 hash R+树 对比：B+树，B树，平衡二叉树 平衡二叉树的树太高了，导致磁盘io的数目太多， b树搜索结束可能不再叶子结点，插入或是删除时需要进行分裂等操作。 b+树关键字有序，且都在叶子结点。非叶子结点可以存储更多的关键字，顺序访问指针串起来，方便于区间查找。 hash不能范围查找，hash碰撞 大数据量如何优化 处理的思路，查询优化，分区，分库，分表，redis 分布式大数据平台 查询优化： 索引尽量建立在order by where 上 避免使用null，可以设置默认值0，少用varchar变长，select * ===&gt; 具体的名字 ！= &lt; &gt; 也会让其不使用索引使用全局操作 不要在索引列上使用函数操作 in 避免使用 尽量用between and 。 模糊查询，可以采用全文搜索，fulltext。 where = 的右边处理，例where num=100*2 exits 代替in 索引并不是越多越好，索引固然可以提高相应的 select 的效率，但同时也降低了 insert 及 update 的效率，一个表索引数量尽量不要超过6个 分区 物理存储的位置，按照时间拆表， mysql对应的buffersize 官方推荐是内存的75% 可以做缓存 explain查看执行计划，修改索引 开启慢查询日志，查看是哪些sql的执行慢了 数据库索引建立条件 最好是自增主键===&gt; 因为我们的数据库，底层实现相关 限制索引数目。 1NF:原子性 字段不可再分,否则就不是关系数据库; 2NF:唯一性 一个表只说明一个事物; 3NF:每列都与主键有直接关系，不存在传递依赖; 字段不可拆分，字段依赖于主键，字段之间不存在相互依赖 为经常出现在关键字order by、group by、distinct后面的字段，建立索引。 经常用作查询的字段建立索引。 union 或是 连接操作的字段上 限制索引的数量 复合索引应该在某些位置 nginx 负载均衡策略 iphash 权重 fair 按照响应时间 轮询 url_hash 设计模式 设计模式6大原则]]></content>
       <tags>
         <tag>mysql</tag>
       </tags>
@@ -71,28 +71,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[cpu查看]]></title>
-    <url>%2F2019%2F04%2F15%2Fcpu%2F</url>
-    <content type="text"><![CDATA[linux 查看物理cpu个数，核数，逻辑cpu个数总核数 = 物理cpu个数 * 每颗cpu的核数总逻辑cpu个数 = 物理cpu个数 每颗cpu的核数 超线程数 查看物理cpu个数cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l 查看每个物理cpu的core的个数 (就是核数)cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq 查看逻辑CPU的个数cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l 查看CPU信息（型号）cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c]]></content>
+    <title><![CDATA[mysql]]></title>
+    <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
+    <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
       <tags>
-        <tag>linux</tag>
-        <tag>cpu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux 常用命令]]></title>
-    <url>%2F2019%2F04%2F15%2FLinux_shell_command%2F</url>
-    <content type="text"><![CDATA[shell命令apt cache get 12345$ sudo apt-cache search 安装的软件.....或是你不知道你需要的那个软件的名字。可以进行模糊的搜索$ sudo apt-cache search | grep 'jdk' //jdk是你要安装的软件包含的某个值 装软件的时候我们第一部总是需要先确认是那个软件 然后我们才能更加贴合我们的需求来找软件 123456$ sudo apt-get install software// 可能会需要不能安装的问题，告诉你可能存在依赖的问题 // 可能你需要这个命令$ sudo apt-get install -f // 修复依赖 同样如果再centos下面的话，包管理工具是yum 同样的可以用相同的方法。 123$ yum search jdk$ yum install **** nohup 这个命令代表的是后台挂起的意思。例如 nohup java -jar demo.jar &amp; &gt;log.txt 在这个里面nohup 代表后台挂起 &amp;代表的是退出session后不会停止 查看相关的进程 1ps -aux |grep main.py # 后台运行的main.py 的进程然后杀死它 服务器防火墙问题 更多的更新以后在说]]></content>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Hello liliangbin]]></title>
-    <url>%2F2019%2F04%2F15%2Finnovation%2F</url>
-    <content type="text"><![CDATA[基于云的服务 全部的数据都是在云端存储 现象 本地的资源使用度低， 安全性，存在被黑客渗透的危险 重装系统后环境和软件还需要自己重新配。 分析： 为什么利用低啦？ 现在这个已经做的很好了。我们还没有达到太大的需求。。。。 安全性能 ，数据都是在本地存储，同时由于我们上网习惯的不友好，容易让电脑暴露在黑客们的眼中。。。 有时候自己数据量太大。希望能够进行重置电脑，或是重装系统的时候，数据量太大，同时花的时间真多。 解决办法–方向由上面的这些原因我们可以知道。能解决这个的办法就是基于云了。。。 资源的利用率不高，那么我们就可以按需来分配资源。。本地留一定的缓存存储。同样可以减少CPU，内存的容量。进而节约成本。。 数据的话，个人的信息及各个应用的数据都是存储在云端中。我们有一个私人的账号，假如我们换了设备，我们可以通过登陆账号同步你的的信息。 在应用上。将是基于web的app。各个应用之间能够相互的联系，同时我想要添加某个应用的时候我们可以去应用商店直接添加。 开发环境的配置的话能够直接通过向云端要求什么环境，然后自动给你配置完毕，不用自己手动配置。 对大型游戏可以采用本地优化，比如针对游戏环境进行特殊的处理。 软件提供商，就像QQ音乐网页版那样。但是需要的功能需要更加的全面。 不足的地方 浏览器的性能必须足够强劲。 网速必须够快 网络问题，随时随地能够连上网 软件提供商必须要跟上这个系统的更新 。]]></content>
-      <tags>
-        <tag>瞎想</tag>
+        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
@@ -110,6 +93,15 @@
       <tags>
         <tag>spring</tag>
         <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[cpu查看]]></title>
+    <url>%2F2019%2F04%2F15%2Fcpu%2F</url>
+    <content type="text"><![CDATA[linux 查看物理cpu个数，核数，逻辑cpu个数总核数 = 物理cpu个数 * 每颗cpu的核数总逻辑cpu个数 = 物理cpu个数 每颗cpu的核数 超线程数 查看物理cpu个数cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l 查看每个物理cpu的core的个数 (就是核数)cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq 查看逻辑CPU的个数cat /proc/cpuinfo| grep &quot;processor&quot;| wc -l 查看CPU信息（型号）cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>cpu</tag>
       </tags>
   </entry>
   <entry>
@@ -139,19 +131,27 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Hello liliangbin]]></title>
+    <url>%2F2019%2F04%2F15%2Finnovation%2F</url>
+    <content type="text"><![CDATA[基于云的服务 全部的数据都是在云端存储 现象 本地的资源使用度低， 安全性，存在被黑客渗透的危险 重装系统后环境和软件还需要自己重新配。 分析： 为什么利用低啦？ 现在这个已经做的很好了。我们还没有达到太大的需求。。。。 安全性能 ，数据都是在本地存储，同时由于我们上网习惯的不友好，容易让电脑暴露在黑客们的眼中。。。 有时候自己数据量太大。希望能够进行重置电脑，或是重装系统的时候，数据量太大，同时花的时间真多。 解决办法–方向由上面的这些原因我们可以知道。能解决这个的办法就是基于云了。。。 资源的利用率不高，那么我们就可以按需来分配资源。。本地留一定的缓存存储。同样可以减少CPU，内存的容量。进而节约成本。。 数据的话，个人的信息及各个应用的数据都是存储在云端中。我们有一个私人的账号，假如我们换了设备，我们可以通过登陆账号同步你的的信息。 在应用上。将是基于web的app。各个应用之间能够相互的联系，同时我想要添加某个应用的时候我们可以去应用商店直接添加。 开发环境的配置的话能够直接通过向云端要求什么环境，然后自动给你配置完毕，不用自己手动配置。 对大型游戏可以采用本地优化，比如针对游戏环境进行特殊的处理。 软件提供商，就像QQ音乐网页版那样。但是需要的功能需要更加的全面。 不足的地方 浏览器的性能必须足够强劲。 网速必须够快 网络问题，随时随地能够连上网 软件提供商必须要跟上这个系统的更新 。]]></content>
+      <tags>
+        <tag>瞎想</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux 常用命令]]></title>
+    <url>%2F2019%2F04%2F15%2FLinux_shell_command%2F</url>
+    <content type="text"><![CDATA[shell命令apt cache get 12345$ sudo apt-cache search 安装的软件.....或是你不知道你需要的那个软件的名字。可以进行模糊的搜索$ sudo apt-cache search | grep 'jdk' //jdk是你要安装的软件包含的某个值 装软件的时候我们第一部总是需要先确认是那个软件 然后我们才能更加贴合我们的需求来找软件 123456$ sudo apt-get install software// 可能会需要不能安装的问题，告诉你可能存在依赖的问题 // 可能你需要这个命令$ sudo apt-get install -f // 修复依赖 同样如果再centos下面的话，包管理工具是yum 同样的可以用相同的方法。 123$ yum search jdk$ yum install **** nohup 这个命令代表的是后台挂起的意思。例如 nohup java -jar demo.jar &amp; &gt;log.txt 在这个里面nohup 代表后台挂起 &amp;代表的是退出session后不会停止 查看相关的进程 1ps -aux |grep main.py # 后台运行的main.py 的进程然后杀死它 服务器防火墙问题 更多的更新以后在说]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[jenkins配置]]></title>
     <url>%2F2019%2F04%2F15%2Fjenkins%2F</url>
     <content type="text"><![CDATA[准备工作，获取jenkins的deb文件（有的是用的war包）－ 我们先去其官网下载镜像。 https://jenkins.io/download/ 我们在这个地方下载ubuntu的 jenkins的安装。。 sudo dpkg -i jenkins.deb jenkins 查看是否安装成功service jenkins restart jenkins jenkins默认端口是8080 ,打开localhost:8080 因为这个文章是我已经搞定后再来写的就没有图了，直接说吧。 最开始进去的时候会叫你输入一个初始密码，，那个初始密码就在上面他给你的那个路径里面，你cat 出来粘贴上去就好。 然后一个很尴尬的事情，我当时遇到的是插件安装不上，，（offline)然后直接跳过。。然后叫你创建用户，密码。。这个后期登录用。－ 插件安装。git github maven ssh 然后本地maven jdk 配置。 - 在这个地方的java_home maven_home 是你的电脑jdk maven 安装路径。。 环境配置完成后。开始新建项目 构建项目,选择maven ,最后配置文件如图。 最后保存下来。主页面开始构建。。构建的目录在 /var/share/jenkins 这个目录下。默认，可能有不一样。 jenkins 端口配置。。－ 有的人可能8080端口被占用了，我们就可以把他的端口改到其他的地方。配置文件 var/lib/jenkins /etc/default/jenkins 这俩个都是配置文件，都需要我们去修改。。。。我是参照的这个人的一个博客。https://blog.whsir.com/post-1774.html 给大佬递茶。具体的配置端口就是把端口号改了就是了 网上还有通过改war 包运行的时候端口，，，没有试过，觉得这个不是一个很好的方法，，最好是改配置文件。。]]></content>
       <tags>
         <tag>linux，服务器运维</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mysql]]></title>
-    <url>%2F2019%2F04%2F15%2Fmysql%2F</url>
-    <content type="text"><![CDATA[今天学到了一个命令。用于远程登陆数据库1mysql -u yibantest -h 121.251.255.96 -p //passwd 在这个命令里 -u ：代表以什么身份登陆 user -&gt;root / yibantest -p : 代表的是密码 password -h ：远程终端 host]]></content>
-      <tags>
-        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
